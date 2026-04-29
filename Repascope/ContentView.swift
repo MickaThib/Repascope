@@ -10,50 +10,60 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @State private var selectedItem: sideBarItem = .planning
+    
     var body: some View {
         NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
+            VStack {
+                List(selection: $selectedItem) {
+                    NavigationLink(value: sideBarItem.planning) {
+                        Label("Planning", systemImage: "calendar")
+                    }
+                    NavigationLink(value: sideBarItem.meals) {
+                        Label("Repas", systemImage: "fork.knife")
+                    }
+                    NavigationLink(value: sideBarItem.guests) {
+                        Label("Convives", systemImage: "person.2.fill")
+                    }
+                    
+                }
+                .listStyle(.sidebar)
+                .scrollDisabled(true)
+                
+                List(selection: $selectedItem) {
+                    NavigationLink(value: sideBarItem.settings) {
+                        Label("Réglages", systemImage: "gear")
                     }
                 }
-                .onDelete(perform: deleteItems)
+                .listStyle(.sidebar)
+                .scrollDisabled(true)
+                .frame(height: 40)
             }
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-            .toolbar {
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
-                }
-            }
+            .navigationTitle("Repascope")
+            .navigationSplitViewColumnWidth(160)
         } detail: {
-            Text("Select an item")
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
+            switch selectedItem {
+            case .planning:
+                PlanningView()
+            case .meals:
+                Text("Repas à venir")
+            case .guests:
+                Text("Convives à venir")
+            case .settings:
+                Text("Réglages à venir")
             }
         }
     }
 }
 
+enum sideBarItem {
+    case planning
+    case meals
+    case guests
+    case settings
+}
+
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        .modelContainer(for: Guest.self, inMemory: true)
 }
