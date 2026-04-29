@@ -10,7 +10,7 @@ import SwiftUI
 struct ShoppingItem: View {
     
     let item: String
-    let quantity: Int
+    @State var quantity: Int
     @State var isChecked: Bool = false
     
     var body: some View {
@@ -22,6 +22,14 @@ struct ShoppingItem: View {
             if quantity != 1 {
                 Text("x \(quantity)")
             }
+            
+            Spacer()
+            
+            Button { quantity += 1 } label: { Image(systemName: "plus.circle") }
+                .buttonStyle(.plain)
+            Button { quantity -= 1 } label: { Image(systemName: "minus.circle") }
+                .buttonStyle(.plain)
+            
         }
         .opacity(isChecked ? 0.5 : 1)
         .onTapGesture {

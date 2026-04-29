@@ -10,12 +10,15 @@ import SwiftData
 
 struct ShoppingList: View {
     
-    @State var shoppingList:[ShoppingListItem] = [
+    @State private var shoppingList:[ShoppingListItem] = [
         ShoppingListItem(ingredient: Ingredient(name: "Oignons"), quantity: 3),
         ShoppingListItem(ingredient: Ingredient(name: "Crème fraîche"), quantity: 1),
         ShoppingListItem(ingredient: Ingredient(name: "Jambon"), quantity: 8),
         ShoppingListItem(ingredient: Ingredient(name: "Pâte brisée"), quantity: 1),
     ]
+    @State private var isAddingItem: Bool = false
+    @State private var newItemName: String = ""
+    @FocusState private var isInputFocused: Bool
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -32,6 +35,17 @@ struct ShoppingList: View {
                         ShoppingItem(item: item.ingredient.name, quantity: item.quantity)
                             .listRowSeparator(.hidden)
                     }
+                    
+                    if isAddingItem {
+                        HStack {
+                            Image(systemName: "circle")
+                                .font(.system(size: 18))
+                            TextField("Nouvel élément", text: $newItemName)
+                                .focused($isInputFocused)
+                                .onSubmit { confirmNewItem() }
+                        }
+                        .listRowSeparator(.hidden)
+                    }
                 }
                 .listStyle(.plain)
                 
@@ -43,11 +57,12 @@ struct ShoppingList: View {
                         Label("Vider la liste", systemImage: "trash")
                     }
                     
-                    Button {
-                        //TODO: Ajouter un élément à la liste de courses
-                        addItem()
-                    } label: {
-                        Label("Ajouter", systemImage: "plus")
+                    Button(action: startAddingItem) {
+                        if isAddingItem {
+                            Label("Terminer", systemImage: "xmark")
+                        } else {
+                            Label("Ajouter", systemImage: "plus")
+                        }
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.pink)
@@ -69,29 +84,34 @@ struct ShoppingList: View {
         .padding(.top)
     }
     
-    func addItem() {
+    func startAddingItem() {
+        if isAddingItem == false {
+            newItemName = ""
+            isAddingItem = true
+            isInputFocused = true
+        } else {
+            isAddingItem = false
+        }
+    }
+    
+    func confirmNewItem() {
+        let name = newItemName.trimmingCharacters(in: .whitespaces)
+        guard !name.isEmpty else {
+            isAddingItem = false
+            return
+        }
+        let ingredient = Ingredient(name: name)
+        shoppingList.append(ShoppingListItem(ingredient: ingredient, quantity: 1))
+        newItemName = ""
+        // reste en mode saisie pour enchaîner les ajouts
+        isInputFocused = true
     }
     
     func deleteAllItems() {
-        
+        shoppingList.removeAll()
     }
 }
 
 #Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: Ingredient.self, ShoppingListItem.self, configurations: config)
-
-    let egg = Ingredient(name: "Oeufs")
-    let cream = Ingredient(name: "Crème fraîche")
-    container.mainContext.insert(egg)
-    container.mainContext.insert(cream)
-
-    let items = [
-        ShoppingListItem(ingredient: egg, quantity: 6),
-        ShoppingListItem(ingredient: cream, quantity: 3)
-    ]
-    items.forEach { container.mainContext.insert($0) }
-
-    return ShoppingList(shoppingList: items)
-        .modelContainer(container)
+    ShoppingList()
 }
