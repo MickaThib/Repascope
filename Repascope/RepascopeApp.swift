@@ -12,7 +12,7 @@ import SwiftData
 struct RepascopeApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Guest.self,
+            Guest.self, Ingredient.self, ShoppingListItem.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 

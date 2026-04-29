@@ -18,38 +18,16 @@ struct PlanningView: View {
             
             //MARK: Volet droit
             VSplitView {
-                //Section haute
-                VStack (alignment: .leading, spacing: 0) {
-                    Text("Plats")
-                        .font(.headline)
-                        .padding(.horizontal)
-                        .padding(.vertical, 8)
-                    Divider()
-                    List {
-                        ForEach(0..<10) { i in
-                            Text("Plat \(i)")
-                        }
-                    }
-                    .listStyle(.plain)
-                }
-                .frame(minHeight: 100) // hauteur minimale pour éviter l'écrasement
                 
+                //Section haute
+                MealList()
+                .frame(minHeight: 100) // hauteur minimale pour éviter l'écrasement
+                                
                 //Section basse
-                VStack (alignment: .leading, spacing: 0) {
-                    Text("Achats")
-                        .font(.headline)
-                        .padding(.horizontal)
-                        .padding(.vertical, 8)
-                    Divider()
-                    List {
-                        ForEach(0..<10) { i in
-                            Text("Achat \(i)")
-                        }
-                    }
-                    .listStyle(.plain)
-                }
+                ShoppingList()
                 .frame(minHeight: 100) // hauteur minimale pour éviter l'écrasement
             }
+            .padding()
             .frame(width: 280)
         }
     }
