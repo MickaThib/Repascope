@@ -19,6 +19,7 @@ struct ShoppingList: View {
     @State private var isAddingItem: Bool = false
     @State private var newItemName: String = ""
     @FocusState private var isInputFocused: Bool
+    @State private var showEmptyListAlert: Bool = false
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -51,7 +52,8 @@ struct ShoppingList: View {
                 
                 HStack {
                     Button(role: .destructive) {
-                        deleteAllItems()
+                        showEmptyListAlert = true
+                        //deleteAllItems()
                     } label: {
                         Label("Vider la liste", systemImage: "trash")
                     }
@@ -81,6 +83,12 @@ struct ShoppingList: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.top)
+        .alert("Vider la liste ?", isPresented: $showEmptyListAlert) {
+            Button("Vider la liste", role: .destructive) {
+                deleteAllItems()
+            }
+            Button("Annuler", role: .cancel) {}
+        }
     }
     
     func startAddingItem() {

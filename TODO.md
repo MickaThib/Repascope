@@ -2,6 +2,6 @@
 
 ## SHOPPING LIST
 
-- [ ] Alerte avant de vider la liste
+- [X] Alerte avant de vider la liste
 
 
