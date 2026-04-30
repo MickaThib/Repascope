@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct PlanningView: View {
+struct OrganizerView: View {
+    
     var body: some View {
+        
         HStack(spacing: 0) {
+            
             //MARK: Contenu principal
-            VStack {
-                Text("Planning à venir")
-            }
+            PlanningView()
             .frame(maxWidth: .infinity)
             
             //MARK: Volet droit
@@ -34,5 +35,5 @@ struct PlanningView: View {
 }
 
 #Preview {
-    PlanningView()
+    OrganizerView()
 }
