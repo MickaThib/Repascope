@@ -20,7 +20,7 @@ struct ContentView: View {
                         Label("Planning", systemImage: "calendar")
                     }
                     NavigationLink(value: sideBarItem.meals) {
-                        Label("Repas", systemImage: "fork.knife")
+                        Label("Plats", systemImage: "fork.knife")
                     }
                     NavigationLink(value: sideBarItem.guests) {
                         Label("Convives", systemImage: "person.2.fill")
@@ -44,7 +44,7 @@ struct ContentView: View {
         } detail: {
             switch selectedItem {
             case .planning:
-                PlanningView()
+                OrganizerView()
             case .meals:
                 Text("Repas à venir")
             case .guests:

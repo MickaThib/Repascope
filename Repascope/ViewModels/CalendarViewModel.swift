@@ -19,30 +19,66 @@ class CalendarViewModel: ObservableObject {
         return cal
     }()
     
-    var currentWeekID: Date? {
-        let today = calendar.startOfDay(for: Date())
-        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
-        return calendar.date(from: components)
-    }
+//    var currentWeekID: Date? {
+//        let today = calendar.startOfDay(for: Date())
+//        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
+//        return calendar.date(from: components)
+//    }
     
     init() {
-        generateWeeks()
+        //generateWeeks()
     }
+//    
+//    func generateWeeks() {
+//        
+//        let today = calendar.startOfDay(for: Date())
+//        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
+//        guard let startOfCurrentWeek = calendar.date(from: components) else {return}
+//        
+//        for i in -5...10{
+//            if let startOfWeek = calendar.date(byAdding: .weekOfYear, value: i, to: startOfCurrentWeek) {
+//                let days = (0..<5).compactMap { // 0..<5 pour les jours de travail, 0..<7 pour tous les jours de la semaine
+//                    calendar.date(byAdding: .day, value: $0, to: startOfWeek)
+//                }
+//                weeks.append(Week(id: startOfWeek, days: days))
+//            }
+//        }
+//    }
     
-    func generateWeeks() {
+    func generateWeek(from date:Date, firstDay: Weekday) -> Week? {
+                
+        guard let startFriday = firstDayOfWeek(startWeekday: firstDay, from: date) else { return nil }
         
-        let today = calendar.startOfDay(for: Date())
-        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: today)
-        guard let startOfCurrentWeek = calendar.date(from: components) else {return}
-        
-        for i in -5...10{
-            if let startOfWeek = calendar.date(byAdding: .weekOfYear, value: i, to: startOfCurrentWeek) {
-                let days = (0..<5).compactMap { // 0..<5 pour les jours de travail, 0..<7 pour tous les jours de la semaine
-                    calendar.date(byAdding: .day, value: $0, to: startOfWeek)
-                }
-                weeks.append(Week(id: startOfWeek, days: days))
-            }
+        let days = (0..<8).compactMap {
+            calendar.date(byAdding: .day, value: $0, to: startFriday)
         }
         
+        return Week(id: startFriday, days: days)
+    }
+    
+    // Helper : calcule le vendredi précédent (ou le jour même si c'est vendredi) en utilisant le composant .weekday
+    func firstDayOfWeek(startWeekday: Weekday, from date: Date) -> Date? {
+        let startOfDay = calendar.startOfDay(for: date)
+        // weekday: 1 = dimanche, 6 = vendredi (dans le calendrier grégorien)
+        let weekday = calendar.component(.weekday, from: startOfDay)
+        let daysToSubtract = (weekday - startWeekday.rawValue + 7) % 7 // 6 = vendredi
+        return calendar.date(byAdding: .day, value: -daysToSubtract, to: startOfDay)
     }
 }
+
+enum Weekday: Int {
+    case monday = 2
+    case tuesday = 3
+    case wednesday = 4
+    case thursday = 5
+    case friday = 6
+    case saturday = 7
+    case sunday = 1
+}
+
+struct Week: Identifiable, Hashable {
+    let id: Date // Le premier jour de la semaine
+    let days: [Date]
+}
+
+

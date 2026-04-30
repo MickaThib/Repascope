@@ -13,7 +13,8 @@ struct PlanningView: View {
     @State var weekToDisplay: Date = Date()
     
     var body: some View {
-        VStack {
+        ScrollView {
+            //MARK: Navigation buttons
             HStack {
                 Button("Semaine précedente") {
                     if let newWeekToDisplay = calendarViewModel.calendar.date(byAdding: .day, value: -7, to: weekToDisplay) {
@@ -21,7 +22,7 @@ struct PlanningView: View {
                     }
                 }
                 
-                Button("Semaine actuelle") {
+                Button("Cette semaine") {
                     weekToDisplay = Date()
                 }
 
@@ -33,11 +34,11 @@ struct PlanningView: View {
             }
             if let days = calendarViewModel.generateWeek(from: weekToDisplay, firstDay: .friday)?.days {
                 ForEach(days, id: \.self) { day in
-                    Text(day.formatted(date: .complete, time: .omitted))
+                    PlanningLine(day: day)
+                        .frame(maxHeight: .infinity)
+                        .padding(.horizontal)
                 }
             }
-            
-            
         }
     }
 }

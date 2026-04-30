@@ -16,6 +16,8 @@ struct OrganizerView: View {
             //MARK: Contenu principal
             PlanningView()
             .frame(maxWidth: .infinity)
+            .padding()
+            .padding(.horizontal, 20)
             
             //MARK: Volet droit
             VSplitView {
