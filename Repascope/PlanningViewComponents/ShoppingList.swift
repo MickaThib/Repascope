@@ -10,16 +10,40 @@ import SwiftData
 
 struct ShoppingList: View {
     
-    @State private var shoppingList:[ShoppingListItem] = [
-        ShoppingListItem(ingredient: Ingredient(name: "Oignons"), quantity: 3),
-        ShoppingListItem(ingredient: Ingredient(name: "Crème fraîche"), quantity: 1),
-        ShoppingListItem(ingredient: Ingredient(name: "Jambon"), quantity: 8),
-        ShoppingListItem(ingredient: Ingredient(name: "Pâte brisée"), quantity: 1),
-    ]
+    let date:Date
+    
+    @Environment(\.modelContext) private var modelContext
+    
+    // Calcule le début et la fin du jour
+    private var startOfDay: Date {
+        Calendar.current.startOfDay(for: date)
+    }
+    private var endOfDay: Date {
+        Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+    }
+    
+    @Query private var shoppingList:[ShoppingListItem]
+    
+    private var sortedList: [ShoppingListItem] {
+        shoppingList.sorted { !$0.isChecked && $1.isChecked }
+    }
+    
     @State private var isAddingItem: Bool = false
     @State private var newItemName: String = ""
     @FocusState private var isInputFocused: Bool
     @State private var showEmptyListAlert: Bool = false
+    
+    init(date:Date) {
+        self.date = date
+        let start = Calendar.current.startOfDay(for: date)
+        let end = Calendar.current.date(byAdding: .day, value: 1, to: start)!
+        
+        _shoppingList = Query(
+            filter: #Predicate<ShoppingListItem> { item in
+                item.date >= start && item.date < end
+            }
+        )
+    }
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
@@ -32,8 +56,8 @@ struct ShoppingList: View {
             
             Group {
                 List {
-                    ForEach(shoppingList, id: \.self) { item in
-                        ShoppingItem(item: item.ingredient.name, quantity: item.quantity, deleteAction: { delete(item: item) })
+                    ForEach(sortedList, id: \.self) { item in
+                        ShoppingItem(item: item, deleteAction: { delete(item: item) })
                             .listRowSeparator(.hidden)
                     }
                     
@@ -53,7 +77,6 @@ struct ShoppingList: View {
                 HStack {
                     Button(role: .destructive) {
                         showEmptyListAlert = true
-                        //deleteAllItems()
                     } label: {
                         Label("Vider la liste", systemImage: "trash")
                     }
@@ -110,23 +133,24 @@ struct ShoppingList: View {
             return
         }
         let ingredient = Ingredient(name: name)
-        shoppingList.append(ShoppingListItem(ingredient: ingredient, quantity: 1))
+        modelContext.insert(ShoppingListItem(ingredient: ingredient, quantity: 1, date: date))
+        try? modelContext.save()
         newItemName = ""
         // reste en mode saisie pour enchaîner les ajouts
         isInputFocused = true
     }
     
     func delete(item: ShoppingListItem) {
-        if let index = shoppingList.firstIndex(of: item) {
-            shoppingList.remove(at: index)
-        }
+        modelContext.delete(item)
+        try? modelContext.save()
     }
 
     func deleteAllItems() {
-        shoppingList.removeAll()
+        shoppingList.forEach { modelContext.delete($0) }
+        try? modelContext.save()
     }
 }
 
 #Preview {
-    ShoppingList()
+    ShoppingList(date: Date())
 }

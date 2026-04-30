@@ -29,7 +29,7 @@ struct PlanningMealFrame: View {
                 .frame(minHeight: 40, maxHeight: .infinity)
                 .padding(.horizontal, 7)
                 .padding(.bottom, 7)
-                .overlay{
+                .overlay {
                     Text("Aucun repas prévu")
                         .font(.callout)
                         .foregroundStyle(.gray)

@@ -6,32 +6,31 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ShoppingItem: View {
     
-    let item: String
-    @State var quantity: Int
-    @State var isChecked: Bool = false
+    let item: ShoppingListItem
     var deleteAction: (() -> Void)?
     @State var showDeleteAlert = false
     
     var body: some View {
         HStack {
-            Image(systemName: isChecked ? "inset.filled.circle" : "circle")
+            Image(systemName: item.isChecked ? "inset.filled.circle" : "circle")
                 .font(.system(size: 18))
-            Text(item)
+            Text(item.ingredient.name)
                 .fontWeight(.bold)
-            if quantity != 1 {
-                Text("x \(quantity)")
+            if item.quantity != 1 {
+                Text("x \(item.quantity)")
             }
             
             Spacer()
             
-            Button { quantity += 1 } label: { Image(systemName: "plus.circle") }
+            Button { item.quantity += 1 } label: { Image(systemName: "plus.circle") }
                 .buttonStyle(.plain)
             Button {
-                if quantity > 1 {
-                    quantity -= 1
+                if item.quantity > 1 {
+                    item.quantity -= 1
                 } else {
                     showDeleteAlert = true
                 }
@@ -39,11 +38,11 @@ struct ShoppingItem: View {
                 .buttonStyle(.plain)
             
         }
-        .opacity(isChecked ? 0.5 : 1)
+        .opacity(item.isChecked ? 0.5 : 1)
         .onTapGesture {
-            isChecked.toggle()
+            item.isChecked.toggle()
         }
-        .alert("Supprimer \(item) ?", isPresented: $showDeleteAlert) {
+        .alert("Supprimer \(item.ingredient.name) ?", isPresented: $showDeleteAlert) {
             Button("Supprimer", role: .destructive) { deleteAction?() }
             Button("Annuler", role: .cancel) {}
         }
@@ -51,7 +50,10 @@ struct ShoppingItem: View {
 }
 
 #Preview {
-    ShoppingItem(item: "Pâte brisée", quantity: 2, deleteAction: {
-        print("delete action")
-    })
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: ShoppingListItem.self, configurations: config)
+    let ingredient = Ingredient(name: "Concombre")
+    let item = ShoppingListItem(ingredient: ingredient, quantity: 1)
+    return ShoppingItem(item: item, deleteAction: {})
+        .modelContainer(container)
 }

@@ -29,12 +29,12 @@ struct PlanningLine: View {
             
             
             PlanningMealFrame(day: day, moment: .noon)
-                .frame(maxHeight: .infinity)
 
             PlanningMealFrame(day: day, moment: .evening)
-                .frame(maxHeight: .infinity)
 
         }
+        .frame(height: 80)
+        .padding(1)
     }
 }
 
