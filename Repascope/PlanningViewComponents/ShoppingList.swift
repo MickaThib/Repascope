@@ -32,7 +32,7 @@ struct ShoppingList: View {
             Group {
                 List {
                     ForEach(shoppingList, id: \.self) { item in
-                        ShoppingItem(item: item.ingredient.name, quantity: item.quantity)
+                        ShoppingItem(item: item.ingredient.name, quantity: item.quantity, deleteAction: { delete(item: item) })
                             .listRowSeparator(.hidden)
                     }
                     
@@ -51,7 +51,6 @@ struct ShoppingList: View {
                 
                 HStack {
                     Button(role: .destructive) {
-                        //TODO: Vider la liste de courses
                         deleteAllItems()
                     } label: {
                         Label("Vider la liste", systemImage: "trash")
@@ -90,6 +89,8 @@ struct ShoppingList: View {
             isAddingItem = true
             isInputFocused = true
         } else {
+            // Action "Terminer"
+            confirmNewItem()
             isAddingItem = false
         }
     }
@@ -107,6 +108,12 @@ struct ShoppingList: View {
         isInputFocused = true
     }
     
+    func delete(item: ShoppingListItem) {
+        if let index = shoppingList.firstIndex(of: item) {
+            shoppingList.remove(at: index)
+        }
+    }
+
     func deleteAllItems() {
         shoppingList.removeAll()
     }

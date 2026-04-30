@@ -12,6 +12,8 @@ struct ShoppingItem: View {
     let item: String
     @State var quantity: Int
     @State var isChecked: Bool = false
+    var deleteAction: (() -> Void)?
+    @State var showDeleteAlert = false
     
     var body: some View {
         HStack {
@@ -27,7 +29,13 @@ struct ShoppingItem: View {
             
             Button { quantity += 1 } label: { Image(systemName: "plus.circle") }
                 .buttonStyle(.plain)
-            Button { quantity -= 1 } label: { Image(systemName: "minus.circle") }
+            Button {
+                if quantity > 1 {
+                    quantity -= 1
+                } else {
+                    showDeleteAlert = true
+                }
+            } label: { Image(systemName: "minus.circle") }
                 .buttonStyle(.plain)
             
         }
@@ -35,9 +43,15 @@ struct ShoppingItem: View {
         .onTapGesture {
             isChecked.toggle()
         }
+        .alert("Supprimer \(item) ?", isPresented: $showDeleteAlert) {
+            Button("Supprimer", role: .destructive) { deleteAction?() }
+            Button("Annuler", role: .cancel) {}
+        }
     }
 }
 
 #Preview {
-    ShoppingItem(item: "Pâte brisée", quantity: 2)
+    ShoppingItem(item: "Pâte brisée", quantity: 2, deleteAction: {
+        print("delete action")
+    })
 }
