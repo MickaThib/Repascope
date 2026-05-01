@@ -22,9 +22,9 @@ struct ShoppingList: View {
         Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
     }
     
-    @Query private var shoppingList:[ShoppingListItem]
+    @Query private var shoppingList:[ShoppingItem]
     
-    private var sortedList: [ShoppingListItem] {
+    private var sortedList: [ShoppingItem] {
         shoppingList.sorted { !$0.isChecked && $1.isChecked }
     }
     
@@ -39,7 +39,7 @@ struct ShoppingList: View {
         let end = Calendar.current.date(byAdding: .day, value: 1, to: start)!
         
         _shoppingList = Query(
-            filter: #Predicate<ShoppingListItem> { item in
+            filter: #Predicate<ShoppingItem> { item in
                 item.date >= start && item.date < end
             }
         )
@@ -57,7 +57,7 @@ struct ShoppingList: View {
             Group {
                 List {
                     ForEach(sortedList, id: \.self) { item in
-                        ShoppingItem(item: item, deleteAction: { delete(item: item) })
+                        ShoppingListItem(item: item, deleteAction: { delete(item: item) })
                             .listRowSeparator(.hidden)
                     }
                     
@@ -133,14 +133,14 @@ struct ShoppingList: View {
             return
         }
         let ingredient = Ingredient(name: name)
-        modelContext.insert(ShoppingListItem(ingredient: ingredient, quantity: 1, date: date))
+        modelContext.insert(ShoppingItem(ingredient: ingredient, quantity: 1, date: date))
         try? modelContext.save()
         newItemName = ""
         // reste en mode saisie pour enchaîner les ajouts
         isInputFocused = true
     }
     
-    func delete(item: ShoppingListItem) {
+    func delete(item: ShoppingItem) {
         modelContext.delete(item)
         try? modelContext.save()
     }

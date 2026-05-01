@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class ShoppingListItem {
+final class ShoppingItem {
     var ingredient: Ingredient
     var quantity: Int
     var date: Date

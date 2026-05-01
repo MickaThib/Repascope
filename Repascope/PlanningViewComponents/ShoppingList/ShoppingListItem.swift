@@ -8,9 +8,9 @@
 import SwiftUI
 import SwiftData
 
-struct ShoppingItem: View {
+struct ShoppingListItem: View {
     
-    let item: ShoppingListItem
+    let item: ShoppingItem
     var deleteAction: (() -> Void)?
     @State var showDeleteAlert = false
     
@@ -51,9 +51,9 @@ struct ShoppingItem: View {
 
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
-    let container = try! ModelContainer(for: ShoppingListItem.self, configurations: config)
+    let container = try! ModelContainer(for: ShoppingItem.self, configurations: config)
     let ingredient = Ingredient(name: "Concombre")
-    let item = ShoppingListItem(ingredient: ingredient, quantity: 1)
-    return ShoppingItem(item: item, deleteAction: {})
+    let item = ShoppingItem(ingredient: ingredient, quantity: 1)
+    ShoppingListItem(item: item, deleteAction: {})
         .modelContainer(container)
 }
