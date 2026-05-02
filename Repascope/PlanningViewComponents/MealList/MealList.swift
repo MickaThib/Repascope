@@ -8,6 +8,21 @@
 import SwiftUI
 
 struct MealList: View {
+    
+    let mealList: [MealItem] = [
+        MealItem(title: "Pâtes carbonara", photo: nil),
+        MealItem(title: "Pâtes bolognaise", photo: nil),
+        MealItem(title: "Quiche lorraine", photo: nil),
+        MealItem(title: "Lasagnes", photo: nil),
+        MealItem(title: "Hamburgers maison", photo: nil),
+        MealItem(title: "Hot dogs", photo: nil),
+        MealItem(title: "Burritos", photo: nil),
+        MealItem(title: "Poisson pané", photo: nil),
+        MealItem(title: "Crêpes", photo: nil),
+        MealItem(title: "Sandwiches", photo: nil),
+
+    ]
+    
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             HStack {
@@ -30,9 +45,9 @@ struct MealList: View {
             Divider()
             
             List {
-                ForEach(0..<10) { i in
-                    Text("Plat \(i)")
-                        .frame(height: 30)
+                ForEach(mealList) { meal in
+                    MealListItem(meal: meal)
+                        .listRowSeparator(.hidden)
                 }
             }
             .listStyle(.plain)

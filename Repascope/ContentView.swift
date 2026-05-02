@@ -46,7 +46,7 @@ struct ContentView: View {
             case .planning:
                 OrganizerView()
             case .meals:
-                Text("Repas à venir")
+                MealsManager()
             case .guests:
                 Text("Convives à venir")
             case .settings:

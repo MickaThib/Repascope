@@ -12,8 +12,9 @@ import SwiftData
 struct RepascopeApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Guest.self, Ingredient.self, ShoppingItem.self,
+            Guest.self, Ingredient.self, MealIngredient.self, MealItem.self, ShoppingItem.self
         ])
+                
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -21,6 +22,24 @@ struct RepascopeApp: App {
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
+        
+        // ---- UNCOMMENT TO ANALYSE MODEL ERROR ---- //
+//        let modelConfiguration = ModelConfiguration(
+//            schema: schema,
+//            isStoredInMemoryOnly: false,
+//            allowsSave: true,
+//            groupContainer: .none,
+//            cloudKitDatabase: .none
+//        )
+//        do {
+//            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+//        } catch {
+//            // Ajoute ça temporairement
+//            print("Store URL: \(URL.applicationSupportDirectory)")
+//            fatalError("Could not create ModelContainer: \(error)")
+//        }
+        // ---- END UNCOMMENT TO ANALYSE MODEL ERROR ---- //
+
     }()
 
     var body: some Scene {

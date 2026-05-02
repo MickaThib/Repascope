@@ -132,8 +132,7 @@ struct ShoppingList: View {
             isAddingItem = false
             return
         }
-        let ingredient = Ingredient(name: name)
-        modelContext.insert(ShoppingItem(ingredient: ingredient, quantity: 1, date: date))
+        modelContext.insert(ShoppingItem(name: name, quantity: 1, date: date))
         try? modelContext.save()
         newItemName = ""
         // reste en mode saisie pour enchaîner les ajouts

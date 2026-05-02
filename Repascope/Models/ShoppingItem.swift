@@ -10,13 +10,13 @@ import SwiftData
 
 @Model
 final class ShoppingItem {
-    var ingredient: Ingredient
+    var name: String = ""
     var quantity: Int
     var date: Date
     var isChecked: Bool = false
 
-    init(ingredient: Ingredient, quantity: Int, date: Date = Date()) {
-        self.ingredient = ingredient
+    init(name: String, quantity: Int, date: Date = Date()) {
+        self.name = name
         self.quantity = quantity
         self.date = date
     }

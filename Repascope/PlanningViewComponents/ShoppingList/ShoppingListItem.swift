@@ -18,7 +18,7 @@ struct ShoppingListItem: View {
         HStack {
             Image(systemName: item.isChecked ? "inset.filled.circle" : "circle")
                 .font(.system(size: 18))
-            Text(item.ingredient.name)
+            Text(item.name)
                 .fontWeight(.bold)
             if item.quantity != 1 {
                 Text("x \(item.quantity)")
@@ -42,7 +42,7 @@ struct ShoppingListItem: View {
         .onTapGesture {
             item.isChecked.toggle()
         }
-        .alert("Supprimer \(item.ingredient.name) ?", isPresented: $showDeleteAlert) {
+        .alert("Supprimer \(item.name) ?", isPresented: $showDeleteAlert) {
             Button("Supprimer", role: .destructive) { deleteAction?() }
             Button("Annuler", role: .cancel) {}
         }
@@ -52,8 +52,7 @@ struct ShoppingListItem: View {
 #Preview {
     let config = ModelConfiguration(isStoredInMemoryOnly: true)
     let container = try! ModelContainer(for: ShoppingItem.self, configurations: config)
-    let ingredient = Ingredient(name: "Concombre")
-    let item = ShoppingItem(ingredient: ingredient, quantity: 1)
+    let item = ShoppingItem(name: "Concombre", quantity: 1)
     ShoppingListItem(item: item, deleteAction: {})
         .modelContainer(container)
 }
