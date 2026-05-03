@@ -19,33 +19,62 @@ struct MealsManager: View {
         HSplitView {
             
             VStack {
-                Text("Ingrédients")
-                    .font(.largeTitle)
+                
+                HStack {
+                    Text("Ingrédients")
+                        .font(.largeTitle)
+                        .padding()
+                    Spacer()
+                    Button {
+                        //TODO: Ajouter un ingrédient
+                    } label: {
+                        Label("Ajouter", systemImage: "plus")
+                    }
+                    .buttonStyle(.borderless)
+                    .padding()
+                }
+
                 
                 List(ingredients) { ingredient in
                     CustomLabel(title: ingredient.name, type: .ingredient)
                         .listRowSeparator(.hidden)
                         .frame(height: 40)
                 }
+                .frame(height: 250)
+                
+                Divider()
             }
-            .frame(maxWidth: .infinity)
-
+            .frame(maxHeight: .infinity)
+            
             
             VStack {
-                Text("Plats")
-                    .font(.largeTitle)
+                HStack {
+                    Text("Plats")
+                        .font(.largeTitle)
+                        .padding()
+                    Spacer()
+                    Button {
+                        //TODO: Ajouter un ingrédient
+                    } label: {
+                        Label("Ajouter", systemImage: "plus")
+                    }
+                    .buttonStyle(.borderless)
+                    .padding()
+                }
                 
                 List(meals) { meal in
                     CustomLabel(title: meal.title, type: .meal)
                         .listRowSeparator(.hidden)
                         .frame(height: 40)
                 }
+                .frame(height: 250)
 
+                Divider()
             }
             .frame(maxWidth: .infinity)
 
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar {
             Button("Données de test") {
                 addDataTest()
