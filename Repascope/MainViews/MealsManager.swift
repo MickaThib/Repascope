@@ -16,65 +16,79 @@ struct MealsManager: View {
     @Query private var meals: [MealItem]
     
     var body: some View {
-        HSplitView {
+        VStack {
+            HSplitView {
+                
+                VStack {
+                    
+                    HStack {
+                        Text("Ingrédients")
+                            .font(.largeTitle)
+                            .padding()
+                        Spacer()
+                        //TODO: Recherche
+                        TextField("Rechercher", text: .constant(""))
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 150)
+                        Button {
+                            //TODO: Ajouter un ingrédient
+                        } label: {
+                            Label("Ajouter", systemImage: "plus")
+                        }
+                        .padding()
+                        .buttonStyle(.borderless)
+                    }
+                    .padding(.horizontal)
+                    
+                    
+                    List(ingredients) { ingredient in
+                        CustomLabel(title: ingredient.name, type: .ingredient)
+                            .listRowSeparator(.hidden)
+                            .frame(height: 30)
+                    }
+                    
+                    Divider()
+                }
+                
+                VStack(spacing:0) {
+                    HStack(alignment: .lastTextBaseline) {
+                        Text("Plats")
+                            .font(.largeTitle)
+                            .padding()
+                        Spacer()
+                        //TODO: Recherche
+                        TextField("Rechercher", text: .constant(""))
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 150)
+                        Button {
+                            //TODO: Ajouter un ingrédient
+                        } label: {
+                            Label("Ajouter", systemImage: "plus")
+                        }
+                        .padding()
+                        .buttonStyle(.borderless)
+                    }
+                    .padding(.horizontal)
+                    
+                    List(meals) { meal in
+                        CustomLabel(title: meal.title, type: .meal)
+                            .listRowSeparator(.hidden)
+                            .frame(height: 30)
+                    }
+                    
+                    Divider()
+                }
+                .frame(maxWidth: .infinity)
+                
+            }
+            .frame(height: 250)
+            .frame(maxWidth: .infinity)
             
             VStack {
-                
-                HStack {
-                    Text("Ingrédients")
-                        .font(.largeTitle)
-                        .padding()
-                    Spacer()
-                    Button {
-                        //TODO: Ajouter un ingrédient
-                    } label: {
-                        Label("Ajouter", systemImage: "plus")
-                    }
-                    .buttonStyle(.borderless)
-                    .padding()
-                }
-
-                
-                List(ingredients) { ingredient in
-                    CustomLabel(title: ingredient.name, type: .ingredient)
-                        .listRowSeparator(.hidden)
-                        .frame(height: 40)
-                }
-                .frame(height: 250)
-                
-                Divider()
+                Text("Formulaire")
             }
             .frame(maxHeight: .infinity)
-            
-            
-            VStack {
-                HStack {
-                    Text("Plats")
-                        .font(.largeTitle)
-                        .padding()
-                    Spacer()
-                    Button {
-                        //TODO: Ajouter un ingrédient
-                    } label: {
-                        Label("Ajouter", systemImage: "plus")
-                    }
-                    .buttonStyle(.borderless)
-                    .padding()
-                }
-                
-                List(meals) { meal in
-                    CustomLabel(title: meal.title, type: .meal)
-                        .listRowSeparator(.hidden)
-                        .frame(height: 40)
-                }
-                .frame(height: 250)
-
-                Divider()
-            }
-            .frame(maxWidth: .infinity)
-
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar {
             Button("Données de test") {
                 addDataTest()
