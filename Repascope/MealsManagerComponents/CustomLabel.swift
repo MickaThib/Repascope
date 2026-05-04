@@ -10,10 +10,15 @@ import SwiftUI
 struct CustomLabel: View {
     
     let title:String
-    let type: LabelType
+    let type: ListLabelType
+    let isSelected: Bool
     
     var body: some View {
         ZStack(alignment: .leading) {
+            
+            RoundedRectangle(cornerRadius: 5)
+                .fill(isSelected ? type.ItemColor().opacity(0.2) : type.ItemColor().opacity(0.1))
+                .stroke(isSelected ? type.ItemColor() : .clear, lineWidth: 1)
             
             HStack {
                 Text(title)
@@ -25,27 +30,12 @@ struct CustomLabel: View {
                 Image(systemName: "xmark")
                     .padding(.trailing)
             }
-
             
-            switch (type) {
-            case .ingredient:
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.green.opacity(0.2))
-            case .meal:
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.blue.opacity(0.2))
-            }
-
         }
         .frame(maxWidth: .infinity)
     }
 }
 
-enum LabelType {
-    case ingredient
-    case meal
-}
-
 #Preview {
-    CustomLabel(title: "Côtes de porc", type: .meal)
+    CustomLabel(title: "Côtes de porc", type: .meal, isSelected: true)
 }

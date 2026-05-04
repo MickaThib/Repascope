@@ -15,86 +15,36 @@ struct MealsManager: View {
     @Query private var ingredients: [Ingredient]
     @Query private var meals: [MealItem]
     
+    @State var selectedItem: ListableItem? = nil
+    
     var body: some View {
-        VStack {
+        VSplitView {
+            
             HSplitView {
-                
-                VStack {
-                    
-                    HStack {
-                        Text("Ingrédients")
-                            .font(.largeTitle)
-                            .padding()
-                        Spacer()
-                        //TODO: Recherche
-                        TextField("Rechercher", text: .constant(""))
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 150)
-                        Button {
-                            //TODO: Ajouter un ingrédient
-                        } label: {
-                            Label("Ajouter", systemImage: "plus")
-                        }
-                        .padding()
-                        .buttonStyle(.borderless)
-                    }
-                    .padding(.horizontal)
-                    
-                    
-                    List(ingredients) { ingredient in
-                        CustomLabel(title: ingredient.name, type: .ingredient)
-                            .listRowSeparator(.hidden)
-                            .frame(height: 30)
-                    }
-                    
-                    Divider()
-                }
-                
-                VStack(spacing:0) {
-                    HStack(alignment: .lastTextBaseline) {
-                        Text("Plats")
-                            .font(.largeTitle)
-                            .padding()
-                        Spacer()
-                        //TODO: Recherche
-                        TextField("Rechercher", text: .constant(""))
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 150)
-                        Button {
-                            //TODO: Ajouter un ingrédient
-                        } label: {
-                            Label("Ajouter", systemImage: "plus")
-                        }
-                        .padding()
-                        .buttonStyle(.borderless)
-                    }
-                    .padding(.horizontal)
-                    
-                    List(meals) { meal in
-                        CustomLabel(title: meal.title, type: .meal)
-                            .listRowSeparator(.hidden)
-                            .frame(height: 30)
-                    }
-                    
-                    Divider()
-                }
-                .frame(maxWidth: .infinity)
-                
+                MealsManagerList(items: ingredients, type: .ingredient, selectedItem: $selectedItem)
+                MealsManagerList(items: meals, type: .meal, selectedItem: $selectedItem)
             }
-            .frame(height: 250)
             .frame(maxWidth: .infinity)
             
             VStack {
                 Text("Formulaire")
             }
-            .frame(maxHeight: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .frame(maxWidth: .infinity)
         .toolbar {
             Button("Données de test") {
                 addDataTest()
             }
         }
+        .onChange(of: meals) {
+            if selectedItem == nil, let first = meals.first {
+                selectedItem = first
+            }
+        }
     }
+    
+    
     func addDataTest() {
         let ingredientsDataTest = [
             Ingredient(name: "Carotte"),
