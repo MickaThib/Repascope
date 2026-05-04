@@ -10,26 +10,24 @@ import SwiftData
 
 struct MealsManager: View {
     
-    @Environment(\.modelContext) private var modelContext
-
-    @Query private var ingredients: [Ingredient]
-    @Query private var meals: [MealItem]
-    
-    @State var selectedItem: ListableItem? = nil
+    @Environment(\.modelContext) private var modelContext // Ne sert que pour le bouton ajout de données test -> a supprimer ensuite
+    @State var selectedMeal: MealItem? = nil
     
     var body: some View {
-        VSplitView {
+        HSplitView {
             
-            HSplitView {
-                MealsManagerList(items: ingredients, type: .ingredient, selectedItem: $selectedItem)
-                MealsManagerList(items: meals, type: .meal, selectedItem: $selectedItem)
-            }
-            .frame(maxWidth: .infinity)
+            MealListView(selectedMeal: $selectedMeal)
+                .frame(width: 300)
             
             VStack {
-                Text("Formulaire")
+                //TODO: Prévoir le cas où aucun plat n'est sélectionné
+                Text("Selected : \(selectedMeal?.title ?? "nil")")
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            
+            IngredientListView()
+                .frame(width: 300)
+            
         }
         .frame(maxWidth: .infinity)
         .toolbar {
@@ -37,22 +35,10 @@ struct MealsManager: View {
                 addDataTest()
             }
         }
-        .onChange(of: meals) {
-            if selectedItem == nil, let first = meals.first {
-                selectedItem = first
-            }
-        }
     }
     
     
     func addDataTest() {
-        let ingredientsDataTest = [
-            Ingredient(name: "Carotte"),
-            Ingredient(name: "Pommes de terre"),
-            Ingredient(name: "Pain de mie"),
-            Ingredient(name: "Avocats")
-        ]
-        
         let mealsDataTest = [
             MealItem(title: "Raclette", photo: nil, ingredients: []),
             MealItem(title: "Hamburger maison", photo: nil, ingredients: []),
@@ -61,11 +47,6 @@ struct MealsManager: View {
             MealItem(title: "Quiche lorraine", photo: nil, ingredients: []),
             MealItem(title: "Lasagnes", photo: nil, ingredients: [])
         ]
-        
-        for ingredient in ingredientsDataTest {
-            modelContext.insert(ingredient)
-            try? modelContext.save()
-        }
         
         for meal in mealsDataTest {
             modelContext.insert(meal)

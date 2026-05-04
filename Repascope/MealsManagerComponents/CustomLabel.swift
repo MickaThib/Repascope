@@ -12,6 +12,7 @@ struct CustomLabel: View {
     let title:String
     let type: ListLabelType
     let isSelected: Bool
+    var deleteAction: () -> Void
     
     var body: some View {
         ZStack(alignment: .leading) {
@@ -26,9 +27,13 @@ struct CustomLabel: View {
                     .foregroundStyle(.black)
                     .padding(.leading)
                 Spacer()
-                Image(systemName: "pencil")
-                Image(systemName: "xmark")
-                    .padding(.trailing)
+                Button {
+                    deleteAction()
+                } label: {
+                    Image(systemName: "xmark")
+                }
+                .buttonStyle(.plain)
+                .padding(.trailing)
             }
             
         }
@@ -36,6 +41,20 @@ struct CustomLabel: View {
     }
 }
 
+enum ListLabelType: String {
+    case ingredient = "Ingrédients"
+    case meal = "Plats"
+    
+    func ItemColor() -> Color {
+        switch self {
+        case .ingredient:
+            return Color.green
+        case .meal:
+            return Color.blue
+        }
+    }
+}
+
 #Preview {
-    CustomLabel(title: "Côtes de porc", type: .meal, isSelected: true)
+    CustomLabel(title: "Côtes de porc", type: .meal, isSelected: true, deleteAction: {})
 }
