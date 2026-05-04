@@ -88,6 +88,7 @@ struct IngredientListView: View {
                         showAddIngredientSheet = false
                     }
                     Button("Ajouter") {
+                        //TODO: Rendre ce bouton valide avec la touche entrée
                         addIngredient(name: ingredientToAdd)
                         ingredientToAdd = ""
                         showAddIngredientSheet = false
