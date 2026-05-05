@@ -17,12 +17,9 @@ struct MealsManager: View {
         HSplitView {
             
             MealListView(selectedMeal: $selectedMeal)
-                .frame(width: 300)
+                .frame(width: 270)
             
-            VStack {
-                //TODO: Prévoir le cas où aucun plat n'est sélectionné
-                Text("Selected : \(selectedMeal?.title ?? "nil")")
-            }
+            EditMealView(selectedMeal: $selectedMeal)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             IngredientListView()

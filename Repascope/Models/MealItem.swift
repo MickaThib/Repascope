@@ -13,6 +13,7 @@ final class MealItem {
     var title: String
     var photo: String?
     @Relationship(deleteRule: .cascade) var ingredients: [MealIngredient]
+    var notes: String = ""
 
     init(title: String, photo: String?, ingredients: [MealIngredient] = []) {
         self.title = title

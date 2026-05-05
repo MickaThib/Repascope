@@ -15,6 +15,8 @@ struct MealListView: View {
     @Query(sort: \MealItem.title) private var meals: [MealItem]
     
     @Binding var selectedMeal: MealItem?
+    @State var showDeleteAlert: Bool = false
+    @State private var mealToDelete: MealItem?
     
     var body: some View {
         
@@ -52,7 +54,8 @@ struct MealListView: View {
                     type: .meal,
                     isSelected: selectedMeal === meal, // triple "=" -> Comparaison par référence
                     deleteAction: {
-                        //TODO: Delete meal
+                        mealToDelete = meal
+                        showDeleteAlert = true
                     }
                 )
                     .listRowSeparator(.hidden)
@@ -62,6 +65,18 @@ struct MealListView: View {
                     }
             }
             .padding(.top, 0)
+        }
+        .alert("Supprimer \(mealToDelete?.title ?? "ce repas") ?", isPresented: $showDeleteAlert) {
+            Button("Annuler", role: .cancel){
+                mealToDelete = nil
+            }
+            Button("Supprimer", role: .destructive){
+                if let meal = mealToDelete {
+                    modelContext.delete(meal)
+                    try? modelContext.save()
+                }
+                mealToDelete = nil
+            }
         }
     }
 }
