@@ -70,6 +70,7 @@ struct IngredientListView: View {
             Button("Supprimer", role: .destructive) {
                 if let ingredient = ingredientToDelete {
                     modelContext.delete(ingredient)
+                    try? modelContext.save()
                     ingredientToDelete = nil
                 }
             }
@@ -103,6 +104,7 @@ struct IngredientListView: View {
     
     func addIngredient(name: String) {
         modelContext.insert(Ingredient(name: name))
+        try? modelContext.save()
     }
     
     func deleteIngredient(ingredient:Ingredient) {

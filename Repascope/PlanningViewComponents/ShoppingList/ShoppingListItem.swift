@@ -10,6 +10,8 @@ import SwiftData
 
 struct ShoppingListItem: View {
     
+    @Environment(\.modelContext) private var modelContext
+    
     let item: ShoppingItem
     var deleteAction: (() -> Void)?
     @State var showDeleteAlert = false
@@ -26,11 +28,15 @@ struct ShoppingListItem: View {
             
             Spacer()
             
-            Button { item.quantity += 1 } label: { Image(systemName: "plus.circle") }
+            Button {
+                item.quantity += 1
+                try? modelContext.save()
+            } label: { Image(systemName: "plus.circle") }
                 .buttonStyle(.plain)
             Button {
                 if item.quantity > 1 {
                     item.quantity -= 1
+                    try? modelContext.save()
                 } else {
                     showDeleteAlert = true
                 }
@@ -41,6 +47,7 @@ struct ShoppingListItem: View {
         .opacity(item.isChecked ? 0.5 : 1)
         .onTapGesture {
             item.isChecked.toggle()
+            try? modelContext.save()
         }
         .alert("Supprimer \(item.name) ?", isPresented: $showDeleteAlert) {
             Button("Supprimer", role: .destructive) { deleteAction?() }
