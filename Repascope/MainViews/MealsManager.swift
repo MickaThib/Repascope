@@ -10,7 +10,9 @@ import SwiftData
 
 struct MealsManager: View {
     
-    @Environment(\.modelContext) private var modelContext // Ne sert que pour le bouton ajout de données test -> a supprimer ensuite
+    // Ne sert que pour les données test -> a supprimer ensuite
+    @Environment(\.modelContext) private var modelContext
+    // Ne sert que pour les données test -> a supprimer ensuite
     @State var selectedMeal: MealItem? = nil
     
     var body: some View {
@@ -30,6 +32,9 @@ struct MealsManager: View {
         .toolbar {
             Button("Données de test") {
                 addDataTest()
+            }
+            Button("Delete all Meals") {
+                try? modelContext.delete(model: MealItem.self)
             }
         }
     }

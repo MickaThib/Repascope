@@ -60,6 +60,7 @@ struct IngredientListView: View {
                 )
                 .listRowSeparator(.hidden)
                 .frame(height: 30)
+                .draggable(IngredientTransfer(persistentID: ingredient.persistentModelID))
             }
             .padding(.top, 0)
         }

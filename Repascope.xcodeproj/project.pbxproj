@@ -17,9 +17,22 @@
 		CAF218612FA257BE0066C02C /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F77F39FF2FAA48F80052466F /* Exceptions for "Repascope" folder in "Repascope" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = CAB0FF882FA20D9600D76087 /* Repascope */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		CAB0FF8B2FA20D9600D76087 /* Repascope */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F77F39FF2FAA48F80052466F /* Exceptions for "Repascope" folder in "Repascope" target */,
+			);
 			path = Repascope;
 			sourceTree = "<group>";
 		};
@@ -279,6 +292,7 @@
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Repascope/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Repascope;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -328,6 +342,7 @@
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Repascope/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Repascope;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

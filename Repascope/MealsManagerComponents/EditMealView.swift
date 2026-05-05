@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct EditMealView: View {
     
+    @Environment(\.modelContext) private var context
+    
     @Binding var selectedMeal: MealItem?
     
+    @State private var isTargeted = false
+        
     var body: some View {
         VStack {
             if let meal = selectedMeal {
@@ -38,9 +43,35 @@ struct EditMealView: View {
                     Text("Ingrédients")
                         .font(.headline)
                     
-                    RoundedRectangle(cornerRadius: 7)
-                        .frame(height: 200)
-                        .foregroundStyle(Color.gray.opacity(0.2))
+                    VStack(alignment: .leading) {
+                        ForEach(meal.ingredients) { ingredient in
+                            HStack{
+                                Text(ingredient.ingredient.name)
+                                Spacer()
+                                Text("Quantité : \(ingredient.quantity)")
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 200, alignment: .topLeading)
+                    .background(Color.gray.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(isTargeted ? Color.blue : Color.clear, lineWidth: 2)
+                    )
+                    .animation(.easeInOut(duration: 0.15), value: isTargeted)
+                    .dropDestination(for: IngredientTransfer.self, action: { transfers, _ in
+                        //print("🟢 drop reçu : \(transfers.count) éléments")
+                        for transfer in transfers {
+                            guard let ingredient = context.model(for: transfer.persistentID) as? Ingredient else {
+                                print("🔴 ingredient introuvable")
+                                continue
+                            }
+                            //print("✅ ingredient trouvé : \(ingredient.name)")
+                            let mealIngredient = MealIngredient(ingredient: ingredient, quantity: 1)
+                            meal.ingredients.append(mealIngredient)
+                        }
+                        return true
+                    }, isTargeted: { isTargeted = $0 })
                     
                     TextField("Notes", text: Binding(get: {meal.notes}, set: { selectedMeal?.notes = $0 }),axis: .vertical)
                         .lineLimit(5...10)
