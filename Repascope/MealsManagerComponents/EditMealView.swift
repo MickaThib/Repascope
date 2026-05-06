@@ -16,6 +16,8 @@ struct EditMealView: View {
     
     @State private var isTargeted = false
     @State private var isEditing = false
+    @Binding var startEditing: Bool
+    @FocusState private var titleFocused: Bool
     
     var body: some View {
         ScrollView {
@@ -42,12 +44,17 @@ struct EditMealView: View {
                         TextField("Nom de la recette", text: $meal.title)
                             .font(.system(size: 30))
                             .fontWeight(.bold)
-                            .padding(.vertical)
+                            .padding(.vertical, 16)
+                            .focused($titleFocused)
+                            .onSubmit {
+                                isEditing = false
+                                try? modelContext.save()
+                            }
                     } else {
                         Text(meal.title)
                             .font(.system(size: 30))
                             .fontWeight(.bold)
-                            .padding(.vertical)
+                            .padding(.vertical, 20)
                     }
                     Spacer()
                     Button("Modifier", systemImage: "pencil") {
@@ -115,6 +122,18 @@ struct EditMealView: View {
                 
                 Spacer()
             }
+            .onChange(of: startEditing) { _, newValue in
+                if newValue {
+                    isEditing = true
+                    startEditing = false
+                    Task { @MainActor in
+                        titleFocused = true  // décaler après le rendu
+                    }
+                }
+            }
+            .onChange(of: meal) { _, _ in
+                isEditing = false
+            }
         }
     }
 }
@@ -124,5 +143,5 @@ struct EditMealView: View {
         MealIngredient(ingredient: Ingredient(name: "Pâtes"), quantity: 1),
         MealIngredient(ingredient: Ingredient(name: "Sauce tomate"), quantity: 1),
         MealIngredient(ingredient: Ingredient(name: "Viande hâchée"), quantity: 1)
-    ]))
+    ]), startEditing: .constant(false))
 }

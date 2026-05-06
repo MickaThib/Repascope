@@ -83,6 +83,9 @@ struct IngredientListView: View {
                 Text("Ajouter un ingrédient")
                     .font(.headline)
                 TextField("Nom de l'ingrédient", text: $ingredientToAdd)
+                    .onSubmit {
+                        addIngredient(name: ingredientToAdd)
+                    }
                     .frame(width: 300)
                 HStack {
                     Button("Annuler", role: .cancel) {
@@ -90,10 +93,7 @@ struct IngredientListView: View {
                         showAddIngredientSheet = false
                     }
                     Button("Ajouter") {
-                        //TODO: Rendre ce bouton valide avec la touche entrée
                         addIngredient(name: ingredientToAdd)
-                        ingredientToAdd = ""
-                        showAddIngredientSheet = false
                     }
                     .buttonStyle(.borderedProminent)
                     .disabled(ingredientToAdd.isEmpty)
@@ -106,6 +106,9 @@ struct IngredientListView: View {
     func addIngredient(name: String) {
         modelContext.insert(Ingredient(name: name))
         try? modelContext.save()
+        ingredientToAdd = ""
+        showAddIngredientSheet = false
+        
     }
     
     func deleteIngredient(ingredient:Ingredient) {

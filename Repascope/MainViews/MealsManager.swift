@@ -14,15 +14,24 @@ struct MealsManager: View {
     @Environment(\.modelContext) private var modelContext
     // Ne sert que pour les données test -> a supprimer ensuite
     @State var selectedMeal: MealItem? = nil
+    @State var isEditingNewMeal: Bool = false
     
     var body: some View {
         HSplitView {
             
-            MealListView(selectedMeal: $selectedMeal)
+            MealListView(selectedMeal: $selectedMeal, addMeal: {
+                let newMeal = MealItem(title: "Nouveau plat", photo: nil)
+                modelContext.insert(newMeal)
+                try? modelContext.save()
+                selectedMeal = newMeal
+                Task { @MainActor in
+                    isEditingNewMeal = true  // déclenché après que la vue est montée
+                }
+            })
                 .frame(width: 270)
             
             if let meal = selectedMeal {
-                EditMealView(meal: meal)
+                EditMealView(meal: meal, startEditing: $isEditingNewMeal)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 //TODO: a terminer

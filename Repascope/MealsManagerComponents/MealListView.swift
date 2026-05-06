@@ -18,6 +18,8 @@ struct MealListView: View {
     @State var showDeleteAlert: Bool = false
     @State private var mealToDelete: MealItem?
     
+    let addMeal: () -> Void
+    
     var body: some View {
         
         VStack(spacing: 0) {
@@ -32,7 +34,7 @@ struct MealListView: View {
                 Spacer()
                 
                 Button {
-                    //TODO: Ajouter un plat
+                    addMeal()
                 } label: {
                     Label("Ajouter", systemImage: "plus")
                 }
@@ -74,6 +76,9 @@ struct MealListView: View {
                 if let meal = mealToDelete {
                     modelContext.delete(meal)
                     try? modelContext.save()
+                    if selectedMeal === meal {
+                        selectedMeal = nil
+                    }
                 }
                 mealToDelete = nil
             }

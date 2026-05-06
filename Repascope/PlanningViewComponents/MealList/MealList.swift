@@ -24,9 +24,9 @@ struct MealList: View {
                     .padding(.vertical, 10)
                 Spacer()
                 Button {
-                    //TODO: Ajouter un plat
+                    //TODO: Recherche
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: "magnifyingglass")
                         .padding(.trailing)
                         .font(.system(size: 18))
                 }
