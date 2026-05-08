@@ -10,66 +10,118 @@ import SwiftData
 
 @main
 struct RepascopeApp: App {
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Guest.self, Ingredient.self, MealIngredient.self, MealItem.self, ShoppingItem.self
-        ])
-        
-        let storeURL = URL.applicationSupportDirectory
-                .appendingPathComponent("Repascope")
-                .appendingPathComponent("default.store")
-            
-            // Créer le dossier si nécessaire
-            try? FileManager.default.createDirectory(
-                at: storeURL.deletingLastPathComponent(),
+
+    let sharedModelContainer: ModelContainer
+
+    init() {
+
+        // MARK: - Application Support Directory
+
+        let fileManager = FileManager.default
+
+        guard let applicationSupportURL = fileManager.urls(
+            for: .applicationSupportDirectory,
+            in: .userDomainMask
+        ).first else {
+
+            fatalError("Impossible de trouver Application Support")
+        }
+
+        // MARK: - Repascope Folder
+
+        let appDirectory = applicationSupportURL
+            .appendingPathComponent("Repascope", isDirectory: true)
+
+        do {
+            try fileManager.createDirectory(
+                at: appDirectory,
                 withIntermediateDirectories: true
             )
-            
-        let modelConfiguration = ModelConfiguration(
-            "default",
-            schema: schema,
-            url: storeURL,
-            allowsSave: true,
-            cloudKitDatabase: .none
-        )
+
+            print("APP DIRECTORY OK:")
+            print(appDirectory.path)
+
+        } catch {
+            fatalError("Impossible de créer le dossier Repascope : \(error)")
+        }
+
+        // MARK: - Store URL
+
+        let storeURL = appDirectory
+            .appendingPathComponent("default.store")
+
+        print("STORE URL:")
+        print(storeURL.path)
+
+        // MARK: - Existing Store Info
+
+        let storeExists = fileManager.fileExists(atPath: storeURL.path)
+
+        print("STORE EXISTS:", storeExists)
+
+        if storeExists {
 
             do {
-                return try ModelContainer(for: schema, configurations: [modelConfiguration])
-            } catch {
-                fatalError("Could not create ModelContainer: \(error)")
-            }
-          
-        // --- DEFAULT CONFIGURTAION --- //
-//        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-//
-//        do {
-//            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-//        } catch {
-//            fatalError("Could not create ModelContainer: \(error)")
-//        }
-        // --- END DEFAULT CONFIGURATION --- //
-        
-        // ---- UNCOMMENT TO ANALYSE MODEL ERROR ---- //
-//        let modelConfiguration = ModelConfiguration(
-//            schema: schema,
-//            isStoredInMemoryOnly: false,
-//            allowsSave: true,
-//            groupContainer: .none,
-//            cloudKitDatabase: .none
-//        )
-//        do {
-//            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-//        } catch {
-//            // Ajoute ça temporairement
-//            print("Store URL: \(URL.applicationSupportDirectory)")
-//            fatalError("Could not create ModelContainer: \(error)")
-//        }
-        // ---- END UNCOMMENT TO ANALYSE MODEL ERROR ---- //
 
-    }()
+                let attributes = try fileManager.attributesOfItem(
+                    atPath: storeURL.path
+                )
+
+                if let size = attributes[.size] as? NSNumber {
+                    print("STORE SIZE:", size)
+                }
+
+                if let modificationDate = attributes[.modificationDate] as? Date {
+                    print("LAST MODIFICATION:", modificationDate)
+                }
+
+            } catch {
+                print("Impossible de lire les attributs du store:", error)
+            }
+        }
+
+        // MARK: - SwiftData Schema
+
+        let schema = Schema([
+
+            Guest.self,
+            Ingredient.self,
+            MealIngredient.self,
+            MealItem.self,
+            ShoppingItem.self
+        ])
+
+        // MARK: - Model Configuration
+
+        let modelConfiguration = ModelConfiguration(
+            schema: schema,
+            url: storeURL
+        )
+
+        // MARK: - Create Container
+
+        do {
+
+            sharedModelContainer = try ModelContainer(
+                for: schema,
+                configurations: [modelConfiguration]
+            )
+
+            print("MODEL CONTAINER CREATED")
+
+        } catch {
+
+            print("MODEL CONTAINER ERROR:")
+            print(error)
+
+            fatalError("Impossible de créer le ModelContainer")
+        }
+    }
 
     var body: some Scene {
+
         WindowGroup {
+
             ContentView()
         }
         .modelContainer(sharedModelContainer)

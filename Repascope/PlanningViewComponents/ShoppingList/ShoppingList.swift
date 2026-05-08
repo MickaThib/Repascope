@@ -133,7 +133,14 @@ struct ShoppingList: View {
             return
         }
         modelContext.insert(ShoppingItem(name: name, quantity: 1, date: date))
-        try? modelContext.save()
+        
+        do {
+            try modelContext.save()
+            print("SAVE OK")
+        } catch {
+            print("SAVE ERROR:", error)
+        }
+        
         newItemName = ""
         // reste en mode saisie pour enchaîner les ajouts
         isInputFocused = true
@@ -141,12 +148,24 @@ struct ShoppingList: View {
     
     func delete(item: ShoppingItem) {
         modelContext.delete(item)
-        try? modelContext.save()
+        
+        do {
+            try modelContext.save()
+            print("SAVE OK")
+        } catch {
+            print("SAVE ERROR:", error)
+        }
     }
 
     func deleteAllItems() {
         shoppingList.forEach { modelContext.delete($0) }
-        try? modelContext.save()
+        
+        do {
+            try modelContext.save()
+            print("SAVE OK")
+        } catch {
+            print("SAVE ERROR:", error)
+        }
     }
 }
 

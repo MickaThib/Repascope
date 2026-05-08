@@ -30,7 +30,12 @@ struct ShoppingListItem: View {
             
             Button {
                 item.quantity += 1
-                try? modelContext.save()
+                do {
+                    try modelContext.save()
+                    print("SAVE OK")
+                } catch {
+                    print("SAVE ERROR:", error)
+                }
             } label: { Image(systemName: "plus.circle") }
                 .buttonStyle(.plain)
             Button {
@@ -47,7 +52,12 @@ struct ShoppingListItem: View {
         .opacity(item.isChecked ? 0.5 : 1)
         .onTapGesture {
             item.isChecked.toggle()
-            try? modelContext.save()
+            do {
+                try modelContext.save()
+                print("SAVE OK")
+            } catch {
+                print("SAVE ERROR:", error)
+            }
         }
         .alert("Supprimer \(item.name) ?", isPresented: $showDeleteAlert) {
             Button("Supprimer", role: .destructive) { deleteAction?() }
