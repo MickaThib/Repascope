@@ -8,14 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		CAD9F5AA2FA22F8E00507B5B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CAD9F5A92FA22F8E00507B5B /* .gitignore */; };
-		CAE4CD212FAE834500008CAF /* Repascope.entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = CAE4CD202FAE834500008CAF /* Repascope.entitlements.plist */; };
 		CAF218632FA257CE0066C02C /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = CAF218612FA257BE0066C02C /* TODO.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CAB0FF892FA20D9600D76087 /* Repascope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Repascope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAD9F5A92FA22F8E00507B5B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		CAE4CD202FAE834500008CAF /* Repascope.entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Repascope.entitlements.plist; path = Repascope/Repascope.entitlements.plist; sourceTree = "<group>"; };
 		CAF218612FA257BE0066C02C /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -55,7 +53,6 @@
 		CAB0FF802FA20D9600D76087 = {
 			isa = PBXGroup;
 			children = (
-				CAE4CD202FAE834500008CAF /* Repascope.entitlements.plist */,
 				CAF218612FA257BE0066C02C /* TODO.md */,
 				CAB0FF8B2FA20D9600D76087 /* Repascope */,
 				CAB0FF8A2FA20D9600D76087 /* Products */,
@@ -137,7 +134,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAF218632FA257CE0066C02C /* TODO.md in Resources */,
-				CAE4CD212FAE834500008CAF /* Repascope.entitlements.plist in Resources */,
 				CAD9F5AA2FA22F8E00507B5B /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
