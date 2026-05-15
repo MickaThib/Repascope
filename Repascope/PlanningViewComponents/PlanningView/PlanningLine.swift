@@ -11,6 +11,8 @@ import SwiftData
 struct PlanningLine: View {
     
     let day: Date
+    let viewModel:PlanningViewModel
+    let plannedMeals: [PlannedMeal]
     
     let calendar: Calendar = {
             var cal = Calendar(identifier: .gregorian)
@@ -21,8 +23,6 @@ struct PlanningLine: View {
     
     var isToday: Bool { calendar.isDateInToday(day) }
     
-    @Environment(\.modelContext) private var context
-    @Query private var allPlanned:[PlannedMeal]
     
     var body: some View {
         HStack {
@@ -47,23 +47,36 @@ struct PlanningLine: View {
             )
             
             
-            PlanningMealFrame(day: day, slot: .noon, plannedMeals: planned(for: day, slot: .noon))
+            PlanningMealFrame(
+                day: day,
+                slot: .noon,
+                viewModel: viewModel,
+                plannedMeals: viewModel.planned(
+                    for: day,
+                    slot: .noon,
+                    in: plannedMeals
+                )
+            )
 
-            PlanningMealFrame(day: day, slot: .evening, plannedMeals: planned(for: day, slot: .evening))
+            PlanningMealFrame(
+                day: day,
+                slot: .evening,
+                viewModel: viewModel,
+                plannedMeals: viewModel.planned(
+                    for: day,
+                    slot: .evening,
+                    in: plannedMeals
+                )
+            )
 
         }
         .frame(height: 80)
         .padding(1)
     }
     
-    private func planned(for date: Date, slot: MealSlot) -> [PlannedMeal] {
-        let day = Calendar.current.startOfDay(for: date)
-        return allPlanned
-            .filter {$0.date == day && $0.slot == slot}
-            .sorted {$0.position < $1.position}
-    }
+    
 }
 
 #Preview {
-    PlanningLine(day: Date())
+    PlanningLine(day: Date(), viewModel: PlanningViewModel(), plannedMeals: [])
 }
