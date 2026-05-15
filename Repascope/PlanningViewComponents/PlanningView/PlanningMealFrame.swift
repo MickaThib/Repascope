@@ -20,6 +20,7 @@ struct PlanningMealFrame: View {
     @State var guests: String = ""
     @State var notes: String = ""
     @State var isTargeted:Bool = false
+    @State private var targetedReplacementID: PersistentIdentifier?
     
     
     var body: some View {
@@ -38,7 +39,7 @@ struct PlanningMealFrame: View {
                 emptyMealView
                 
             } else if plannedMeals.count == 1 {
-                // Si un seul repas est prévu : prévoir espace pour en ajouter un autre
+                // Si un seul repas est prévu : prévoir espace "plus" pour en ajouter un autre
                 singleMealView
             } else {
                 // Si deux repas (ou plus) sont prévus : répartir cases à égalité
@@ -54,7 +55,7 @@ struct PlanningMealFrame: View {
     
     private var emptyMealView: some View {
         RoundedRectangle(cornerRadius: 5)
-            .fill(Color.gray.opacity(0.2))
+            .fill(isTargeted ? Color.accentColor.opacity(0.15) : Color.gray.opacity(0.2))
             .frame(minHeight: 40, maxHeight: .infinity)
             .padding(.horizontal, 7)
             .padding(.bottom, 7)
@@ -63,10 +64,14 @@ struct PlanningMealFrame: View {
                     .font(.callout)
                     .foregroundStyle(.gray)
             }
+            .overlay {
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(isTargeted ? Color.accentColor : Color.clear,lineWidth: 2)
+                    .padding(.horizontal, 7)
+                    .padding(.bottom, 7)
+            }
             .dropDestination(for: MealTransfer.self) { transfers, _ in
-                // TODO: récupérer le MealItem depuis MealTransfer
-                // puis appeler viewModel.setPlannedMeal(...)
-                return true
+                handleMealDrop(transfers)
             } isTargeted: { targeted in
                 isTargeted = targeted
             }
@@ -75,24 +80,24 @@ struct PlanningMealFrame: View {
     private var singleMealView: some View {
         HStack {
             if let plannedMeal = plannedMeals.first {
-                PlanningMealItem(
-                    meal: plannedMeal.meal,
-                    deleteAction: {
-                        viewModel.delete(
-                            plannedMeal: plannedMeal,
-                            context: modelContext
-                        )
-                    }
-                )
-                .frame(minHeight: 40, maxHeight: .infinity)
+                replaceableMealItem(for: plannedMeal)
             }
             
             RoundedRectangle(cornerRadius: 5)
                 .fill(.clear)
-                .stroke(Color.gray.opacity(0.2))
                 .frame(maxWidth: 40)
                 .overlay {
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(isTargeted ? Color.accentColor : Color.gray.opacity(0.2), lineWidth: isTargeted ? 2 : 1)
+                }
+                .overlay {
                     Image(systemName: "plus")
+                }
+                // Drop pour ajouter un meal en case secondaire
+                .dropDestination(for: MealTransfer.self) { transfers, _ in
+                    handleMealDrop(transfers)
+                } isTargeted: { targeted in
+                    isTargeted = targeted
                 }
         }
         .padding(.horizontal, 7)
@@ -102,20 +107,81 @@ struct PlanningMealFrame: View {
     private var multipleMealsView: some View {
         HStack {
             ForEach(plannedMeals) { plannedMeal in
-                PlanningMealItem(
-                    meal: plannedMeal.meal,
-                    deleteAction: {
-                        viewModel.delete(
-                            plannedMeal: plannedMeal,
-                            context: modelContext
-                        )
-                    }
-                )
-                .frame(minHeight: 40, maxHeight: .infinity)
+                replaceableMealItem(for: plannedMeal)
             }
         }
         .padding(.horizontal, 7)
         .padding(.bottom, 7)
+    }
+    
+    private func handleMealDrop(_ transfers: [MealTransfer]) -> Bool {
+        guard let transfer = transfers.first else {
+            return false
+        }
+
+        guard let meal = modelContext.model(for: transfer.persistentID) as? MealItem else {
+            print("🔴 meal introuvable")
+            return false
+        }
+
+        viewModel.setPlannedMeal(
+            meal,
+            date: day,
+            slot: slot,
+            existingPlannedMeals: plannedMeals,
+            modelContext: modelContext
+        )
+
+        return true
+    }
+    
+    private func handleMealReplacementDrop(_ transfers: [MealTransfer], replacing plannedMeal: PlannedMeal) -> Bool {
+        guard let transfer = transfers.first else {
+            return false
+        }
+        
+        guard let meal = modelContext.model(for: transfer.persistentID) as? MealItem else {
+            print("🔴 meal introuvable")
+            return false
+        }
+        
+        viewModel.replaceMeal(
+            in: plannedMeal,
+            with: meal,
+            modelContext: modelContext
+        )
+        
+        return true
+    }
+    
+    private func replaceableMealItem(for plannedMeal: PlannedMeal) -> some View {
+        PlanningMealItem(
+            meal: plannedMeal.meal,
+            deleteAction: {
+                viewModel.delete(
+                    plannedMeal: plannedMeal,
+                    modelContext: modelContext
+                )
+            }
+        )
+        .frame(minHeight: 40, maxHeight: .infinity)
+        .overlay {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(
+                    targetedReplacementID == plannedMeal.persistentModelID
+                    ? Color.accentColor
+                    : Color.clear,
+                    lineWidth: 2
+                )
+        }
+        .dropDestination(for: MealTransfer.self) { transfers, _ in
+            handleMealReplacementDrop(
+                transfers,
+                replacing: plannedMeal
+            )
+        } isTargeted: { targeted in
+            targetedReplacementID = targeted ? plannedMeal.persistentModelID : nil
+        }
     }
 }
 

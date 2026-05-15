@@ -18,11 +18,7 @@ final class PlanningViewModel {
         return cal
     }()
 
-    func planned(
-        for date: Date,
-        slot: MealSlot,
-        in plannedMeals: [PlannedMeal]
-    ) -> [PlannedMeal] {
+    func planned(for date: Date, slot: MealSlot, in plannedMeals: [PlannedMeal]) -> [PlannedMeal] {
         let day = calendar.startOfDay(for: date)
 
         return plannedMeals
@@ -33,36 +29,24 @@ final class PlanningViewModel {
             .sorted { $0.position < $1.position }
     }
 
-    func delete(
-        plannedMeal: PlannedMeal?,
-        context: ModelContext
-    ) {
+    func delete(plannedMeal: PlannedMeal?, modelContext: ModelContext) {
         guard let plannedMeal else {
             return
         }
 
-        context.delete(plannedMeal)
+        modelContext.delete(plannedMeal)
 
         do {
-            try context.save()
+            try modelContext.save()
         } catch {
-            print("Error deleting plannedMeal \(plannedMeal.meal?.title ?? "Unknown")")
+            print("Error deleting plannedMeal : \(plannedMeal.meal?.title ?? "Unknown")")
             print(error)
         }
     }
 
-    func setPlannedMeal(
-        _ meal: MealItem,
-        date: Date,
-        slot: MealSlot,
-        existingPlannedMeals: [PlannedMeal],
-        context: ModelContext
-    ) {
-        let mealsForSlot = planned(
-            for: date,
-            slot: slot,
-            in: existingPlannedMeals
-        )
+    func setPlannedMeal(_ meal: MealItem, date: Date, slot: MealSlot, existingPlannedMeals: [PlannedMeal], modelContext: ModelContext) {
+        
+        let mealsForSlot = planned(for: date, slot: slot, in: existingPlannedMeals)
 
         guard mealsForSlot.count < 2 else {
             print("Il y a déjà deux repas pour ce créneau.")
@@ -78,13 +62,25 @@ final class PlanningViewModel {
             meal: meal
         )
 
-        context.insert(plannedMeal)
+        modelContext.insert(plannedMeal)
 
         do {
-            try context.save()
+            try modelContext.save()
         } catch {
             print("Error saving plannedMeal")
             print(error)
         }
+    }
+    
+    func replaceMeal(in plannedMeal:PlannedMeal, with newMeal:MealItem, modelContext:ModelContext) {
+        
+        plannedMeal.meal = newMeal
+        
+        do {
+                try modelContext.save()
+            } catch {
+                print("Error replacing plannedMeal")
+                print(error)
+            }
     }
 }

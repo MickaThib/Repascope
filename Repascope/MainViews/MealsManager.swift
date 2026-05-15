@@ -44,31 +44,6 @@ struct MealsManager: View {
             
         }
         .frame(maxWidth: .infinity)
-        .toolbar {
-            Button("Données de test") {
-                addDataTest()
-            }
-            Button("Delete all Meals") {
-                try? modelContext.delete(model: MealItem.self)
-            }
-        }
-    }
-    
-    
-    func addDataTest() {
-        let mealsDataTest = [
-            MealItem(title: "Raclette", photo: nil, ingredients: []),
-            MealItem(title: "Hamburger maison", photo: nil, ingredients: []),
-            MealItem(title: "Hot dogs", photo: nil, ingredients: []),
-            MealItem(title: "Poisson pané", photo: nil, ingredients: []),
-            MealItem(title: "Quiche lorraine", photo: nil, ingredients: []),
-            MealItem(title: "Lasagnes", photo: nil, ingredients: [])
-        ]
-        
-        for meal in mealsDataTest {
-            modelContext.insert(meal)
-            try? modelContext.save()
-        }
     }
 }
 
