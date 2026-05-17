@@ -13,6 +13,7 @@ class PlannedMeal {
     var date: Date
     var slot: MealSlot
     var position: Int        // 0 = premier repas, 1 = deuxième
+    
     var meal: MealItem?
 
     init(date: Date, slot: MealSlot, position: Int, meal: MealItem? = nil) {

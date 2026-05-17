@@ -15,7 +15,7 @@ struct PlanningMealItem: View {
     
     var body: some View {
         HStack {
-            Text(meal?.title ?? "Unknown")
+            Text(meal?.title ?? "Repas supprimé")
                 .font(.headline)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(

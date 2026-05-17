@@ -12,7 +12,7 @@
 - [ ] Rendre le bouton "+" cliquable pour ajouter un nouveau repas
 - [ ] Cliquer sur une case vide pour ajouter un repas
 - [ ] Pouvoir imprimer le planning des repas
-- [ ] Quand on supprime un meal qui est placé qq part dans le planning : crash
+- [X] Quand on supprime un meal qui est placé qq part dans le planning : crash
 
 ### DRAG & DROP
 - [ ] Drag depuis une case du planning vers une autre

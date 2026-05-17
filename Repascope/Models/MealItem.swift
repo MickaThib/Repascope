@@ -12,8 +12,14 @@ import SwiftData
 final class MealItem {
     var title: String
     var photo: String?
-    @Relationship(deleteRule: .cascade) var ingredients: [MealIngredient]
     var notes: String = ""
+
+    
+    @Relationship(deleteRule: .cascade)
+    var ingredients: [MealIngredient]
+    
+    @Relationship(deleteRule: .cascade, inverse: \PlannedMeal.meal)
+    var plannedMeals: [PlannedMeal] = []
 
     init(title: String, photo: String?, ingredients: [MealIngredient] = []) {
         self.title = title

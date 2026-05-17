@@ -74,8 +74,19 @@ struct MealListView: View {
             }
             Button("Supprimer", role: .destructive){
                 if let meal = mealToDelete {
+                    
+                    for plannedMeal in meal.plannedMeals {
+                        modelContext.delete(plannedMeal)
+                    }
+                    
                     modelContext.delete(meal)
-                    try? modelContext.save()
+                    
+                    do {
+                        try modelContext.save()
+                    } catch {
+                        print("Erreur suppression MealItem", error)
+                    }
+                    
                     if selectedMeal === meal {
                         selectedMeal = nil
                     }
