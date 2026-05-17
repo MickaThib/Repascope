@@ -9,9 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct MealList: View {
-    
-    @Environment(\.modelContext) private var modelContext
-    
+        
     @Query(sort: \MealItem.title) var mealList: [MealItem]
     
     var body: some View {
@@ -39,7 +37,7 @@ struct MealList: View {
                 ForEach(mealList) { meal in
                     MealListItem(meal: meal)
                         .listRowSeparator(.hidden)
-                        .draggable(MealTransfer(persistentID: meal.persistentModelID))
+                        .draggable(PlanningDropTransfer(persistentID: meal.persistentModelID, kind: .mealItem))
                 }
             }
             .listStyle(.plain)

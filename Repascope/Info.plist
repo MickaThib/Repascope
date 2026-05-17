@@ -10,11 +10,9 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Ingredient Transfer</string>
-			<key>UTTypeIcons</key>
-			<dict/>
+			<string>Planning Drop Transfer</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.repascope.ingredientTransfer</string>
+			<string>com.repascope.planning-drop-transfer</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>
@@ -24,11 +22,11 @@
 				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Meal Transfer</string>
+			<string>Ingredient Transfer</string>
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>com.repascope.mealTransfer</string>
+			<string>com.repascope.ingredientTransfer</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>
