@@ -18,19 +18,26 @@ struct PlanningMealItem: View {
         HStack {
             Text(meal?.title ?? "Repas supprimé")
                 .font(.headline)
+                .foregroundStyle(bgColor())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(isHovering ? bgColor().opacity(0.7) : bgColor().opacity(0.6))
+                        .fill(isHovering ? Color.white.opacity(0.5) : Color.white)
                 )
+        }
+        .overlay {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(bgColor(), lineWidth: 2)
         }
         .overlay(alignment: .topTrailing, content: {
             if isHovering {
-                Button("Supprimer", systemImage: "xmark") {
+                Button("Supprimer", systemImage: "xmark.circle.fill") {
                     deleteAction()
                 }
+                .foregroundStyle(bgColor())
+                .buttonStyle(.plain)
                 .labelStyle(.iconOnly)
-                .padding(2)
+                .padding(5)
             }
         })
         .onHover { hover in

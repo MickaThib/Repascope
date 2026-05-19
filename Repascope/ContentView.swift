@@ -10,57 +10,35 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var selectedItem: sideBarItem = .planning
     
     var body: some View {
-        NavigationSplitView {
-            VStack {
-                List(selection: $selectedItem) {
-                    NavigationLink(value: sideBarItem.planning) {
-                        Label("Planning", systemImage: "calendar")
-                    }
-                    NavigationLink(value: sideBarItem.meals) {
-                        Label("Plats", systemImage: "fork.knife")
-                    }
-                    NavigationLink(value: sideBarItem.guests) {
-                        Label("Convives", systemImage: "person.2.fill")
-                    }
-                    
+        VStack {
+            TabView {
+                Tab("Planning", systemImage: "calendar") {
+                    OrganizerView()
                 }
-                .listStyle(.sidebar)
-                .scrollDisabled(true)
                 
-                List(selection: $selectedItem) {
-                    NavigationLink(value: sideBarItem.settings) {
-                        Label("Réglages", systemImage: "gear")
-                    }
+                Tab("Repas", systemImage: "fork.knife") {
+                    MealsManager()
                 }
-                .listStyle(.sidebar)
-                .scrollDisabled(true)
-                .frame(height: 40)
-            }
-            .navigationTitle("Repascope")
-            .navigationSplitViewColumnWidth(160)
-        } detail: {
-            switch selectedItem {
-            case .planning:
-                OrganizerView()
-            case .meals:
-                MealsManager()
-            case .guests:
-                Text("Convives à venir")
-            case .settings:
-                Text("Réglages à venir")
+                
+                Tab("Convives", systemImage: "person.2.fill") {
+                    Text("Convives à venir")
+                }
             }
         }
+        .toolbarBackground(.hidden, for: .windowToolbar)
+        .toolbar {
+            Button {
+                //TODO: Show settings view
+            } label: {
+                Label("Réglages", systemImage: "gear")
+            }
+        }
+        .background(
+            Color.white
+        )
     }
-}
-
-enum sideBarItem {
-    case planning
-    case meals
-    case guests
-    case settings
 }
 
 #Preview {
