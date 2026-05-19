@@ -56,7 +56,7 @@ struct PlanningMealFrame: View {
         .frame(minWidth: 150, maxWidth: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 5)
-                .fill(bgColor().opacity(0.15))
+                .fill(itemColor().opacity(0.2))
         }
     }
     
@@ -77,7 +77,7 @@ struct PlanningMealFrame: View {
             }
             .overlay {
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(isTargeted ? bgColor().opacity(0.5) : Color.clear, lineWidth: 2)
+                    .stroke(isTargeted ? itemColor().opacity(0.5) : Color.clear, lineWidth: 2)
             }
             .onTapGesture {
                 showMealPicker = true
@@ -104,12 +104,12 @@ struct PlanningMealFrame: View {
     
     private var addMealDropZone: some View {
         RoundedRectangle(cornerRadius: 5)
-            .fill(isTargeted ? bgColor().opacity(0.2) : Color.clear)
+            .fill(isTargeted ? itemColor().opacity(0.2) : Color.clear)
             .frame(maxWidth: 40)
             .overlay {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(
-                        isTargeted ? bgColor().opacity(0.5) : bgColor().opacity(0.5),
+                        isTargeted ? itemColor().opacity(0.5) : itemColor().opacity(0.5),
                         lineWidth: isTargeted ? 2 : 1
                     )
             }
@@ -231,7 +231,7 @@ struct PlanningMealFrame: View {
             RoundedRectangle(cornerRadius: 5)
                 .stroke(
                     targetedReplacementID == plannedMeal.persistentModelID
-                    ? bgColor()
+                    ? itemColor()
                     : Color.clear,
                     lineWidth: 2
                 )
@@ -240,12 +240,19 @@ struct PlanningMealFrame: View {
             PlanningDropTransfer(persistentID: plannedMeal.persistentModelID, kind: .plannedMeal)
         ) {
             Text(plannedMeal.meal?.title ?? "Repas")
+                .foregroundStyle(itemColor())
+                .fontWeight(.bold)
                 .padding(8)
                 .frame(height: 40)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 3)
+                        .stroke(itemColor(), lineWidth: 4)
+                )
                 .background(
                     RoundedRectangle(cornerRadius: 3)
-                        .fill(bgColor().opacity(0.2))
+                        .fill(.white)
                 )
+                .opacity(0.5)
         }
         .dropDestination(for: PlanningDropTransfer.self) { transfers, _ in
             handleReplacementDrop(
@@ -275,11 +282,11 @@ struct PlanningMealFrame: View {
         }
     }
     
-    func bgColor() -> Color {
+    func itemColor() -> Color {
         if slot == .noon {
-            return Color.blue
+            return Color.noon
         } else {
-            return Color.pink
+            return Color.evening
         }
     }
 }

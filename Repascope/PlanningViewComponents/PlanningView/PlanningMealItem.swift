@@ -18,7 +18,7 @@ struct PlanningMealItem: View {
         HStack {
             Text(meal?.title ?? "Repas supprimé")
                 .font(.headline)
-                .foregroundStyle(bgColor())
+                .foregroundStyle(itemColor())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 5)
@@ -27,14 +27,14 @@ struct PlanningMealItem: View {
         }
         .overlay {
             RoundedRectangle(cornerRadius: 5)
-                .stroke(bgColor(), lineWidth: 2)
+                .stroke(itemColor(), lineWidth: 2)
         }
         .overlay(alignment: .topTrailing, content: {
             if isHovering {
                 Button("Supprimer", systemImage: "xmark.circle.fill") {
                     deleteAction()
                 }
-                .foregroundStyle(bgColor())
+                .foregroundStyle(itemColor())
                 .buttonStyle(.plain)
                 .labelStyle(.iconOnly)
                 .padding(5)
@@ -45,11 +45,11 @@ struct PlanningMealItem: View {
         }
     }
     
-    func bgColor() -> Color {
+    func itemColor() -> Color {
         if slot == .noon {
-            return Color.blue
+            return Color.noon
         } else {
-            return Color.pink
+            return Color.evening
         }
     }
 }

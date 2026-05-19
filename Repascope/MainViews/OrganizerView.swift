@@ -26,7 +26,7 @@ struct OrganizerView: View {
             //MARK: Contenu principal
             VStack (spacing: 0) {
                 //MARK: Navigation buttons
-                HStack {
+                HStack(alignment: .firstTextBaseline) {
                     Button {
                         if let newWeekToDisplay = calendarViewModel.calendar.date(byAdding: .day, value: -7, to: weekToDisplay) {
                             weekToDisplay = newWeekToDisplay
@@ -38,16 +38,12 @@ struct OrganizerView: View {
                         }
                     }
                     .buttonStyle(.plain)
+                    .foregroundStyle(Color.theme)
                     
                     Spacer()
                     
-                    Button {
-                        weekToDisplay = Date()
-                    } label: {
-                        Text("Cette semaine")
-                    }
-                    .buttonBorderShape(.capsule)
-                    .buttonStyle(.bordered)
+                    Text("Semaine du XX au XX xxxxxxxxx")
+                        .font(.title2)
                     
                     Spacer()
                     
@@ -62,13 +58,19 @@ struct OrganizerView: View {
                         }
                     }
                     .buttonStyle(.plain)
+                    .foregroundStyle(Color.theme)
+
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 10)
+                .padding([.horizontal, .top])
+                .padding(.bottom, 0)
                 
                 PlanningView(weekToDisplay: weekToDisplay)
                     .frame(maxWidth: .infinity)
             }
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.white)
+            )
             
             //MARK: Volet droit
             VSplitView {
@@ -86,6 +88,11 @@ struct OrganizerView: View {
         .padding(.top, 20)
         .padding(.horizontal, 30)
         .padding(.bottom, 30)
+        .toolbar {
+            Button("Semaine actuelle") {
+                weekToDisplay = Date()
+            }
+        }
     }
 }
 

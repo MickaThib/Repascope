@@ -48,12 +48,12 @@ struct ShoppingListView: View {
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
             
-            HStack {
+            HStack(alignment: .firstTextBaseline) {
                 Text("Liste de courses")
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 12)
                 Spacer()
                 Button {
                     exportToNotes(items: currentList?.items ?? [])
@@ -63,8 +63,9 @@ struct ShoppingListView: View {
                         .font(.system(size: 18))
                 }
                 .buttonStyle(.plain)
-
             }
+            .foregroundStyle(Color.noon)
+            .frame(height: 45)
             
             Divider()
             
@@ -87,6 +88,10 @@ struct ShoppingListView: View {
                     }
                 }
                 .listStyle(.plain)
+                .safeAreaInset(edge: .top) {
+                    Color.clear
+                        .frame(height: 1)
+                }
                 
                 let emptyAction = { showEmptyListAlert = true }
                 let addAction = { startAddingItem() }
@@ -103,11 +108,7 @@ struct ShoppingListView: View {
         }
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.pink.opacity(0.1))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.pink.opacity(0.3), lineWidth: 3)
+                .fill(Color.white)
         )
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.top)
@@ -220,6 +221,7 @@ struct ShoppingListButtons: View {
             } label: {
                 Label("Vider la liste", systemImage: "trash")
             }
+            .buttonStyle(.bordered)
             
             Button(role: .none) {
                 startAddingItemAction()
@@ -231,7 +233,7 @@ struct ShoppingListButtons: View {
                 }
             }
             .buttonStyle(.borderedProminent)
-            .tint(.pink)
+            .tint(Color.noon)
         }
     }
     

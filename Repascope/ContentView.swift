@@ -38,8 +38,8 @@ struct ContentView: View {
         .background(
             LinearGradient(
                 colors: [
-                    .customGreenDark,
-                    .customGreen
+                    .themeContrast,
+                    .theme
                 ],
                 startPoint: .bottom,
                 endPoint: .top

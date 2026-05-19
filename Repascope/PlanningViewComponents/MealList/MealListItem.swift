@@ -15,13 +15,12 @@ struct MealListItem: View {
         ZStack(alignment: .leading) {
             
             Text(meal.title)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundStyle(.black)
+                .font(.system(size: 14, weight: .bold))
                 .padding(.leading)
 
             
             RoundedRectangle(cornerRadius: 5)
-                .fill(Color.accentColor.opacity(0.2))
+                .fill(Color.theme.opacity(0.2))
         }
         .frame(height: 30)
         .frame(maxWidth: .infinity)

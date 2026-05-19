@@ -8,7 +8,9 @@
 ## PLANNING
 - [ ] Pouvoir rechercher un plat dans la liste de plats
 - [ ] Pouvoir imprimer le planning des repas
+- [ ] Afficher dynamiquement la semaine en titre
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence"
+- [ ] Quand on drop un plat sur un autre : pas de changement de couleur de fond
 
 ### DRAG & DROP
 - [ ] Drag depuis une case du planning vers l'extérieur = suppression ?

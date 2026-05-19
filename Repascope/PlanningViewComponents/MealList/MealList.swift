@@ -14,12 +14,12 @@ struct MealList: View {
     
     var body: some View {
         VStack (alignment: .leading, spacing: 0) {
-            HStack {
-                Text("Plats")
+            HStack (alignment: .firstTextBaseline) {
+                Text("Mes plats")
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.horizontal)
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 12)
                 Spacer()
                 Button {
                     //TODO: Recherche
@@ -31,6 +31,9 @@ struct MealList: View {
                 .buttonStyle(.plain)
 
             }
+            .foregroundStyle(Color.theme)
+            .frame(height: 45)
+            
             Divider()
             
             List {
@@ -41,14 +44,14 @@ struct MealList: View {
                 }
             }
             .listStyle(.plain)
+            .safeAreaInset(edge: .top) {
+                Color.clear
+                    .frame(height: 1)
+            }
         }
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.accentColor.opacity(0.1))
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.accentColor.opacity(0.3), lineWidth: 3)
+                .fill(Color.white)
         )
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.bottom)
