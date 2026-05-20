@@ -28,13 +28,6 @@ struct ContentView: View {
             }
         }
         .toolbarBackground(.hidden, for: .windowToolbar)
-        .toolbar {
-            Button {
-                //TODO: Show settings view
-            } label: {
-                Label("Réglages", systemImage: "gear")
-            }
-        }
         .background(
             LinearGradient(
                 colors: [

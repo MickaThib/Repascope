@@ -89,8 +89,27 @@ struct OrganizerView: View {
         .padding(.horizontal, 30)
         .padding(.bottom, 30)
         .toolbar {
-            Button("Semaine actuelle") {
-                weekToDisplay = Date()
+            ToolbarItemGroup(placement: .primaryAction) {
+                Button {
+                    //TODO: Imprimer le planning
+                } label: {
+                    Label("Imprimer le planning", systemImage: "printer")
+                        .labelStyle(.iconOnly)
+                }
+                Button {
+                    weekToDisplay = Date()
+                } label: {
+                    Label("Aujourd'hui", systemImage: "calendar")
+                        .labelStyle(.titleAndIcon)
+                }
+            }
+            ToolbarItemGroup(placement: .navigation) {
+                Button {
+                    //TODO: Settings
+                } label: {
+                    Label("Réglages", systemImage: "gear")
+                        .labelStyle(.iconOnly)
+                }
             }
         }
     }
