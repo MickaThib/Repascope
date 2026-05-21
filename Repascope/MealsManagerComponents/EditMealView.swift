@@ -20,25 +20,27 @@ struct EditMealView: View {
     @FocusState private var titleFocused: Bool
     
     var body: some View {
-        ScrollView {
-            VStack {
+        VStack {
+            
+            // Photo
+            if let photo = meal.photo {
+                Image(photo)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 200)
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+            } else {
+                Image(systemName: "camera")
+                    .font(.system(size: 50))
+                    .foregroundStyle(Color.white)
+                    .frame(height: 200)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.gray.opacity(0.3))
+            }
+            
+            ScrollView {
                 
-                // Photo
-                if let photo = meal.photo {
-                    Image(photo)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(height: 200)
-                        .frame(maxWidth: .infinity)
-                        .clipped()
-                } else {
-                    Image(systemName: "camera")
-                        .font(.system(size: 50))
-                        .foregroundStyle(Color.white)
-                        .frame(height: 200)
-                        .frame(maxWidth: .infinity)
-                        .background(Color.gray.opacity(0.3))
-                }
                 HStack(alignment: .lastTextBaseline) {
                     if isEditing {
                         TextField("Nom de la recette", text: $meal.title)
@@ -121,23 +123,23 @@ struct EditMealView: View {
                 Spacer()
             }
         }
-            .frame(minWidth: 600)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
-            )
-            .onChange(of: startEditing) { _, newValue in
-                if newValue {
-                    isEditing = true
-                    startEditing = false
-                    Task { @MainActor in
-                        titleFocused = true  // décaler après le rendu
-                    }
+        .frame(minWidth: 600)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color.white)
+        )
+        .onChange(of: startEditing) { _, newValue in
+            if newValue {
+                isEditing = true
+                startEditing = false
+                Task { @MainActor in
+                    titleFocused = true  // décaler après le rendu
                 }
             }
-            .onChange(of: meal) { _, _ in
-                isEditing = false
-            }
+        }
+        .onChange(of: meal) { _, _ in
+            isEditing = false
+        }
     }
 }
 

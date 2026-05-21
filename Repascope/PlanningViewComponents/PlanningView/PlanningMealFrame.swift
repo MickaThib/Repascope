@@ -61,35 +61,41 @@ struct PlanningMealFrame: View {
     }
     
     private var emptyMealView: some View {
-        RoundedRectangle(cornerRadius: 5)
-            .fill(isTargeted ? Color.white.opacity(0.6) : Color.white)
-            .frame(minHeight: 40, maxHeight: .infinity)
-            .overlay {
-                HStack(alignment: .firstTextBaseline, spacing: 30) {
-                    Text("Aucun repas prévu")
-                        .font(.callout)
-                        .foregroundStyle(.gray)
-                    Spacer()
-                    Image(systemName: "plus")
-                        .foregroundStyle(.gray)
-                }
-                .padding(.horizontal, 14)
-            }
-            .overlay {
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(isTargeted ? itemColor().opacity(0.5) : Color.clear, lineWidth: 2)
-            }
-            .onTapGesture {
+        HStack(alignment: .firstTextBaseline, spacing: 30) {
+            Text("Aucun repas prévu")
+                .font(.callout)
+                .foregroundStyle(.gray)
+            
+            Spacer()
+            
+            Button("Plus", systemImage: "plus") {
                 showMealPicker = true
+                
             }
+            .foregroundStyle(.gray)
+            .frame(maxWidth: 40)
+            .frame(maxHeight: .infinity)
+            .buttonStyle(.plain)
+            .labelStyle(.iconOnly)
             .popover(isPresented: $showMealPicker, attachmentAnchor: .point(.center), arrowEdge: .bottom) {
                 mealPickerPopover()
             }
-            .dropDestination(for: PlanningDropTransfer.self) { transfers, _ in
-                handlePlanningDrop(transfers)
-            } isTargeted: { targeted in
-                isTargeted = targeted
-            }
+        }
+        .padding(.leading, 14)
+        .frame(minHeight: 40, maxHeight: .infinity)
+        .background(
+            RoundedRectangle(cornerRadius: 5)
+                .fill(isTargeted ? Color.white.opacity(0.6) : Color.white)
+        )
+        .overlay {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(isTargeted ? itemColor().opacity(0.5) : Color.clear, lineWidth: 2)
+        }
+        .dropDestination(for: PlanningDropTransfer.self) { transfers, _ in
+            handlePlanningDrop(transfers)
+        } isTargeted: { targeted in
+            isTargeted = targeted
+        }
     }
     
     private var singleMealView: some View {

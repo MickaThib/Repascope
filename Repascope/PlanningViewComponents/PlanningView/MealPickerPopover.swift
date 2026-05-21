@@ -30,7 +30,7 @@ struct MealPickerPopover: View {
                     .padding(.horizontal, 10)
                     .background(
                         RoundedRectangle(cornerRadius: 4)
-                            .fill(hoveredMealID == meal.id ? Color.accentColor.opacity(0.2) : Color.accentColor.opacity(0.1))
+                            .fill(hoveredMealID == meal.id ? Color.theme.opacity(0.2) : Color.theme.opacity(0.1))
                     )
                     .onHover { hover in
                         hoveredMealID = hover ? meal.id : nil

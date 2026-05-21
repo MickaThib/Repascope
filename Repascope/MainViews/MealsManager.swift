@@ -28,16 +28,14 @@ struct MealsManager: View {
                     isEditingNewMeal = true  // déclenché après que la vue est montée
                 }
             })
-                .frame(width: 300)
-                .padding(.vertical, 20)
-                .padding(.leading, 20)
-                .padding(.trailing, 5)
+                .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 5))
+                .frame(minWidth: 300, maxWidth: 350)
             
             if let meal = selectedMeal {
                 EditMealView(meal: meal, startEditing: $isEditingNewMeal)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding(.vertical, 20)
                     .padding(.horizontal, 5)
+
             } else {
                 //TODO: a terminer
                 NoMealSelectedView()
@@ -46,13 +44,10 @@ struct MealsManager: View {
             }
             
             IngredientListView()
-                .frame(width: 300)
-                .padding(.vertical, 20)
-                .padding(.leading, 5)
-                .padding(.trailing, 20)
+                .padding(EdgeInsets(top: 20, leading: 5, bottom: 20, trailing: 20))
+                .frame(minWidth: 300, maxWidth: 350)
             
         }
-        .frame(maxWidth: .infinity)
         .toolbar {
             ToolbarItemGroup(placement: .navigation) {
                 Button {
