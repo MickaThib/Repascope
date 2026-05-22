@@ -31,12 +31,21 @@ struct EditMealView: View {
                     .frame(maxWidth: .infinity)
                     .clipped()
             } else {
-                Image(systemName: "camera")
-                    .font(.system(size: 50))
-                    .foregroundStyle(Color.white)
-                    .frame(height: 200)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.gray.opacity(0.3))
+                VStack {
+                    Image(systemName: "camera")
+                        .font(.system(size: 50))
+                        
+                    Button("Ajouter une image") {
+                        //TODO: Ajouter une image
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.top, 5)
+
+                }
+                .foregroundStyle(Color.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 200)
+                .background(Color.theme.opacity(0.3))
             }
             
             ScrollView {
@@ -129,9 +138,9 @@ struct EditMealView: View {
         }
         .frame(minWidth: 600)
         .background(
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
+            Color.white
         )
+        .clipShape(RoundedRectangle(cornerRadius: 10))
         .onChange(of: startEditing) { _, newValue in
             if newValue {
                 isEditing = true

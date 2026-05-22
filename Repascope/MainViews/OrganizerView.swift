@@ -38,7 +38,7 @@ struct OrganizerView: View {
                     Spacer()
                     
                     Text(createWeekTitleString())
-                        .font(.title2)
+                        .font(.system(size: 18, weight: .bold))
                     
                     Spacer()
                     
@@ -55,7 +55,7 @@ struct OrganizerView: View {
                     .buttonStyle(.plain)
 
                 }
-                .foregroundStyle(Color.themeContrast)
+                .foregroundStyle(Color.theme)
                 .padding([.horizontal, .top])
                 .padding(.bottom, 0)
                 

@@ -56,7 +56,7 @@ struct PlanningMealFrame: View {
         .frame(minWidth: 150, maxWidth: .infinity)
         .background {
             RoundedRectangle(cornerRadius: 5)
-                .fill(itemColor().opacity(0.2))
+                .fill(itemColor().opacity(0.3))
         }
     }
     

@@ -18,56 +18,56 @@ struct IngredientCustomLabel: View {
     @FocusState private var isFocused: Bool
     
     var body: some View {
-            
-            HStack {
-                if isEditing {
-                    TextField(title, text: $newName)
-                        .focused($isFocused)
-                        .onSubmit { commitEdit() }
-                        .onChange(of: isFocused) { _, focused in
-                            if !focused && isEditing {
-                                commitEdit()
-                            }
-                        }
-                } else {
-                    Text(title)
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundStyle(Color.black.opacity(0.7))
-                }
-                
-                Spacer()
-                
-                if newTitleAction != nil {
-                    Button {
-                        if isEditing {
+        
+        HStack {
+            if isEditing {
+                TextField(title, text: $newName)
+                    .focused($isFocused)
+                    .onSubmit { commitEdit() }
+                    .onChange(of: isFocused) { _, focused in
+                        if !focused && isEditing {
                             commitEdit()
-                        } else {
-                            newName = title
-                            isEditing = true
-                            isFocused = true
                         }
-                    } label: {
-                        Image(systemName: "pencil")
                     }
-                    .buttonStyle(.plain)
-                    .padding(.horizontal)
-                }
+            } else {
+                Text(title)
+                    .font(.system(size: 14, weight: .medium))
+            }
+            
+            Spacer()
+            
+            if newTitleAction != nil {
                 Button {
-                    deleteAction()
+                    if isEditing {
+                        commitEdit()
+                    } else {
+                        newName = title
+                        isEditing = true
+                        isFocused = true
+                    }
                 } label: {
-                    Image(systemName: "xmark")
+                    Image(systemName: "pencil")
                 }
                 .buttonStyle(.plain)
-                .padding(.trailing)
+                .padding(.horizontal)
             }
+            Button {
+                deleteAction()
+            } label: {
+                Image(systemName: "xmark")
+            }
+            .buttonStyle(.plain)
+            .padding(.trailing)
+        }
         .frame(maxWidth: .infinity)
+        .foregroundStyle(Color.themeContrast)
     }
     
     private func commitEdit() {
-            guard !newName.isEmpty else { return }
-            newTitleAction?(newName)
-            isEditing = false
-        }
+        guard !newName.isEmpty else { return }
+        newTitleAction?(newName)
+        isEditing = false
+    }
     
 }
 
