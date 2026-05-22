@@ -45,7 +45,7 @@ struct EditMealView: View {
                 .foregroundStyle(Color.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 200)
-                .background(Color.theme.opacity(0.3))
+                .background(Color.theme.opacity(0.5))
             }
             
             ScrollView {

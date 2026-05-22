@@ -31,11 +31,12 @@ struct MealList: View {
                 .buttonStyle(.plain)
 
             }
-            .foregroundStyle(Color.theme)
+            .foregroundStyle(Color.white)
             .frame(height: 45)
-            
-            Divider()
-            
+            .background(
+                Color.theme
+            )
+                        
             List {
                 ForEach(mealList) { meal in
                     MealListItem(meal: meal)
@@ -59,5 +60,19 @@ struct MealList: View {
 }
 
 #Preview {
-    MealList()
+    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+    let container = try! ModelContainer(for: MealItem.self, configurations: config)
+    
+    let meals = [
+        MealItem(title: "Pâtes carbo", photo: nil),
+        MealItem(title: "Pizza maison", photo: nil),
+        MealItem(title: "Quiche aux poireaux", photo: nil),
+        MealItem(title: "Lasagnes", photo: nil),
+        MealItem(title: "Cordon bleu", photo: nil)
+    ]
+    
+    for meal in meals { container.mainContext.insert(meal) }
+    
+    return MealList()
+        .modelContainer(container)
 }

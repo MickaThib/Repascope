@@ -55,16 +55,22 @@ struct OrganizerView: View {
                     .buttonStyle(.plain)
 
                 }
-                .foregroundStyle(Color.theme)
-                .padding([.horizontal, .top])
-                .padding(.bottom, 0)
+                .foregroundStyle(Color.white)
+                .padding(.horizontal)
+                .padding(.top, 12)
+                .padding(.bottom, 12)
+                .background(
+                    Color.theme
+                )
                 
                 PlanningView(weekToDisplay: weekToDisplay)
                     .frame(maxWidth: .infinity)
             }
             .background(
+                Color.white
+            )
+            .clipShape(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.white)
             )
             
             //MARK: Volet droit

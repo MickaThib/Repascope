@@ -27,7 +27,6 @@ struct IngredientListView: View {
                 
                 Text("Ingrédients")
                     .font(.system(size: 24, weight: .bold))
-                    .foregroundStyle(Color.noon)
                 
                 Spacer()
                 
@@ -39,8 +38,12 @@ struct IngredientListView: View {
                 .padding(.trailing)
                 .buttonStyle(.borderless)
             }
+            .foregroundStyle(.white)
             .padding(.horizontal)
-            .padding(.top)
+            .padding(.vertical, 10)
+            .background(
+                Color.noon
+            )
             
             //TODO: Recherche
             TextField("Rechercher", text: .constant(""))
@@ -65,8 +68,10 @@ struct IngredientListView: View {
             .padding(.bottom, 20)
         }
         .background(
+            Color.white
+        )
+        .clipShape(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
         )
         .alert("Supprimer \(ingredientToDelete?.name ?? "cet ingrédient") ?", isPresented: $showDeleteAlert) {
             Button("Annuler", role: .cancel) {

@@ -64,10 +64,11 @@ struct ShoppingListView: View {
                 }
                 .buttonStyle(.plain)
             }
-            .foregroundStyle(Color.noon)
+            .foregroundStyle(Color.white)
             .frame(height: 45)
-            
-            Divider()
+            .background(
+                Color.noon
+            )
             
             Group {
                 List {

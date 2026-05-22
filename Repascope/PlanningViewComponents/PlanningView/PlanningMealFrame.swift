@@ -115,7 +115,7 @@ struct PlanningMealFrame: View {
             .overlay {
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(
-                        isTargeted ? itemColor().opacity(0.5) : itemColor().opacity(0.5),
+                        isTargeted ? itemColor() : itemColor().opacity(0.5),
                         lineWidth: isTargeted ? 2 : 1
                     )
             }
@@ -308,5 +308,12 @@ struct PlanningMealFrame: View {
         slot: .noon,
         viewModel: PlanningViewModel(),
         plannedMeals: []
-    )
+    ).frame(width: 400, height: 80)
+    
+    PlanningMealFrame(
+        day: Date(),
+        slot: .evening,
+        viewModel: PlanningViewModel(),
+        plannedMeals: []
+    ).frame(width: 400, height: 80)
 }

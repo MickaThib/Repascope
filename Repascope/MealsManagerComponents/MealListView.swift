@@ -28,7 +28,6 @@ struct MealListView: View {
                 
                 Text("Mes repas")
                     .font(.system(size: 24, weight: .bold))
-                    .foregroundStyle(Color.theme)
 
                 Spacer()
                 
@@ -40,8 +39,12 @@ struct MealListView: View {
                 .padding(.trailing)
                 .buttonStyle(.borderless)
             }
+            .foregroundStyle(Color.white)
             .padding(.horizontal)
-            .padding(.top)
+            .padding(.vertical, 10)
+            .background(
+                Color.theme
+            )
             
             //TODO: Recherche
             TextField("Rechercher", text: .constant(""))
@@ -69,8 +72,10 @@ struct MealListView: View {
             .padding(.bottom, 20)
         }
         .background(
+            Color.white
+        )
+        .clipShape(
             RoundedRectangle(cornerRadius: 10)
-                .fill(.white)
         )
         .alert("Supprimer \(mealToDelete?.title ?? "ce repas") ?", isPresented: $showDeleteAlert) {
             Button("Annuler", role: .cancel){

@@ -31,7 +31,7 @@ struct ContentView: View {
         .background(
             LinearGradient(
                 colors: [
-                    .theme.opacity(0.2),
+                    .theme.opacity(0.3),
                     .theme.opacity(0.1)
                 ],
                 startPoint: .bottom,
