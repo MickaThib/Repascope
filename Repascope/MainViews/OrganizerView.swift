@@ -17,7 +17,7 @@ struct OrganizerView: View {
         
     var body: some View {
         
-        HStack(spacing: 20) {
+        HStack(spacing: 30) {
             
             //MARK: Contenu principal
             VStack (spacing: 0) {
@@ -72,6 +72,7 @@ struct OrganizerView: View {
             .clipShape(
                 RoundedRectangle(cornerRadius: 10)
             )
+            .shadow(color: Color.theme.opacity(0.3),radius: 6, x: 5, y: 5)
             
             //MARK: Volet droit
             VSplitView {
@@ -79,12 +80,15 @@ struct OrganizerView: View {
                 //Section haute
                 MealList()
                 .frame(minHeight: 100) // hauteur minimale pour éviter l'écrasement
+
                                 
                 //Section basse
                 ShoppingListView(date: weekToDisplay)
                 .frame(minHeight: 100) // hauteur minimale pour éviter l'écrasement
             }
             .frame(width: 300)
+            .shadow(color: Color.theme.opacity(0.3),radius: 6, x: 5, y: 5)
+
         }
         .padding(.top, 20)
         .padding(.horizontal, 30)
