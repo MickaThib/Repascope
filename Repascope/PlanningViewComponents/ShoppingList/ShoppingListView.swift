@@ -16,18 +16,17 @@ struct ShoppingListView: View {
     
     // Calcule le début et la fin de la semaine
     private var startOfWeek: Date {
-        Calendar.current.dateInterval(of: .weekOfYear, for: date)!.start
-    }
-
-    private var endOfWeek: Date {
-        Calendar.current.date(byAdding: .day, value: 7, to: startOfWeek)!
+        CalendarViewModel.firstDayOfWeek(
+            startWeekday: .saturday,
+            from: date
+        )!
     }
     
     @Query(sort: \ShoppingList.weekStart) private var shoppingLists:[ShoppingList]
     
-    private var currentList:ShoppingList? {
+    private var currentList: ShoppingList? {
         shoppingLists.first {
-            Calendar.current.isDate($0.weekStart, equalTo: startOfWeek, toGranularity: .weekOfYear)
+            CalendarViewModel.calendar.isDate($0.weekStart, inSameDayAs: startOfWeek)
         }
     }
     

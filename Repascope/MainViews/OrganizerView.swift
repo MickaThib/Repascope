@@ -24,7 +24,7 @@ struct OrganizerView: View {
                 //MARK: Navigation buttons
                 HStack(alignment: .firstTextBaseline) {
                     Button {
-                        if let newWeekToDisplay = calendarViewModel.calendar.date(byAdding: .day, value: -7, to: weekToDisplay) {
+                        if let newWeekToDisplay = CalendarViewModel.calendar.date(byAdding: .day, value: -7, to: weekToDisplay) {
                             weekToDisplay = newWeekToDisplay
                         }
                     } label: {
@@ -43,7 +43,7 @@ struct OrganizerView: View {
                     Spacer()
                     
                     Button {
-                        if let newWeekToDisplay = calendarViewModel.calendar.date(byAdding: .day, value: 7, to: weekToDisplay) {
+                        if let newWeekToDisplay = CalendarViewModel.calendar.date(byAdding: .day, value: 7, to: weekToDisplay) {
                             weekToDisplay = newWeekToDisplay
                         }
                     } label: {
@@ -121,8 +121,8 @@ struct OrganizerView: View {
     
     func createWeekTitleString() -> String {
         
-        guard let startOfWeek = calendarViewModel.firstDayOfWeek(startWeekday: .friday, from: weekToDisplay),
-              let finalDate = calendarViewModel.calendar.date(byAdding: .day, value: 7, to: startOfWeek)
+        guard let startOfWeek = CalendarViewModel.firstDayOfWeek(startWeekday: .friday, from: weekToDisplay),
+              let finalDate = CalendarViewModel.calendar.date(byAdding: .day, value: 7, to: startOfWeek)
         else {
             return "Planning de la semaine"
         }

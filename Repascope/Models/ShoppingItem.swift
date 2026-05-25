@@ -13,11 +13,13 @@ final class ShoppingItem {
     var name: String = ""
     var quantity: Int
     var isChecked: Bool = false
+    var justAdded: Bool
     
     var shoppingList: ShoppingList?
     
-    init(name: String, quantity: Int = 1) {
+    init(name: String, quantity: Int = 1, justAdded: Bool = false) {
         self.name = name
         self.quantity = quantity
+        self.justAdded = justAdded
     }
 }

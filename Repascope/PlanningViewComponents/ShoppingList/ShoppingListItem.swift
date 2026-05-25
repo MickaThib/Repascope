@@ -52,7 +52,7 @@ struct ShoppingListItem: View {
                 .buttonStyle(.plain)
             
         }
-        .foregroundStyle(Color.themeContrast)
+        .foregroundStyle(item.justAdded ? Color.noon : Color.themeContrast)
         .opacity(item.isChecked ? 0.5 : 1)
         .onTapGesture {
             item.isChecked.toggle()

@@ -54,7 +54,8 @@ struct PlanningView: View {
                 ForEach(days, id: \.self) { day in
                     PlanningLine(
                         day: day,
-                        viewModel: planningViewModel,
+                        planningViewModel: planningViewModel,
+                        calendarViewModel: calendarViewModel,
                         plannedMeals: allPlannedMeals
                     )
                 }

@@ -11,7 +11,8 @@ import SwiftData
 struct PlanningLine: View {
     
     let day: Date
-    let viewModel:PlanningViewModel
+    let planningViewModel:PlanningViewModel
+    let calendarViewModel: CalendarViewModel
     let plannedMeals: [PlannedMeal]
     
     let calendar: Calendar = {
@@ -50,8 +51,9 @@ struct PlanningLine: View {
             PlanningMealFrame(
                 day: day,
                 slot: .noon,
-                viewModel: viewModel,
-                plannedMeals: viewModel.planned(
+                planningViewModel: planningViewModel,
+                calendarViewModel: calendarViewModel,
+                plannedMeals: planningViewModel.planned(
                     for: day,
                     slot: .noon,
                     in: plannedMeals
@@ -61,8 +63,9 @@ struct PlanningLine: View {
             PlanningMealFrame(
                 day: day,
                 slot: .evening,
-                viewModel: viewModel,
-                plannedMeals: viewModel.planned(
+                planningViewModel: planningViewModel,
+                calendarViewModel: calendarViewModel,
+                plannedMeals: planningViewModel.planned(
                     for: day,
                     slot: .evening,
                     in: plannedMeals
@@ -78,5 +81,5 @@ struct PlanningLine: View {
 }
 
 #Preview {
-    PlanningLine(day: Date(), viewModel: PlanningViewModel(), plannedMeals: [])
+    PlanningLine(day: Date(), planningViewModel: PlanningViewModel(), calendarViewModel: CalendarViewModel(), plannedMeals: [])
 }

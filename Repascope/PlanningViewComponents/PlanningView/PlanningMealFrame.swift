@@ -11,10 +11,13 @@ import SwiftData
 struct PlanningMealFrame: View {
     
     @Environment(\.modelContext) private var modelContext
+    @Query(sort: \ShoppingList.weekStart) private var shoppingLists:[ShoppingList]
+
     
     let day: Date
     let slot: MealSlot
-    let viewModel:PlanningViewModel
+    let planningViewModel:PlanningViewModel
+    let calendarViewModel: CalendarViewModel
     @Query(sort: \MealItem.title) private var meals: [MealItem]
     let plannedMeals:[PlannedMeal]
     
@@ -156,13 +159,16 @@ struct PlanningMealFrame: View {
                 return false
             }
             
-            viewModel.setPlannedMeal(
+            planningViewModel.setPlannedMeal(
                 meal,
                 date: day,
                 slot: slot,
                 existingPlannedMeals: plannedMeals,
                 modelContext: modelContext
             )
+            
+            //TODO: Ajouter les ingrédients à la liste de courses
+            addIngredientsToShoppingListFor(meal: meal, to: day)
             
             return true
             
@@ -172,7 +178,7 @@ struct PlanningMealFrame: View {
                 return false
             }
             
-            viewModel.movePlannedMeal(
+            planningViewModel.movePlannedMeal(
                 plannedMeal,
                 to: day,
                 slot: slot,
@@ -200,11 +206,13 @@ struct PlanningMealFrame: View {
                 return false
             }
             
-            viewModel.replaceMeal(
+            planningViewModel.replaceMeal(
                 in: targetPlannedMeal,
                 with: meal,
                 modelContext: modelContext
             )
+            
+            addIngredientsToShoppingListFor(meal: meal, to: day)
             
             return true
             
@@ -214,7 +222,7 @@ struct PlanningMealFrame: View {
                 return false
             }
             
-            viewModel.swapPlannedMeals(sourcePlannedMeal, with: targetPlannedMeal, modelContext: modelContext)
+            planningViewModel.swapPlannedMeals(sourcePlannedMeal, with: targetPlannedMeal, modelContext: modelContext)
             
             return true
         }
@@ -225,7 +233,7 @@ struct PlanningMealFrame: View {
             meal: plannedMeal.meal,
             slot: plannedMeal.slot,
             deleteAction: {
-                viewModel.delete(
+                planningViewModel.delete(
                     plannedMeal: plannedMeal,
                     plannedMealsForSlot: plannedMeals,
                     modelContext: modelContext
@@ -274,16 +282,58 @@ struct PlanningMealFrame: View {
         }
     }
     
+    private func addIngredientsToShoppingListFor(meal: MealItem, to date: Date) {
+                
+        guard let startOfWeek = CalendarViewModel.firstDayOfWeek(
+            startWeekday: .saturday,
+            from: date
+        ) else {
+            return
+        }
+        
+        let normalizedStartOfWeek = CalendarViewModel.calendar.startOfDay(for: startOfWeek)
+        
+        let currentShoppingList = shoppingLists.first {
+            CalendarViewModel.calendar.isDate($0.weekStart, inSameDayAs: normalizedStartOfWeek)
+        }
+        
+        let shoppingList: ShoppingList
+        
+        if let currentShoppingList {
+            shoppingList = currentShoppingList
+        } else {
+            shoppingList = ShoppingList(weekStart: normalizedStartOfWeek)
+            modelContext.insert(shoppingList)
+        }
+        
+        for ingredient in meal.ingredients {
+            if let existingItem = shoppingList.items.first(where: { $0.name == ingredient.ingredient.name }) {
+                existingItem.quantity += ingredient.quantity
+            } else {
+                let item = ShoppingItem(
+                    name: ingredient.ingredient.name,
+                    quantity: ingredient.quantity,
+                    justAdded: true
+                )
+                shoppingList.items.append(item)
+            }
+        }
+        
+        do { try modelContext.save() } catch { print("Error : \(error)") }
+    }
+    
     private func mealPickerPopover() -> some View {
         MealPickerPopover(meals: meals) { selectedMeal in
-            viewModel.setPlannedMeal(
+            planningViewModel.setPlannedMeal(
                 selectedMeal,
                 date: day,
                 slot: slot,
                 existingPlannedMeals: plannedMeals,
                 modelContext: modelContext
             )
-
+            
+            addIngredientsToShoppingListFor(meal: selectedMeal, to: day)
+            
             showMealPicker = false
         }
     }
@@ -298,22 +348,24 @@ struct PlanningMealFrame: View {
 }
 
 #Preview {
-    let meal1 = MealItem(title: "Quiche lorraine", photo: nil)
-    let meal2 = MealItem(title: "Haricots verts", photo: nil)
-    let pm1 = PlannedMeal(date: Date(), slot: .noon, position: 0, meal: meal1)
-    let pm2 = PlannedMeal(date: Date(), slot: .noon, position: 1, meal: meal2)
+    //let meal1 = MealItem(title: "Quiche lorraine", photo: nil)
+    //let meal2 = MealItem(title: "Haricots verts", photo: nil)
+    //let pm1 = PlannedMeal(date: Date(), slot: .noon, position: 0, meal: meal1)
+    //let pm2 = PlannedMeal(date: Date(), slot: .noon, position: 1, meal: meal2)
     
     PlanningMealFrame(
         day: Date(),
         slot: .noon,
-        viewModel: PlanningViewModel(),
+        planningViewModel: PlanningViewModel(),
+        calendarViewModel: CalendarViewModel(),
         plannedMeals: []
     ).frame(width: 400, height: 80)
     
     PlanningMealFrame(
         day: Date(),
         slot: .evening,
-        viewModel: PlanningViewModel(),
+        planningViewModel: PlanningViewModel(),
+        calendarViewModel: CalendarViewModel(),
         plannedMeals: []
     ).frame(width: 400, height: 80)
 }
