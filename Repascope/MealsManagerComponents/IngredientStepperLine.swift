@@ -26,9 +26,8 @@ struct IngredientStepperLine: View {
                         }
                     }
                 }
-            
-            
         }
+        .foregroundStyle(Color.themeContrast)
         .padding(.horizontal)
     }
 }

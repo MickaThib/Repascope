@@ -28,10 +28,11 @@ struct NoMealSelectedView: View {
             }
             .foregroundStyle(Color.theme.opacity(0.7))
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(minWidth: 400, maxWidth: .infinity, maxHeight: .infinity)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(Color.white)
+                .shadow(color: Color.theme.opacity(0.3),radius: 6, x: 5, y: 5)
         )
     }
 }

@@ -20,7 +20,8 @@
 
 ## EDIT MEAL VIEW
 - [ ] Ajouter une photo
-- [ ] Possibilité d'ajouter un ingrédient directement depuis l'écran d'édition du repas, en l'insérant directement dans la recette
+- [ ] Modifier le stepper pour réduire la hauteur des lignes
+- [X] Possibilité d'ajouter un ingrédient directement depuis l'écran d'édition du repas, en l'insérant directement dans la recette
 
 ## SETTINGS
 - [ ] Choisir la durée de la semaine et quel jour elle commence

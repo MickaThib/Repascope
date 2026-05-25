@@ -41,7 +41,6 @@ struct MealsManager: View {
             } else {
                 //TODO: a terminer
                 NoMealSelectedView()
-                    .shadow(color: Color.theme.opacity(0.3),radius: 6, x: 5, y: 5)
                     .padding(.vertical, 20)
                     .padding(.horizontal, 5)
             }
