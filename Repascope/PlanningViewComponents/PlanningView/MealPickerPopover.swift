@@ -50,9 +50,9 @@ struct MealPickerPopover: View {
 
 #Preview {
     let meals = [
-        MealItem(title: "Pâtes carbo", photo: nil),
-        MealItem(title: "Spaghetti bolognaise", photo: nil),
-        MealItem(title: "Quiche lorraine", photo: nil),
+        MealItem(title: "Pâtes carbo"),
+        MealItem(title: "Spaghetti bolognaise"),
+        MealItem(title: "Quiche lorraine"),
 
     ]
     MealPickerPopover(meals: meals, onSelect: {_ in })

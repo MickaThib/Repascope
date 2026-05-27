@@ -114,12 +114,12 @@ struct MealListView: View {
     )
 
     let meals = [
-        MealItem(title: "Raclette", photo: nil, ingredients: []),
-        MealItem(title: "Hamburger maison", photo: nil, ingredients: []),
-        MealItem(title: "Hot dogs", photo: nil, ingredients: []),
-        MealItem(title: "Poisson pané", photo: nil, ingredients: []),
-        MealItem(title: "Quiche lorraine", photo: nil, ingredients: []),
-        MealItem(title: "Lasagnes", photo: nil, ingredients: [])
+        MealItem(title: "Raclette", ingredients: []),
+        MealItem(title: "Hamburger maison", ingredients: []),
+        MealItem(title: "Hot dogs", ingredients: []),
+        MealItem(title: "Poisson pané", ingredients: []),
+        MealItem(title: "Quiche lorraine", ingredients: []),
+        MealItem(title: "Lasagnes", ingredients: [])
     ]
 
     for meal in meals {

@@ -20,7 +20,7 @@ struct MealsManager: View {
         HSplitView {
             
             MealListView(selectedMeal: $selectedMeal, addMeal: {
-                let newMeal = MealItem(title: "Nouveau plat", photo: nil)
+                let newMeal = MealItem(title: "Nouveau plat")
                 modelContext.insert(newMeal)
                 try? modelContext.save()
                 selectedMeal = newMeal
@@ -77,12 +77,12 @@ struct MealsManager: View {
     ]
     
     let meals = [
-        MealItem(title: "Raclette", photo: nil, ingredients: []),
-        MealItem(title: "Hamburger maison", photo: nil, ingredients: []),
-        MealItem(title: "Hot dogs", photo: nil, ingredients: []),
-        MealItem(title: "Poisson pané", photo: nil, ingredients: []),
-        MealItem(title: "Quiche lorraine", photo: nil, ingredients: []),
-        MealItem(title: "Lasagnes", photo: nil, ingredients: [])
+        MealItem(title: "Raclette", ingredients: []),
+        MealItem(title: "Hamburger maison", ingredients: []),
+        MealItem(title: "Hot dogs", ingredients: []),
+        MealItem(title: "Poisson pané", ingredients: []),
+        MealItem(title: "Quiche lorraine", ingredients: []),
+        MealItem(title: "Lasagnes", ingredients: [])
     ]
     
     for ingredient in ingredients { container.mainContext.insert(ingredient) }

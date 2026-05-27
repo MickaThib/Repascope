@@ -62,6 +62,6 @@ struct PlanningMealItem: View {
 }
 
 #Preview {
-    let mealItem = MealItem(title: "Pates carbo", photo: nil)
+    let mealItem = MealItem(title: "Pates carbo")
     PlanningMealItem(meal: mealItem, slot: .noon, deleteAction: {}, isTargetedForReplacement: false)
 }

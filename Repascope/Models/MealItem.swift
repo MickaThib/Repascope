@@ -11,9 +11,8 @@ import SwiftData
 @Model
 final class MealItem {
     var title: String
-    var photo: String?
+    var imageData: Data?
     var notes: String = ""
-
     
     @Relationship(deleteRule: .cascade)
     var ingredients: [MealIngredient]
@@ -21,9 +20,9 @@ final class MealItem {
     @Relationship(deleteRule: .cascade, inverse: \PlannedMeal.meal)
     var plannedMeals: [PlannedMeal] = []
 
-    init(title: String, photo: String?, ingredients: [MealIngredient] = []) {
+    init(title: String, imageData: Data? = nil, ingredients: [MealIngredient] = []) {
         self.title = title
-        self.photo = photo
+        self.imageData = imageData
         self.ingredients = ingredients
     }
 }

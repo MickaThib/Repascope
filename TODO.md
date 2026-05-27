@@ -17,7 +17,8 @@
 - [ ] Drag depuis une case du planning vers l'extérieur = suppression ?
 
 ## EDIT MEAL VIEW
-- [ ] Ajouter une photo
+- [X] Ajouter une photo
+- [ ] Photo : hover pour afficher bouton "supprimer/remplacer l'image"
 - [ ] Modifier le stepper pour réduire la hauteur des lignes ?
 
 ## SETTINGS

@@ -64,11 +64,11 @@ struct MealList: View {
     let container = try! ModelContainer(for: MealItem.self, configurations: config)
     
     let meals = [
-        MealItem(title: "Pâtes carbo", photo: nil),
-        MealItem(title: "Pizza maison", photo: nil),
-        MealItem(title: "Quiche aux poireaux", photo: nil),
-        MealItem(title: "Lasagnes", photo: nil),
-        MealItem(title: "Cordon bleu", photo: nil)
+        MealItem(title: "Pâtes carbo"),
+        MealItem(title: "Pizza maison"),
+        MealItem(title: "Quiche aux poireaux"),
+        MealItem(title: "Lasagnes"),
+        MealItem(title: "Cordon bleu")
     ]
     
     for meal in meals { container.mainContext.insert(meal) }

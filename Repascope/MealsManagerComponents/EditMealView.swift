@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import UniformTypeIdentifiers
 
 struct EditMealView: View {
     
@@ -62,32 +63,70 @@ struct EditMealView: View {
 struct PhotoView: View {
     
     let meal: MealItem
+    @State private var showImporter = false
     
     var body: some View {
         
-        if let photo = meal.photo {
-            Image(photo)
-                .resizable()
-                .scaledToFill()
-                .frame(height: 200)
-                .frame(maxWidth: .infinity)
-                .clipped()
-        } else {
-            VStack {
-                Image(systemName: "camera")
-                    .font(.system(size: 50))
-                
-                Button("Ajouter une image") {
-                    //TODO: Ajouter une image
+        VStack {
+            if let photoData = meal.imageData,
+               let nsImage = NSImage(data: photoData){
+                Image(nsImage: nsImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 200)
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+            } else {
+                VStack {
+                    Image(systemName: "camera")
+                        .font(.system(size: 50))
+                    
+                    Button("Ajouter une image") {
+                        //TODO: Ajouter une image
+                        showImporter = true
+                    }
+                    .buttonStyle(.plain)
+                    
                 }
-                .buttonStyle(.plain)
-                .padding(.top, 5)
-                
+                .foregroundStyle(Color.white)
+                .frame(maxWidth: .infinity)
+                .frame(height: 200)
+                .contentShape(RoundedRectangle(cornerRadius: 10))
+                .background(Color.theme.opacity(0.5))
             }
-            .foregroundStyle(Color.white)
-            .frame(maxWidth: .infinity)
-            .frame(height: 200)
-            .background(Color.theme.opacity(0.5))
+        }
+        .dropDestination(for: URL.self) { urls, location in
+            
+            guard let url = urls.first else { return false }
+            
+            let allowedExtensions = ["jpg", "jpeg", "png", "heic", "webp"]
+            guard allowedExtensions.contains(url.pathExtension.lowercased()) else {
+                return false
+            }
+            
+            do {
+                let data = try Data(contentsOf: url)
+                meal.imageData = data
+                return true
+            } catch {
+                print("Erreur import image : ", error)
+                return false
+            }
+        }
+        .fileImporter(isPresented: $showImporter, allowedContentTypes: [.image]) { result in
+            
+            switch result {
+            case .success(let url):
+                do {
+                    let data = try Data(contentsOf: url)
+                    meal.imageData = data
+                } catch {
+                    print(error)
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 }
@@ -248,7 +287,7 @@ struct EditMealIngredientList: View {
 }
 
 #Preview {
-    EditMealView(meal: MealItem(title: "Pâtes bolognaises", photo: nil, ingredients: [
+    EditMealView(meal: MealItem(title: "Pâtes bolognaises", ingredients: [
         MealIngredient(ingredient: Ingredient(name: "Pâtes"), quantity: 1),
         MealIngredient(ingredient: Ingredient(name: "Sauce tomate"), quantity: 1),
         MealIngredient(ingredient: Ingredient(name: "Viande hachée"), quantity: 1)

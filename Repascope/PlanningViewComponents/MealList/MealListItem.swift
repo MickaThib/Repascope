@@ -33,5 +33,5 @@ struct MealListItem: View {
 }
 
 #Preview {
-    MealListItem(meal: MealItem(title: "Quiche lorraine", photo: nil))
+    MealListItem(meal: MealItem(title: "Quiche lorraine"))
 }
