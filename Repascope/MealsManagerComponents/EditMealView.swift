@@ -210,7 +210,9 @@ struct EditMealIngredientList: View {
                     deleteIngredient(ingredient)
                 }
             )
-            .frame(height: 30)
+            .frame(height: 20)
+            
+            Divider()
         }
     }
     
@@ -249,7 +251,7 @@ struct EditMealIngredientList: View {
     EditMealView(meal: MealItem(title: "Pâtes bolognaises", photo: nil, ingredients: [
         MealIngredient(ingredient: Ingredient(name: "Pâtes"), quantity: 1),
         MealIngredient(ingredient: Ingredient(name: "Sauce tomate"), quantity: 1),
-        MealIngredient(ingredient: Ingredient(name: "Viande hâchée"), quantity: 1)
+        MealIngredient(ingredient: Ingredient(name: "Viande hachée"), quantity: 1)
     ]), startEditing: .constant(false))
     .frame(height: 800)
 }

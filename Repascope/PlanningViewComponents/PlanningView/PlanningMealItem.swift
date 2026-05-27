@@ -13,6 +13,7 @@ struct PlanningMealItem: View {
     let slot: MealSlot
     let deleteAction: () -> Void
     @State private var isHovering: Bool = false
+    let isTargetedForReplacement: Bool
     
     var body: some View {
         HStack {
@@ -22,7 +23,13 @@ struct PlanningMealItem: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 5)
-                        .fill(isHovering ? Color.white.opacity(0.5) : Color.white)
+                        .fill(
+                            isTargetedForReplacement
+                            ? Color.white.opacity(0.5)
+                            : isHovering
+                                ? Color.white.opacity(0.5)
+                                : Color.white
+                        )
                 )
         }
         .overlay {
@@ -56,5 +63,5 @@ struct PlanningMealItem: View {
 
 #Preview {
     let mealItem = MealItem(title: "Pates carbo", photo: nil)
-    PlanningMealItem(meal: mealItem, slot: .noon, deleteAction: {})
+    PlanningMealItem(meal: mealItem, slot: .noon, deleteAction: {}, isTargetedForReplacement: false)
 }

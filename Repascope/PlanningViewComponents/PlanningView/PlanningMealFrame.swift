@@ -246,11 +246,12 @@ struct PlanningMealFrame: View {
                     plannedMealsForSlot: plannedMeals,
                     modelContext: modelContext
                 )
-                //TODO: Supprimer les ingrédients des repas remplacés
+                // Supprimer les ingrédients des repas remplacés
                 if let deletedMeal {
                     removeIngredientsFromShoppingList(for: deletedMeal, on: day)
                 }
-            }
+            },
+            isTargetedForReplacement: targetedReplacementID == plannedMeal.persistentModelID
         )
         .frame(minHeight: 40, maxHeight: .infinity)
         .overlay {
@@ -268,16 +269,15 @@ struct PlanningMealFrame: View {
             Text(plannedMeal.meal?.title ?? "Repas")
                 .foregroundStyle(itemColor())
                 .fontWeight(.bold)
-                .padding(8)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 50)
                 .frame(height: 40)
+                .background(.white, in: RoundedRectangle(cornerRadius: 6))
                 .overlay(
-                    RoundedRectangle(cornerRadius: 3)
-                        .stroke(itemColor(), lineWidth: 4)
+                    RoundedRectangle(cornerRadius: 6)
+                        .strokeBorder(itemColor(), lineWidth: 2)
                 )
-                .background(
-                    RoundedRectangle(cornerRadius: 3)
-                        .fill(.white)
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 6))
                 .opacity(0.5)
         }
         .dropDestination(for: PlanningDropTransfer.self) { transfers, _ in
