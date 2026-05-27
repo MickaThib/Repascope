@@ -162,7 +162,6 @@ struct CategoryTextField: View {
         HStack {
             Image(systemName: "circle")
                 .font(.system(size: 18))
-                .opacity(0.8)
             
             TextField("", text: $newItemName)
                 .focused($isInputFocused)

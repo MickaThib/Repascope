@@ -201,16 +201,23 @@ struct PlanningMealFrame: View {
             
         case .mealItem:
             guard let meal = modelContext.model(for: transfer.persistentID) as? MealItem else {
-                print("🔴 MealItem introuvable")
+                print("MealItem introuvable")
                 return false
             }
+            
+            let oldMeal = targetPlannedMeal.meal
             
             planningViewModel.replaceMeal(
                 in: targetPlannedMeal,
                 with: meal,
                 modelContext: modelContext
             )
-            //TODO: Supprimer les ingrédients des repas remplacés
+            
+            // Supprime les anciens ingrédients
+            if let oldMeal {
+                removeIngredientsFromShoppingList(for: oldMeal, on: day)
+            }
+            // Ajoute les nouveaux ingrédients
             addIngredientsToShoppingListFor(meal: meal, to: day)
             
             return true
@@ -228,16 +235,21 @@ struct PlanningMealFrame: View {
     }
     
     private func replaceableMealItem(for plannedMeal: PlannedMeal) -> some View {
+                
         PlanningMealItem(
             meal: plannedMeal.meal,
             slot: plannedMeal.slot,
             deleteAction: {
+                let deletedMeal = plannedMeal.meal
                 planningViewModel.delete(
                     plannedMeal: plannedMeal,
                     plannedMealsForSlot: plannedMeals,
                     modelContext: modelContext
                 )
                 //TODO: Supprimer les ingrédients des repas remplacés
+                if let deletedMeal {
+                    removeIngredientsFromShoppingList(for: deletedMeal, on: day)
+                }
             }
         )
         .frame(minHeight: 40, maxHeight: .infinity)
@@ -282,23 +294,30 @@ struct PlanningMealFrame: View {
         }
     }
     
-    private func addIngredientsToShoppingListFor(meal: MealItem, to date: Date) {
-                
+    private func normalizedStartOfWeek(for day: Date) -> Date? {
         guard let startOfWeek = CalendarViewModel.firstDayOfWeek(
             startWeekday: .saturday,
-            from: date
-        ) else {
-            return
-        }
+            from: day
+        ) else { return nil }
         
-        let normalizedStartOfWeek = CalendarViewModel.calendar.startOfDay(for: startOfWeek)
+        return CalendarViewModel.calendar.startOfDay(for: startOfWeek)
+    }
+    
+    private func currentShoppingList(for day: Date) -> ShoppingList? {
+        if let normalizedStartOfWeek = normalizedStartOfWeek(for: day) {
+            return shoppingLists.first {
+                CalendarViewModel.calendar.isDate($0.weekStart, inSameDayAs: normalizedStartOfWeek)
+            }
+        } else { return nil }
+    }
+    
+    private func addIngredientsToShoppingListFor(meal: MealItem, to date: Date) {
         
-        let currentShoppingList = shoppingLists.first {
-            CalendarViewModel.calendar.isDate($0.weekStart, inSameDayAs: normalizedStartOfWeek)
-        }
+        guard let normalizedStartOfWeek = normalizedStartOfWeek(for: date) else { return }
+        
+        let currentShoppingList = currentShoppingList(for: date)
         
         let shoppingList: ShoppingList
-        
         
         if let currentShoppingList {
             shoppingList = currentShoppingList
@@ -327,6 +346,29 @@ struct PlanningMealFrame: View {
         }
         
         do { try modelContext.save() } catch { print("Error : \(error)") }
+    }
+    
+    private func removeIngredientsFromShoppingList(for meal: MealItem, on date: Date) {
+        guard let shoppingList = currentShoppingList(for: date) else { return }
+            
+        for mealIngredient in meal.ingredients {
+            let ingredientName = mealIngredient.ingredient.name
+            let quatityToRemove = mealIngredient.quantity
+            
+            guard let shoppingItem = shoppingList.items.first(where: { $0.name == ingredientName}) else { continue }
+            
+            shoppingItem.quantity -= quatityToRemove
+            shoppingList.clearJustAddedFlags()
+            
+            if shoppingItem.quantity <= 0 {
+                if let index = shoppingList.items.firstIndex(where: { $0.persistentModelID == shoppingItem.persistentModelID}) {
+                    shoppingList.items.remove(at: index)
+                }
+                modelContext.delete(shoppingItem)
+            }
+        }
+        
+        do { try modelContext.save() } catch { print("Error removing item from shopping list: \(error)")}
     }
     
     private func mealPickerPopover() -> some View {
