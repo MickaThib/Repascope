@@ -14,12 +14,27 @@ struct GuestListView: View {
     var body: some View {
         VStack {
             
-            Button {
-                //
-            } label: {
-                Label("Ajouter", systemImage: "plus")
+            HStack(alignment: .lastTextBaseline) {
+                
+                Text("Convives")
+                    .font(.system(size: 24, weight: .bold))
+
+                Spacer()
+                
+                Button {
+                    //TODO: Add guest
+                } label: {
+                    Label("Ajouter", systemImage: "plus")
+                }
+                .padding(.trailing)
+                .buttonStyle(.borderless)
             }
-            .buttonStyle(.plain)
+            .foregroundStyle(Color.white)
+            .padding(.horizontal)
+            .padding(.vertical, 10)
+            .background(
+                Color.theme
+            )
             
             List {
                 ForEach(guests) { guest in

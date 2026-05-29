@@ -14,10 +14,20 @@ struct GuestsView: View {
     
     var body: some View {
         
-        HSplitView {
+        HStack(spacing: 20) {
             GuestListView(guests: guests)
-            Text("Groups a venir")
-                .frame(maxHeight: .infinity)
+                .frame(width: 300)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(color: Color.theme.opacity(0.3),radius: 6, x: 5, y: 5)
+                .padding(EdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 0))
+            
+            GuestsGroupsView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .shadow(color: Color.theme.opacity(0.3),radius: 6, x: 5, y: 5)
+                .padding(EdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 20))
         }
     }
 }
