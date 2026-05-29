@@ -17,7 +17,6 @@ struct PlanningMealFrame: View {
     let day: Date
     let slot: MealSlot
     let planningViewModel:PlanningViewModel
-    let calendarViewModel: CalendarViewModel
     @Query(sort: \MealItem.title) private var meals: [MealItem]
     let plannedMeals:[PlannedMeal]
     
@@ -295,12 +294,11 @@ struct PlanningMealFrame: View {
     }
     
     private func normalizedStartOfWeek(for day: Date) -> Date? {
-        guard let startOfWeek = CalendarViewModel.firstDayOfWeek(
-            startWeekday: .saturday,
-            from: day
-        ) else { return nil }
-        
-        return CalendarViewModel.calendar.startOfDay(for: startOfWeek)
+        guard let weekStart = CalendarViewModel.shoppingWeekStart(for: day) else {
+            return nil
+        }
+
+        return CalendarViewModel.calendar.startOfDay(for: weekStart)
     }
     
     private func currentShoppingList(for day: Date) -> ShoppingList? {
@@ -406,7 +404,6 @@ struct PlanningMealFrame: View {
         day: Date(),
         slot: .noon,
         planningViewModel: PlanningViewModel(),
-        calendarViewModel: CalendarViewModel(),
         plannedMeals: []
     ).frame(width: 400, height: 80)
     
@@ -414,7 +411,6 @@ struct PlanningMealFrame: View {
         day: Date(),
         slot: .evening,
         planningViewModel: PlanningViewModel(),
-        calendarViewModel: CalendarViewModel(),
         plannedMeals: []
     ).frame(width: 400, height: 80)
 }

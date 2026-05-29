@@ -10,7 +10,6 @@ import SwiftData
 
 struct ShoppingListView: View {
     
-    let date: Date
     let startOfWeek: Date
     
     @Environment(\.modelContext) private var modelContext
@@ -22,9 +21,8 @@ struct ShoppingListView: View {
     @State private var showEmptyListAlert: Bool = false
     
     init(date: Date) {
-        self.date = date
         
-        let start = CalendarViewModel.firstDayOfWeek(startWeekday: .saturday, from: date)!
+        let start = CalendarViewModel.shoppingWeekStart(for: date)!
         
         self.startOfWeek = start
         

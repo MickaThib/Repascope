@@ -36,7 +36,32 @@ class CalendarViewModel: ObservableObject {
         // weekday: 1 = dimanche, 6 = vendredi (dans le calendrier grégorien)
         let weekday = calendar.component(.weekday, from: startOfDay)
         let daysToSubtract = (weekday - startWeekday.rawValue + 7) % 7 // 6 = vendredi
-        return Calendar.current.date(byAdding: .day, value: -daysToSubtract, to: startOfDay)
+        return calendar.date(byAdding: .day, value: -daysToSubtract, to: startOfDay)
+    }
+    
+    static func shoppingWeekStart(for date: Date) -> Date? {
+        let calendar = CalendarViewModel.calendar
+        let startOfDay = calendar.startOfDay(for: date)
+
+        return firstDayOfWeek(
+            startWeekday: .saturday,
+            from: startOfDay
+        )
+    }
+    
+    static func shoppingListDate(for planningDate: Date) -> Date {
+        guard let planningWeekStart = firstDayOfWeek(
+            startWeekday: .friday,
+            from: planningDate
+        ) else {
+            return planningDate
+        }
+
+        return calendar.date(
+            byAdding: .day,
+            value: 1,
+            to: planningWeekStart
+        ) ?? planningDate
     }
 }
 

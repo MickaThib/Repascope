@@ -9,10 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct OrganizerView: View {
-    
-    @Environment(\.modelContext) private var modelContext
-    
-    let calendarViewModel = CalendarViewModel()
+        
     @State var weekToDisplay: Date = Date()
         
     var body: some View {
@@ -83,7 +80,9 @@ struct OrganizerView: View {
 
                                 
                 //Section basse
-                ShoppingListView(date: weekToDisplay)
+                ShoppingListView(
+                    date: CalendarViewModel.shoppingListDate(for: weekToDisplay)
+                )
                 .frame(minHeight: 100) // hauteur minimale pour éviter l'écrasement
             }
             .frame(width: 300)

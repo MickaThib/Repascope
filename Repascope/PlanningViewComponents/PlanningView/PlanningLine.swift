@@ -52,7 +52,6 @@ struct PlanningLine: View {
                 day: day,
                 slot: .noon,
                 planningViewModel: planningViewModel,
-                calendarViewModel: calendarViewModel,
                 plannedMeals: planningViewModel.planned(
                     for: day,
                     slot: .noon,
@@ -64,7 +63,6 @@ struct PlanningLine: View {
                 day: day,
                 slot: .evening,
                 planningViewModel: planningViewModel,
-                calendarViewModel: calendarViewModel,
                 plannedMeals: planningViewModel.planned(
                     for: day,
                     slot: .evening,

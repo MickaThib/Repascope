@@ -8,16 +8,13 @@
 
 ## PLANNING
 - [ ] Pouvoir rechercher un plat dans la liste de plats
-– [X] Supprimer ingrédients à la suppression d'un plat
 - [ ] Pouvoir imprimer le planning des repas
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence" ?
-- [X] Quand on drop un plat sur un autre : pas de changement de couleur de fond
 
 ### DRAG & DROP
 - [ ] Drag depuis une case du planning vers l'extérieur = suppression ?
 
 ## EDIT MEAL VIEW
-- [X] Ajouter une photo
 - [ ] Photo : hover pour afficher bouton "supprimer/remplacer l'image"
 - [ ] Modifier le stepper pour réduire la hauteur des lignes ?
 

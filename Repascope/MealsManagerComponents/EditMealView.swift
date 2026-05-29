@@ -80,9 +80,11 @@ struct PhotoView: View {
                 VStack {
                     Image(systemName: "camera")
                         .font(.system(size: 50))
+                        .onTapGesture {
+                            showImporter = true
+                        }
                     
                     Button("Ajouter une image") {
-                        //TODO: Ajouter une image
                         showImporter = true
                     }
                     .buttonStyle(.plain)
