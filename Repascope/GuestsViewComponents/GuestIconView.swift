@@ -12,7 +12,7 @@ struct GuestIconView: View {
     let guest: Guest
     
     var guestColor: Color {
-        Color.init(hex: guest.colorHex)
+        Color(displayP3Hex: guest.colorHex)
     }
     
     var body: some View {

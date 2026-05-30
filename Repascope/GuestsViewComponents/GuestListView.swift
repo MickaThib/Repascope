@@ -19,6 +19,7 @@ struct GuestListView: View {
     @State private var newGuestTextField = ""
     @State private var newGuestColor: Color = Color.theme
     @State private var guestToDelete: Guest? = nil
+    @State private var editingGuest: Guest?
     
     var body: some View {
         VStack {
@@ -47,12 +48,19 @@ struct GuestListView: View {
             
             List {
                 ForEach(guests) { guest in
-                    GuestListLineView(guest: guest, editAction: {
-                        //TODO: Edit guest
-                    }, deleteAction: {
-                        guestToDelete = guest
-                        showDeleteGuestAlert = true
-                    })
+                    GuestListLineView(
+                        guest: guest,
+                        deleteAction: {
+                            guestToDelete = guest
+                            showDeleteGuestAlert = true
+                        },
+                        isEditing: editingGuest == guest,
+                        startEditing: {
+                            editingGuest = guest
+                        },
+                        stopEditing: {
+                            editingGuest = nil
+                        })
                     .frame(height: 50)
                     .listRowSeparator(.hidden)
                 }
@@ -107,7 +115,7 @@ struct GuestListView: View {
     
     func addNewGuest(name: String, color: Color) {
         let guestName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        let colorHex = color.hexString
+        let colorHex = color.displayP3HexString
         let newGuest = Guest(name: guestName, colorHex: colorHex)
         
         modelContext.insert(newGuest)
@@ -119,6 +127,7 @@ struct GuestListView: View {
     func deleteGuest(guest: Guest) {
         modelContext.delete(guest)
         do { try modelContext.save() } catch { print("Erreur de suppression", error)}
+        guestToDelete = nil
     }
 }
 

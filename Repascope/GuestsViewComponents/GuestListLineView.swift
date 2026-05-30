@@ -9,45 +9,81 @@ import SwiftUI
 
 struct GuestListLineView: View {
     
-    let guest: Guest
+    @Bindable var guest: Guest
     
-    let editAction: () -> Void
     let deleteAction: () -> Void
+    let isEditing: Bool
+    let startEditing: () -> Void
+    let stopEditing: () -> Void
     
     @State private var isHovering = false
+    @FocusState private var nameFieldFocused: Bool
+    
+    private var colorBinding: Binding<Color> {
+        Binding(
+            get: {
+                Color(displayP3Hex: guest.colorHex)
+            },
+            set: { newColor in
+                guest.colorHex = newColor.displayP3HexString
+            }
+        )
+    }
     
     var body: some View {
         HStack {
             GuestIconView(guest: guest)
                 .frame(width: 40, height: 40)
-                .padding(.leading)
             
-            Text(guest.name)
-                .font(.system(size: 18))
-                .foregroundStyle(Color.themeContrast)
+            if !isEditing {
+                Text(guest.name)
+                    .font(.system(size: 18))
+                    .foregroundStyle(Color.themeContrast)
+            } else {
+                TextField("Nom", text: $guest.name)
+                    .font(.system(size: 18))
+                    .textFieldStyle(.roundedBorder)
+                    .focused($nameFieldFocused)
+                    .onAppear { nameFieldFocused = true }
+                    .onSubmit { stopEditing() }
+                
+                ColorPicker("Couleur", selection: colorBinding, supportsOpacity: false)
+                    .labelsHidden()
+            }
             
             Spacer()
             
-            if isHovering {
+            if isHovering && !isEditing {
                 Button {
-                    editAction()
+                    startEditing()
                 } label: {
-                    Image(systemName: "pencil")
-                        .font(.system(size: 16))
+                    Image(systemName: "pencil.circle")
+                        .font(.system(size: 22, weight: .light))
                         .foregroundStyle(Color.themeContrast.opacity(0.5))
                 }
                 .buttonStyle(.plain)
-                .padding(.trailing, 8)
-                
+            }
+            
+            if isEditing {
+                Button {
+                    stopEditing()
+                } label: {
+                    Image(systemName: "checkmark.circle")
+                        .font(.system(size: 22, weight: .light))
+                        .foregroundStyle(Color.themeContrast.opacity(0.5))
+                }
+                .buttonStyle(.plain)
+            }
+            
+            if isHovering || isEditing {
                 Button {
                     deleteAction()
                 } label: {
-                    Image(systemName: "trash")
-                        .font(.system(size: 16))
+                    Image(systemName: "trash.circle")
+                        .font(.system(size: 22, weight: .light))
                         .foregroundStyle(Color.themeContrast.opacity(0.5))
                 }
                 .buttonStyle(.plain)
-                .padding(.trailing)
             }
         }
         .onHover { hover in
@@ -57,6 +93,11 @@ struct GuestListLineView: View {
 }
 
 #Preview {
-    GuestListLineView(guest: Guest(name: "Mickael", colorHex: "4076f5"), editAction: {}, deleteAction: {})
+    GuestListLineView(
+        guest: Guest(name: "Mickael", colorHex: "4076f5"),
+        deleteAction: {},
+        isEditing: false,
+        startEditing: {},
+        stopEditing: {})
         .frame(width: 400, height: 60)
 }

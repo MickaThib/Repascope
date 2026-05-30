@@ -11,9 +11,8 @@ import AppKit
 
 extension Color {
     
-    init(hex: String) {
-        let hex = hex
-            .trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+    init(displayP3Hex hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         
         var int: UInt64 = 0
         Scanner(string: hex).scanHexInt64(&int)
@@ -41,6 +40,7 @@ extension Color {
         }
         
         self.init(
+            .displayP3,
             red: Double(r) / 255,
             green: Double(g) / 255,
             blue: Double(b) / 255,
@@ -51,14 +51,14 @@ extension Color {
 
 extension Color {
     
-    var hexString: String {
+    var displayP3HexString: String {
         let nsColor = NSColor(self)
             .usingColorSpace(.displayP3) ?? .black
         
-        let red = Int(nsColor.redComponent * 255)
-        let green = Int(nsColor.greenComponent * 255)
-        let blue = Int(nsColor.blueComponent * 255)
-        let alpha = Int(nsColor.alphaComponent * 255)
+        let red = Int(round(nsColor.redComponent * 255))
+        let green = Int(round(nsColor.greenComponent * 255))
+        let blue = Int(round(nsColor.blueComponent * 255))
+        let alpha = Int(round(nsColor.alphaComponent * 255))
         
         return String(format: "%02X%02X%02X%02X", red, green, blue, alpha)
     }
