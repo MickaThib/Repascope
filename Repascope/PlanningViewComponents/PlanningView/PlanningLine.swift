@@ -15,6 +15,9 @@ struct PlanningLine: View {
     let calendarViewModel: CalendarViewModel
     let plannedMeals: [PlannedMeal]
     
+    let allGuests: [Guest]
+    let allGroups: [GuestsGroup]
+    
     let calendar: Calendar = {
             var cal = Calendar(identifier: .gregorian)
             cal.locale = Locale(identifier: "fr_FR")
@@ -85,7 +88,9 @@ struct PlanningLine: View {
                     for: day,
                     slot: .noon,
                     in: plannedMeals
-                )
+                ),
+                allGuests: allGuests,
+                allGroups: allGroups
             )
 
             PlanningMealFrame(
@@ -96,7 +101,9 @@ struct PlanningLine: View {
                     for: day,
                     slot: .evening,
                     in: plannedMeals
-                )
+                ),
+                allGuests: allGuests,
+                allGroups: allGroups
             )
 
         }
@@ -108,5 +115,11 @@ struct PlanningLine: View {
 }
 
 #Preview {
-    PlanningLine(day: Date(), planningViewModel: PlanningViewModel(), calendarViewModel: CalendarViewModel(), plannedMeals: [])
+    PlanningLine(day: Date(),
+                 planningViewModel: PlanningViewModel(),
+                 calendarViewModel: CalendarViewModel(),
+                 plannedMeals: [],
+                 allGuests: [],
+                 allGroups: []
+    )
 }

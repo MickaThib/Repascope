@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PlanningMealItem: View {
     
-    let meal: MealItem?
+    let meal: MealItem
     let slot: MealSlot
     let deleteAction: () -> Void
     @State private var isHovering: Bool = false
@@ -17,7 +17,7 @@ struct PlanningMealItem: View {
     
     var body: some View {
         HStack {
-            Text(meal?.title ?? "Repas supprimé")
+            Text(meal.title)
                 .font(.headline)
                 .foregroundStyle(itemColor())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)

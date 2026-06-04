@@ -17,6 +17,9 @@ struct PlanningView: View {
     
     @Query(sort: \PlannedMeal.date)
     private var allPlannedMeals: [PlannedMeal]
+    
+    @Query(sort: \Guest.name) private var allGuests: [Guest]
+    @Query(sort: \GuestsGroup.title) private var allGroups: [GuestsGroup]
 
     var body: some View {
         
@@ -56,7 +59,9 @@ struct PlanningView: View {
                         day: day,
                         planningViewModel: planningViewModel,
                         calendarViewModel: calendarViewModel,
-                        plannedMeals: allPlannedMeals
+                        plannedMeals: allPlannedMeals,
+                        allGuests: allGuests,
+                        allGroups: allGroups
                     )
                 }
             }

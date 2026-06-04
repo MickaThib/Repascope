@@ -9,8 +9,11 @@
 
 ## PLANNING
 - [ ] Pouvoir rechercher un plat dans la liste de plats
+- [ ] Champ de notes dépliable
 - [ ] Pouvoir imprimer le planning des repas
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence" ?
+- [ ] Champ de convives non scrollable
+– [ ] Améliorer aspect des chips (capsules nom)
 
 ### DRAG & DROP
 - [ ] Drag depuis une case du planning vers l'extérieur = suppression ?
