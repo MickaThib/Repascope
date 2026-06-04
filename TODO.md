@@ -12,8 +12,8 @@
 - [ ] Champ de notes dépliable
 - [ ] Pouvoir imprimer le planning des repas
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence" ?
-- [ ] Champ de convives non scrollable
-– [ ] Améliorer aspect des chips (capsules nom)
+- [X] Champ de convives non scrollable
+– [X] Améliorer aspect des chips (capsules nom)
 
 ### DRAG & DROP
 - [ ] Drag depuis une case du planning vers l'extérieur = suppression ?
@@ -22,11 +22,12 @@
 - [ ] Modifier le stepper pour réduire la hauteur des lignes ?
 - [ ] Retirer les lignes verticales en passant à un HStack ordinaire
 
-### GROUP VIEW
-- [ ] Create group : mettre en mode edition lors de la creation
-- [ ] Un seul groupe de convives en mode edition à la fois
+## GROUP VIEW
 - [X] Attribuer une couleur au group ?
+- [X] Bug : quand un group/convive est ajouté qq part, il disparait ailleurs (1 seule occurence dans tout le tableau)
+- [ ] Un seul groupe de convives en mode edition à la fois
 - [ ] Déplacer/réorganiser les groups ?
+- [ ] A la creation d'un groupe, se mettre en mode edition
 - [ ] Drop : ajout d'une réaction au drop (isTargeted commenté) ?
 
 ## GUESTS VIEW

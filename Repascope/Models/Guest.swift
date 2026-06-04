@@ -15,6 +15,9 @@ final class Guest {
     
     var groups: [GuestsGroup] = []
     
+    @Relationship(inverse: \PlannedMeal.guests)
+    var plannedMeals: [PlannedMeal] = []
+    
     init(name: String, colorHex: String = "6762A4") {
         self.name = name
         self.colorHex = colorHex

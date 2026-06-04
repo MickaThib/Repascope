@@ -32,18 +32,19 @@ struct ConvivesField: View {
                 Text("Ajouter des convives")
                     .font(.callout)
                     .foregroundStyle(slot.color())
+                    .padding(.horizontal, 6)
             }
             
-            ScrollView(.horizontal, showsIndicators: true) {
+            ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 6) {
                     ForEach(selectedGuests) { guest in
-                        chip(title: guest.name) {
+                        chipView(title: guest.name, color: Color(displayP3Hex: guest.colorHex)) {
                             removeGuest(guest)
                         }
                     }
 
                     ForEach(selectedGroups) { group in
-                        chip(title: group.title) {
+                        chipView(title: group.title, color: Color(displayP3Hex: group.colorHex)) {
                             removeGroup(group)
                         }
                     }
@@ -77,11 +78,7 @@ struct ConvivesField: View {
             .menuStyle(.borderlessButton)
             .tint(slot.color().opacity(1))
         }
-        .padding(6)
-        .overlay {
-            RoundedRectangle(cornerRadius: 5)
-                .strokeBorder(slot.color())
-        }
+        .frame(height: 20)
     }
 
     private var availableGuests: [Guest] {
@@ -164,23 +161,6 @@ struct ConvivesField: View {
         try? modelContext.save()
     }
 
-    private func chip(title: String, remove: @escaping () -> Void) -> some View {
-        HStack(spacing: 4) {
-            Text(title)
-
-            Button {
-                remove()
-            } label: {
-                Image(systemName: "xmark.circle")
-            }
-            .buttonStyle(.plain)
-        }
-        .font(.caption)
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .background(.white.opacity(0.8), in: Capsule())
-    }
-
     private func unique<T: PersistentModel>(_ items: [T]) -> [T] {
         var seen = Set<PersistentIdentifier>()
 
@@ -190,11 +170,50 @@ struct ConvivesField: View {
     }
 }
 
+struct chipView: View {
+    
+    let title: String
+    let color: Color
+    let remove: () -> Void
+    @State var isHovering: Bool = false
+    
+    var body: some View {
+        
+        HStack(spacing: 4) {
+            Text(title)
+                .fontWeight(.medium)
+
+            if isHovering {
+                Button {
+                    remove()
+                } label: {
+                    Image(systemName: "xmark.circle")
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .font(.system(size: 11))
+        .textCase(.uppercase)
+        .foregroundStyle(color)
+        .padding(.horizontal, 8)
+        .frame(height: 20)
+        .background {
+            RoundedRectangle(cornerRadius: 5).fill(color.mix(with: .white, by: 0.8))
+        }
+        .overlay { RoundedRectangle(cornerRadius: 5).strokeBorder(color, lineWidth: 1)}
+        .onHover { hover in
+            isHovering = hover
+        }
+    }
+}
+
 #Preview {
+    let group = GuestsGroup(title: "Tribu")
+    
     ConvivesField(
         day: Date(),
         slot: .evening,
         plannedMeals: [],
         allGuests: [],
-        allGroups: [])
+        allGroups: [group])
 }

@@ -71,7 +71,7 @@ struct PlanningLine: View {
             .frame(maxHeight: .infinity)
             .overlay {
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(dayStrokeColor)
+                    .strokeBorder(dayStrokeColor)
             }
             .background(
                 RoundedRectangle(cornerRadius: 5)
@@ -107,7 +107,7 @@ struct PlanningLine: View {
             )
 
         }
-        .frame(height: 92)
+        .frame(height: 82)
         .padding(1)
     }
     

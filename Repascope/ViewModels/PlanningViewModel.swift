@@ -55,8 +55,9 @@ final class PlanningViewModel {
     func setPlannedMeal(_ meal: MealItem, date: Date, slot: MealSlot, existingPlannedMeals: [PlannedMeal], modelContext: ModelContext) {
         
         let mealsForSlot = planned(for: date, slot: slot, in: existingPlannedMeals)
+        let visibleMealsForSlot = mealsForSlot.filter { $0.meal != nil }
         
-        guard mealsForSlot.count < 2 else {
+        guard visibleMealsForSlot.count < 2 else {
             print("Il y a déjà deux repas pour ce créneau.")
             return
         }
@@ -66,7 +67,7 @@ final class PlanningViewModel {
         let plannedMeal = PlannedMeal(
             date: day,
             slot: slot,
-            position: mealsForSlot.count,
+            position: visibleMealsForSlot.count,
             meal: meal
         )
         
@@ -109,16 +110,16 @@ final class PlanningViewModel {
             $0.persistentModelID != plannedMeal.persistentModelID
         }
         
-        guard destinationMeals.count < 2 else {
-            // TODO: Alert
+        let destinationMealsWithMeal = destinationMeals.filter { $0.meal != nil }
+
+        guard destinationMealsWithMeal.count < 2 else {
             print("Le créneau de destination contient déjà deux repas")
             return
         }
         
         plannedMeal.date = calendar.startOfDay(for: date)
         plannedMeal.slot = slot
-        plannedMeal.position = destinationMeals.count
-        
+        plannedMeal.position = destinationMealsWithMeal.count
         
         do {
             try modelContext.save()
