@@ -9,6 +9,8 @@ import SwiftUI
 import SwiftData
 
 struct OrganizerView: View {
+    
+    @Environment(\.modelContext) private var modelContext
         
     @State var weekToDisplay: Date = Date()
         
@@ -95,7 +97,10 @@ struct OrganizerView: View {
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
                 Button {
-                    //TODO: Imprimer le planning
+                    //MARK: Impression du planning en cours
+                    let exportView = PlanningPrintView(weekToDisplay: weekToDisplay)
+                        .environment(\.modelContext, modelContext)
+                    PDFExporter.print(view: exportView)
                 } label: {
                     Label("Imprimer le planning", systemImage: "printer")
                         .labelStyle(.iconOnly)
