@@ -2,6 +2,7 @@
 
 ## GLOBAL
 - [ ] Prévoir des données pré-enregistrées
+- [ ] Icone de l'app !
 - [ ] Placer largeurs minimales
 
 ## SHOPPING LIST
@@ -10,8 +11,13 @@
 ## PLANNING
 - [ ] Pouvoir rechercher un plat dans la liste de plats
 - [ ] Champ de notes dépliable
-- [X] Pouvoir imprimer le planning des repas
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence" ?
+
+### LISTE DE COURSE
+- [ ] Partage en texte : le pop-up s'affiche en haut de la fenêtre
+- [ ] Partage en rappels : créer des sur-catégories ?
+- [ ] Partage en rappels : ordre alphabétique ?
+- [ ] Menu de partage plus visuel : utiliser des icones d'app ?
 
 ### DRAG & DROP
 - [ ] Drag depuis une case du planning vers l'extérieur = suppression ?

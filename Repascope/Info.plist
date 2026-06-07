@@ -45,7 +45,7 @@
 			<dict/>
 		</dict>
 	</array>
-	<key>NSAppleEventsUsageDescription</key>
-	<string>Repascope souhaite accéder à Notes pour exporter votre liste de courses.</string>
+    <key>NSRemindersFullAccessUsageDescription</key>
+    <string>Repascope utilise les rappels pour exporter votre liste de courses.</string>
 </dict>
 </plist>

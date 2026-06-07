@@ -19,6 +19,20 @@ struct ShoppingListView: View {
     private var items: [ShoppingItem] { currentList?.items ?? [] }
     
     @State private var showEmptyListAlert: Bool = false
+    @State private var shareErrorMessage: String?
+    @State private var showExportSuccess = false
+
+    private let reminderExporter = ShoppingReminderExporter()
+    
+    private var isShareMenuActive: Bool {
+        guard let currentList else { return false }
+        
+        if currentList.items.isEmpty {
+            return false
+        } else {
+            return true
+        }
+    }
     
     init(date: Date) {
         
@@ -65,6 +79,7 @@ struct ShoppingListView: View {
                 .padding(.vertical, 12)
             Spacer()
             
+            //MARK: Empty list button
             Button {
                 showEmptyListAlert = true
             } label: {
@@ -74,14 +89,43 @@ struct ShoppingListView: View {
             }
             .buttonStyle(.plain)
             
-            Button {
-                //TODO: Share list
+            //MARK: Share Button
+            Menu {
+                Button {
+                        Task {
+                            await exportToReminders()
+                        }
+                    } label: {
+                        Label("Exporter vers Rappels", systemImage: "checklist")
+                    }
+                    
+                    ShareLink(
+                        item: shoppingListText,
+                        subject: Text("Liste de courses Repascope"),
+                        message: Text("Voici la liste de courses.")
+                    ) {
+                        Label("Partager en texte", systemImage: "text.alignleft")
+                    }
             } label: {
                 Image(systemName: "square.and.arrow.up")
                     .padding(.trailing)
                     .font(.system(size: 18))
             }
             .buttonStyle(.plain)
+            .disabled(!isShareMenuActive)
+            .alert("Erreur", isPresented: .constant(shareErrorMessage != nil)) {
+                Button("OK") {
+                    shareErrorMessage = nil
+                }
+            } message: {
+                Text(shareErrorMessage ?? "")
+            }
+            .alert("Export terminé", isPresented: $showExportSuccess) {
+                Button("OK") {}
+            } message: {
+                Text("La liste de courses a été exportée dans Rappels.")
+            }
+
         }
         .foregroundStyle(Color.white)
         .frame(height: 45)
@@ -142,6 +186,69 @@ struct ShoppingListView: View {
         
         do { try modelContext.save() } catch { print("SAVE ERROR:", error) }
     }
+    
+    private func exportToReminders() async {
+        do {
+            let title = "Courses Repascope - \(Date().formatted(.dateTime.day().month().year()))"
+            
+            try await reminderExporter.export(
+                listTitle: title,
+                items: reminderExportItems
+            )
+            
+            showExportSuccess = true
+        } catch {
+            shareErrorMessage = error.localizedDescription
+        }
+    }
+    
+    private var reminderExportItems: [ShoppingReminderExportItem] {
+        guard let currentList else {
+            return []
+        }
+        
+        return currentList.items
+            .sorted {
+                $0.name.localizedCompare($1.name) == .orderedAscending
+            }
+            .map {
+                ShoppingReminderExportItem(
+                    name: $0.name,
+                    isCompleted: $0.isChecked
+                )
+            }
+    }
+    
+    private var shoppingListText:String {
+        guard let currentList else { return "La liste de cours est vide." }
+        
+        let sortedItems = currentList.items.sorted {
+                $0.name.localizedCompare($1.name) == .orderedAscending
+            }
+        
+        var list: String = ""
+        
+        for category in ShoppingCategory.allCases {
+            
+            list.append("\(category.rawValue.uppercased()) :\n\n")
+            
+            for item in sortedItems {
+                if item.category == category {
+                    list.append("◎ \(item.name)\n")
+                }
+            }
+            
+            list.append("\n")
+            
+        }
+        
+        return list
+    }
+}
+
+struct ShoppingReminderExportItem {
+    let name: String
+    let isCompleted: Bool
 }
 
 struct CategoryTextField: View {

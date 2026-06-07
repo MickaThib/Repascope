@@ -28,6 +28,6 @@ final class ShoppingItem {
 
 enum ShoppingCategory: String, Codable, CaseIterable {
     case food = "Repas"
-    case snack = "Petit déjeuner/Goûter"
+    case snack = "Petit déjeuner / Goûter"
     case other = "Autres"
 }
