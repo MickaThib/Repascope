@@ -63,7 +63,7 @@ struct OrganizerView: View {
                 )
                 
                 PlanningView(weekToDisplay: weekToDisplay)
-                    .frame(maxWidth: .infinity)
+                    .frame(minWidth: 700, maxWidth: .infinity)
             }
             .background(
                 Color.white

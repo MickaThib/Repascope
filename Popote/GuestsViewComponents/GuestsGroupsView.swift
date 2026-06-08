@@ -26,6 +26,7 @@ struct GuestsGroupsView: View {
                 
                 Text("Groupes de convives")
                     .font(.system(size: 24, weight: .bold))
+                    .lineLimit(1)
                 
                 Spacer()
                 
@@ -45,6 +46,7 @@ struct GuestsGroupsView: View {
             .padding(.horizontal)
             .padding(.vertical, 10)
             .background( Color.theme )
+            .frame(minWidth: 370)
             
             
             ScrollView {

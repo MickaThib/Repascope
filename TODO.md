@@ -3,7 +3,7 @@
 ## GLOBAL
 - [ ] Prévoir des données pré-enregistrées
 - [ ] Icone de l'app !
-- [ ] Placer largeurs minimales
+- [X] Placer largeurs minimales
 
 ## SHOPPING LIST
 - [ ] Améliorer le rendu de la note exportée / Exporter via le partage iOS

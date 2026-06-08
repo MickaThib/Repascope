@@ -33,6 +33,7 @@ struct ConvivesField: View {
                     .font(.callout)
                     .foregroundStyle(slot.color())
                     .padding(.horizontal, 6)
+                    .fixedSize(horizontal: true, vertical: true)
             }
             
             ScrollView(.horizontal, showsIndicators: false) {
