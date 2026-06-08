@@ -1,6 +1,6 @@
 //
 //  EditMealView.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael Thibouret on 05/05/2026.
 //

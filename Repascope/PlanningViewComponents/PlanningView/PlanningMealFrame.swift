@@ -1,6 +1,6 @@
 //
 //  PlanningMealFrame.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael Thibouret on 30/04/2026.
 //

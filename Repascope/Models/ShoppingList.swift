@@ -1,6 +1,6 @@
 //
 //  ShoppingList.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 14/05/2026.
 //

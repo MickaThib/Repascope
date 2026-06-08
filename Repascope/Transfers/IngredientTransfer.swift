@@ -1,6 +1,6 @@
 //
 //  IngredientTransfer.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael Thibouret on 05/05/2026.
 //
@@ -20,5 +20,5 @@ struct IngredientTransfer: Transferable, Codable {
 }
 
 extension UTType {
-    static let ingredientTransfer = UTType(exportedAs: "com.repascope.ingredientTransfer")
+    static let ingredientTransfer = UTType(exportedAs: "com.popote.ingredientTransfer")
 }

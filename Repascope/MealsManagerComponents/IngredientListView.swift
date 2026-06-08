@@ -1,6 +1,6 @@
 //
 //  IngredientList.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 04/05/2026.
 //

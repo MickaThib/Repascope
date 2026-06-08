@@ -1,6 +1,6 @@
 //
 //  ColorExtension.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael Thibouret on 29/05/2026.
 //

@@ -1,6 +1,6 @@
 //
 //  ShoppingList.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 29/04/2026.
 //
@@ -101,7 +101,7 @@ struct ShoppingListView: View {
                     
                     ShareLink(
                         item: shoppingListText,
-                        subject: Text("Liste de courses Repascope"),
+                        subject: Text("Liste de courses Popote"),
                         message: Text("Voici la liste de courses.")
                     ) {
                         Label("Partager en texte", systemImage: "text.alignleft")
@@ -189,7 +189,7 @@ struct ShoppingListView: View {
     
     private func exportToReminders() async {
         do {
-            let title = "Courses Repascope - \(Date().formatted(.dateTime.day().month().year()))"
+            let title = "Courses Popote - \(Date().formatted(.dateTime.day().month().year()))"
             
             try await reminderExporter.export(
                 listTitle: title,

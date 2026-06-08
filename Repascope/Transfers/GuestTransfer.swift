@@ -1,6 +1,6 @@
 //
 //  IngredientTransfer.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael Thibouret on 05/05/2026.
 //
@@ -20,5 +20,5 @@ struct GuestTransfer: Transferable, Codable {
 }
 
 extension UTType {
-    static let guestTransfer = UTType(exportedAs: "com.repascope.guestTransfer")
+    static let guestTransfer = UTType(exportedAs: "com.popote.guestTransfer")
 }

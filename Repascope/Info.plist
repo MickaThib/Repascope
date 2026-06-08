@@ -14,7 +14,7 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>com.repascope.guestTransfer</string>
+			<string>com.popote.guestTransfer</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>
@@ -26,7 +26,7 @@
 			<key>UTTypeDescription</key>
 			<string>Planning Drop Transfer</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.repascope.planning-drop-transfer</string>
+			<string>com.popote.planning-drop-transfer</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>
@@ -40,12 +40,12 @@
 			<key>UTTypeIcons</key>
 			<dict/>
 			<key>UTTypeIdentifier</key>
-			<string>com.repascope.ingredientTransfer</string>
+			<string>com.popote.ingredientTransfer</string>
 			<key>UTTypeTagSpecification</key>
 			<dict/>
 		</dict>
 	</array>
-    <key>NSRemindersFullAccessUsageDescription</key>
-    <string>Repascope utilise les rappels pour exporter votre liste de courses.</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>Popote utilise les rappels pour exporter votre liste de courses.</string>
 </dict>
 </plist>

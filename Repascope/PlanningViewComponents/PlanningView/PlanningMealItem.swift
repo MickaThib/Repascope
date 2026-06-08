@@ -1,6 +1,6 @@
 //
 //  PlanningMealItem.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael Thibouret on 15/05/2026.
 //

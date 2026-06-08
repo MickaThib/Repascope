@@ -1,6 +1,6 @@
 //
 //  PlanningViewModel.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 15/05/2026.
 //

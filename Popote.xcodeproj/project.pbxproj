@@ -12,18 +12,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CAB0FF892FA20D9600D76087 /* Repascope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Repascope.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CAB0FF892FA20D9600D76087 /* Popote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAD9F5A92FA22F8E00507B5B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		CAF218612FA257BE0066C02C /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F77F39FF2FAA48F80052466F /* Exceptions for "Repascope" folder in "Repascope" target */ = {
+		F77F39FF2FAA48F80052466F /* Exceptions for "Repascope" folder in "Popote" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = CAB0FF882FA20D9600D76087 /* Repascope */;
+			target = CAB0FF882FA20D9600D76087 /* Popote */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -31,7 +31,7 @@
 		CAB0FF8B2FA20D9600D76087 /* Repascope */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				F77F39FF2FAA48F80052466F /* Exceptions for "Repascope" folder in "Repascope" target */,
+				F77F39FF2FAA48F80052466F /* Exceptions for "Repascope" folder in "Popote" target */,
 			);
 			path = Repascope;
 			sourceTree = "<group>";
@@ -62,7 +62,7 @@
 		CAB0FF8A2FA20D9600D76087 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CAB0FF892FA20D9600D76087 /* Repascope.app */,
+				CAB0FF892FA20D9600D76087 /* Popote.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,9 +70,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CAB0FF882FA20D9600D76087 /* Repascope */ = {
+		CAB0FF882FA20D9600D76087 /* Popote */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CAB0FF962FA20D9800D76087 /* Build configuration list for PBXNativeTarget "Repascope" */;
+			buildConfigurationList = CAB0FF962FA20D9800D76087 /* Build configuration list for PBXNativeTarget "Popote" */;
 			buildPhases = (
 				CAB0FF852FA20D9600D76087 /* Sources */,
 				CAB0FF862FA20D9600D76087 /* Frameworks */,
@@ -85,11 +85,11 @@
 			fileSystemSynchronizedGroups = (
 				CAB0FF8B2FA20D9600D76087 /* Repascope */,
 			);
-			name = Repascope;
+			name = Popote;
 			packageProductDependencies = (
 			);
 			productName = Repascope;
-			productReference = CAB0FF892FA20D9600D76087 /* Repascope.app */;
+			productReference = CAB0FF892FA20D9600D76087 /* Popote.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -107,7 +107,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CAB0FF842FA20D9600D76087 /* Build configuration list for PBXProject "Repascope" */;
+			buildConfigurationList = CAB0FF842FA20D9600D76087 /* Build configuration list for PBXProject "Popote" */;
 			developmentRegion = fr;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -122,7 +122,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CAB0FF882FA20D9600D76087 /* Repascope */,
+				CAB0FF882FA20D9600D76087 /* Popote */,
 			);
 		};
 /* End PBXProject section */
@@ -300,7 +300,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Repascope/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Repascope;
+				INFOPLIST_KEY_CFBundleDisplayName = Popote;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -309,7 +309,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.mickathib.Repascope;
+				PRODUCT_BUNDLE_IDENTIFIER = fr.mickathib.Popote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
@@ -351,7 +351,7 @@
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Repascope/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = Repascope;
+				INFOPLIST_KEY_CFBundleDisplayName = Popote;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -360,7 +360,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.3;
-				PRODUCT_BUNDLE_IDENTIFIER = fr.mickathib.Repascope;
+				PRODUCT_BUNDLE_IDENTIFIER = fr.mickathib.Popote;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
@@ -381,7 +381,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CAB0FF842FA20D9600D76087 /* Build configuration list for PBXProject "Repascope" */ = {
+		CAB0FF842FA20D9600D76087 /* Build configuration list for PBXProject "Popote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CAB0FF942FA20D9800D76087 /* Debug */,
@@ -390,7 +390,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CAB0FF962FA20D9800D76087 /* Build configuration list for PBXNativeTarget "Repascope" */ = {
+		CAB0FF962FA20D9800D76087 /* Build configuration list for PBXNativeTarget "Popote" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CAB0FF972FA20D9800D76087 /* Debug */,

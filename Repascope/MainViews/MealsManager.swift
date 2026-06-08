@@ -1,6 +1,6 @@
 //
 //  MealsManager.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 02/05/2026.
 //

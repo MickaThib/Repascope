@@ -1,6 +1,6 @@
 //
 //  PlanningDropTransfer.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 17/05/2026.
 //
@@ -27,6 +27,6 @@ struct PlanningDropTransfer: Transferable, Codable {
 
 extension UTType {
     static let planningDropTransfer = UTType(
-        exportedAs: "com.repascope.planning-drop-transfer"
+        exportedAs: "com.popote.planning-drop-transfer"
     )
 }

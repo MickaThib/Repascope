@@ -10,7 +10,8 @@
 
 ## PLANNING
 - [ ] Pouvoir rechercher un plat dans la liste de plats
-- [ ] Champ de notes dépliable
+- [ ] Champ de notes (dépliable ?) y compris dans la vue imprimée
+- [X] Pouvoir imprimer le planning des repas
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence" ?
 
 ### LISTE DE COURSE
@@ -24,7 +25,6 @@
 - [ ] Drag depuis une case du planning vers l'extérieur = suppression ?
 
 ## EDIT MEAL VIEW
-- [ ] Modifier le stepper pour réduire la hauteur des lignes ?
 - [ ] Retirer les lignes verticales en passant à un HStack ordinaire
 
 ## GROUP VIEW

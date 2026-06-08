@@ -1,6 +1,6 @@
 //
-//  RepascopeApp.swift
-//  Repascope
+//  PopoteApp.swift
+//  Popote
 //
 //  Created by Mickael on 29/04/2026.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 
 @main
-struct RepascopeApp: App {
+struct PopoteApp: App {
 
     let sharedModelContainer: ModelContainer
 
@@ -27,10 +27,10 @@ struct RepascopeApp: App {
             fatalError("Impossible de trouver Application Support")
         }
 
-        // MARK: - Repascope Folder
+        // MARK: - Popote Folder
 
         let appDirectory = applicationSupportURL
-            .appendingPathComponent("Repascope", isDirectory: true)
+            .appendingPathComponent("Popote", isDirectory: true)
 
         do {
             try fileManager.createDirectory(
@@ -42,7 +42,7 @@ struct RepascopeApp: App {
             print(appDirectory.path)
 
         } catch {
-            fatalError("Impossible de créer le dossier Repascope : \(error)")
+            fatalError("Impossible de créer le dossier Popote : \(error)")
         }
 
         // MARK: - Store URL

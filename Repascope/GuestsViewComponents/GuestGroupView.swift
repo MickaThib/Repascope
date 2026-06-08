@@ -1,6 +1,6 @@
 //
 //  GuestGroupView.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 31/05/2026.
 //

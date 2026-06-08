@@ -1,6 +1,6 @@
 //
 //  MealPickerPopover.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 17/05/2026.
 //

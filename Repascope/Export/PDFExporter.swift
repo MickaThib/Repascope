@@ -1,6 +1,6 @@
 //
 //  PDFExporter.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 20/03/2026.
 //

@@ -1,6 +1,6 @@
 //
 //  MealListItem.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael on 01/05/2026.
 //

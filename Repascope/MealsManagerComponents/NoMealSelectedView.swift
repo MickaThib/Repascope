@@ -1,6 +1,6 @@
 //
 //  NoMealSelectedView.swift
-//  Repascope
+//  Popote
 //
 //  Created by Mickael Thibouret on 21/05/2026.
 //
