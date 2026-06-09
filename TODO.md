@@ -10,7 +10,7 @@
 
 
 ## PLANNING
-- [ ] Pouvoir rechercher un plat dans la liste de plats
+- [X] Pouvoir rechercher un plat dans la liste de plats
 - [ ] Champ de notes (dépliable ?) y compris dans la vue imprimée
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence" ?
 

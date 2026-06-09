@@ -12,6 +12,20 @@ struct MealList: View {
         
     @Query(sort: \MealItem.title) var mealList: [MealItem]
     
+    @State var isSearchFieldVisible: Bool = false
+    @State var searchText: String = ""
+    @FocusState private var isSearchFocused: Bool
+    
+    var filteredMeals: [MealItem] {
+        if searchText.isEmpty {
+            mealList
+        } else {
+            mealList.filter {
+                $0.title.localizedStandardContains(searchText)
+            }
+        }
+    }
+    
     var body: some View {
         VStack (spacing: 0) {
             HStack (alignment: .firstTextBaseline) {
@@ -22,7 +36,22 @@ struct MealList: View {
                     .padding(.vertical, 12)
                 Spacer()
                 Button {
-                    //TODO: Recherche
+                    if isSearchFieldVisible {
+                        isSearchFocused = false
+                        searchText = ""
+                        
+                        withAnimation {
+                            isSearchFieldVisible = false
+                        }
+                    } else {
+                        withAnimation {
+                            isSearchFieldVisible = true
+                        }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                            isSearchFocused = true
+                        }
+                    }
                 } label: {
                     Image(systemName: "magnifyingglass")
                         .padding(.trailing)
@@ -36,6 +65,14 @@ struct MealList: View {
             .background(
                 Color.theme
             )
+            
+            if isSearchFieldVisible {
+                TextField("Rechercher un repas", text: $searchText)
+                        .textFieldStyle(.roundedBorder)
+                        .focused($isSearchFocused)
+                        .padding(.horizontal)
+                        .padding(.top)
+            }
             
             if mealList.isEmpty {
                 VStack {
@@ -52,7 +89,7 @@ struct MealList: View {
             } else {
                 
                 List {
-                    ForEach(mealList) { meal in
+                    ForEach(filteredMeals) { meal in
                         MealListItem(meal: meal)
                             .listRowSeparator(.hidden)
                             .draggable(PlanningDropTransfer(persistentID: meal.persistentModelID, kind: .mealItem))

@@ -14,6 +14,19 @@ struct MealPickerPopover: View {
     let onSelect: (MealItem) -> Void
     @State private var hoveredMealID: MealItem.ID?
     
+    @State var searchText: String = ""
+    @FocusState private var isSearchFocused: Bool
+    
+    var filteredMeals: [MealItem] {
+        if searchText.isEmpty {
+            meals
+        } else {
+            meals.filter {
+                $0.title.localizedStandardContains(searchText)
+            }
+        }
+    }
+    
     var body: some View {
         
         if meals.isEmpty {
@@ -31,33 +44,56 @@ struct MealPickerPopover: View {
             .padding(.horizontal, 20)
         } else {
             
-            List(meals) { meal in
-                Button {
-                    onSelect(meal)
-                } label: {
-                    HStack {
-                        Text(meal.title)
-                            .fontWeight(.medium)
-                            .foregroundStyle(Color.themeContrast)
-                        
-                        Spacer()
+            VStack(spacing: 1){
+                TextField("Rechercher", text: $searchText)
+                    .textFieldStyle(.roundedBorder)
+                    .focused($isSearchFocused)
+                    .padding(.horizontal)
+                    .padding(.top)
+                    .overlay(alignment: .trailing) {
+                        if !searchText.isEmpty || isSearchFocused {
+                            Button {
+                                searchText = ""
+                                isSearchFocused = false
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundStyle(.secondary)
+                            }
+                            .buttonStyle(.plain)
+                            .padding(.top)
+                            .padding(.trailing, 25)
+                        }
                     }
-                    .padding(.vertical, 7)
-                    .padding(.horizontal, 10)
-                    .background(
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(hoveredMealID == meal.id ? Color.theme.opacity(0.2) : Color.white)
-                    )
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 4)
-                            .stroke(Color.theme)
-                    )
-                    .onHover { hover in
-                        hoveredMealID = hover ? meal.id : nil
+                
+                
+                List(filteredMeals) { meal in
+                    Button {
+                        onSelect(meal)
+                    } label: {
+                        HStack {
+                            Text(meal.title)
+                                .fontWeight(.medium)
+                                .foregroundStyle(Color.themeContrast)
+                            
+                            Spacer()
+                        }
+                        .padding(.vertical, 7)
+                        .padding(.horizontal, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(hoveredMealID == meal.id ? Color.theme.opacity(0.2) : Color.white)
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color.theme)
+                        )
+                        .onHover { hover in
+                            hoveredMealID = hover ? meal.id : nil
+                        }
                     }
+                    .buttonStyle(.plain)
+                    .listRowSeparator(.hidden)
                 }
-                .buttonStyle(.plain)
-                .listRowSeparator(.hidden)
             }
             .frame(width: 300, height: 350)
         }

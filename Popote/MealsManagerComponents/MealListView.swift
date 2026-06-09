@@ -18,6 +18,17 @@ struct MealListView: View {
     @State var showDeleteAlert: Bool = false
     @State private var mealToDelete: MealItem?
     
+    @State var searchText: String = ""
+    var filteredMeals: [MealItem] {
+        if searchText.isEmpty {
+            meals
+        } else {
+            meals.filter {
+                $0.title.localizedStandardContains(searchText)
+            }
+        }
+    }
+    
     let addMeal: () -> Void
     
     var body: some View {
@@ -46,14 +57,27 @@ struct MealListView: View {
                 Color.theme
             )
             
-            //TODO: Recherche
-            TextField("Rechercher", text: .constant(""))
+            //MARK: Recherche
+            TextField("Rechercher", text: $searchText)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
                 .padding(.top)
                 .padding(.bottom, 1)
+                .overlay(alignment: .trailing) {
+                    if !searchText.isEmpty {
+                        Button {
+                            searchText = ""
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.top, 15)
+                        .padding(.trailing, 25)
+                    }
+                }
             
-            List(meals, id: \.id) { meal in
+            List(filteredMeals, id: \.id) { meal in
                 MealCustomLabel(
                     title: meal.title,
                     isSelected: selectedMeal === meal, // triple "=" -> Comparaison par référence

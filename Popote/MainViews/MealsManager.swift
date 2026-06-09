@@ -38,7 +38,6 @@ struct MealsManager: View {
                     .padding(.horizontal, 5)
 
             } else {
-                //TODO: a terminer
                 NoMealSelectedView()
                     .padding(.vertical, 20)
                     .padding(.horizontal, 5)

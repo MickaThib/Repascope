@@ -17,7 +17,18 @@ struct IngredientListView: View {
     @State private var showDeleteAlert:Bool = false
     @State private var ingredientToDelete:Ingredient?
     
-    @State var showAddIngredientSheet:Bool = false    
+    @State var showAddIngredientSheet:Bool = false
+    
+    @State var searchText: String = ""
+    var filteredIngredients: [Ingredient] {
+        if searchText.isEmpty {
+            ingredients
+        } else {
+            ingredients.filter {
+                $0.name.localizedStandardContains(searchText)
+            }
+        }
+    }
     
     var body: some View {
         
@@ -45,14 +56,27 @@ struct IngredientListView: View {
                 Color.noon
             )
             
-            //TODO: Recherche
-            TextField("Rechercher", text: .constant(""))
+            //MARK: Recherche
+            TextField("Rechercher", text: $searchText)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
                 .padding(.top)
                 .padding(.bottom, 1)
+                .overlay(alignment: .trailing) {
+                    if !searchText.isEmpty {
+                        Button {
+                            searchText = ""
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.top, 15)
+                        .padding(.trailing, 25)
+                    }
+                }
             
-            List(ingredients, id: \.id) { ingredient in
+            List(filteredIngredients, id: \.id) { ingredient in
                 IngredientCustomLabel(
                     title: ingredient.name,
                     newTitleAction: { newName in
