@@ -23,7 +23,9 @@ struct ConvivesField: View {
     /// true si les chips doivent scroller (dépassement du seuil 70%)
     let shouldScroll: Bool
     /// Binding pour remonter la largeur naturelle des chips vers PlanningMealFrame
-    @Binding var chipsNaturalWidth: CGFloat
+    @Binding var convivesNaturalWidth: CGFloat
+    
+    @State private var menuWidth: CGFloat = 0
 
     private var selectedGuests: [Guest] {
         unique(plannedMeals.flatMap(\.guests))
@@ -34,34 +36,40 @@ struct ConvivesField: View {
     }
 
     var body: some View {
-        HStack(spacing: 6) {
+        let spacing: CGFloat = 6
+        let hoverReserve: CGFloat = 18
+        let scrollWidth = max(0, allocatedWidth - menuWidth - spacing - hoverReserve)
+
+        HStack(spacing: spacing) {
             if shouldScroll {
                 ScrollView(.horizontal, showsIndicators: false) {
                     chipsContent
                         .fixedSize(horizontal: true, vertical: false)
                 }
-                .frame(width: allocatedWidth)
+                .frame(width: scrollWidth, alignment: .leading)
             } else {
                 chipsContent
                     .fixedSize(horizontal: true, vertical: false)
             }
 
             menuButton
+                .background {
+                    GeometryReader { geo in
+                        Color.clear
+                            .preference(key: MenuWidthKey.self, value: geo.size.width)
+                    }
+                }
         }
         .frame(height: 20)
-        // Fantôme de mesure : ne perturbe pas le layout
         .overlay(alignment: .leading) {
-            chipsContent
-                .fixedSize(horizontal: true, vertical: false)
+            naturalConvivesLine
                 .hidden()
-                .background(
-                    GeometryReader { g in
-                        Color.clear.preference(key: ChipsWidthKey.self, value: g.size.width)
-                    }
-                )
         }
-        .onPreferenceChange(ChipsWidthKey.self) { w in
-            chipsNaturalWidth = w
+        .onPreferenceChange(MenuWidthKey.self) { width in
+            menuWidth = width
+        }
+        .onPreferenceChange(ConvivesLineWidthKey.self) { width in
+            convivesNaturalWidth = width
         }
     }
 
@@ -84,6 +92,23 @@ struct ConvivesField: View {
                         removeGroup(group)
                     }
                 }
+            }
+        }
+    }
+    
+    private var naturalConvivesLine: some View {
+        HStack(spacing: 6) {
+            chipsContent
+                .fixedSize(horizontal: true, vertical: false)
+
+            menuButton
+                .fixedSize(horizontal: true, vertical: false)
+        }
+        .fixedSize(horizontal: true, vertical: false)
+        .background {
+            GeometryReader { geo in
+                Color.clear
+                    .preference(key: ConvivesLineWidthKey.self, value: geo.size.width)
             }
         }
     }
@@ -215,8 +240,17 @@ struct chipView: View {
 
 // MARK: - PreferenceKey
 
-struct ChipsWidthKey: PreferenceKey {
+struct ConvivesLineWidthKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
+
+    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+        value = max(value, nextValue())
+    }
+}
+
+struct MenuWidthKey: PreferenceKey {
+    static var defaultValue: CGFloat = 0
+
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value = max(value, nextValue())
     }
@@ -234,7 +268,7 @@ struct ChipsWidthKey: PreferenceKey {
         planningViewModel: PlanningViewModel(),
         allocatedWidth: 210,
         shouldScroll: false,
-        chipsNaturalWidth: .constant(0)
+        convivesNaturalWidth: .constant(0)
     )
 
     ConvivesField(
@@ -244,6 +278,6 @@ struct ChipsWidthKey: PreferenceKey {
         planningViewModel: PlanningViewModel(),
         allocatedWidth: 210,
         shouldScroll: false,
-        chipsNaturalWidth: .constant(0)
+        convivesNaturalWidth: .constant(0)
     )
 }
