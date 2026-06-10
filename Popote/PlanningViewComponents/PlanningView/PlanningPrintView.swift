@@ -13,7 +13,7 @@ struct PlanningPrintView: View {
     @Environment(\.modelContext) private var modelContext
 
     let weekToDisplay: Date
-    private let printContentWidth: CGFloat = 900
+    private let printContentWidth: CGFloat = 1000
     
     private let calendarViewModel = CalendarViewModel()
     private let planningViewModel = PlanningViewModel()
@@ -179,14 +179,27 @@ struct PlanningLinePrintView: View {
                 
         var body: some View {
             VStack {
-                GuestFieldPrintView(
-                    modelContext: modelContext,
-                    day: day,
-                    slot: slot,
-                    plannedMeals: plannedMeals,
-                    allGuests: allGuests,
-                    allGroups: allGroups
-                )
+                HStack {
+                    GuestFieldPrintView(
+                        modelContext: modelContext,
+                        day: day,
+                        slot: slot,
+                        plannedMeals: plannedMeals,
+                        allGuests: allGuests,
+                        allGroups: allGroups
+                    )
+                    
+                    if let pmNotes = plannedMeals.first?.notes, !pmNotes.isEmpty {
+                        if !pmNotes.isEmpty {
+                            Spacer()
+                            Text(pmNotes)
+                                .foregroundStyle(slot.color())
+                                .font(.system(size: 11, weight: .medium))
+                        }
+                    }
+                   
+                    
+                }
                 .padding(.horizontal, 7)
                 .padding(.top, 7)
                 
