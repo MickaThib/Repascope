@@ -12,6 +12,7 @@ import SwiftData
 struct PopoteApp: App {
 
     let sharedModelContainer: ModelContainer
+    @StateObject private var shoppingPanelController: ShoppingListPanelController
 
     init() {
 
@@ -105,12 +106,18 @@ struct PopoteApp: App {
 
         do {
 
-            sharedModelContainer = try ModelContainer(
+            let container = try ModelContainer(
                 for: schema,
                 configurations: [modelConfiguration]
             )
 
+            self.sharedModelContainer = container
+
             print("MODEL CONTAINER CREATED")
+
+            self._shoppingPanelController = StateObject(
+                wrappedValue: ShoppingListPanelController(modelContainer: container)
+            )
 
         } catch {
 
@@ -124,8 +131,8 @@ struct PopoteApp: App {
     var body: some Scene {
 
         WindowGroup {
-
             ContentView()
+                .environmentObject(shoppingPanelController)
         }
         .modelContainer(sharedModelContainer)
     }

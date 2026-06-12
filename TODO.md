@@ -7,6 +7,7 @@
 
 ## SHOPPING LIST
 - [ ] Améliorer le rendu de la note exportée / Exporter via le partage iOS
+- [ ] Améliorer le rendu de la liste détachée (Header différent)
 
 
 ## PLANNING

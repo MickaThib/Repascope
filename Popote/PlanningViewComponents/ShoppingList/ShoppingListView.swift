@@ -13,6 +13,7 @@ struct ShoppingListView: View {
     let startOfWeek: Date
     
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var shoppingPanelController: ShoppingListPanelController
     
     @Query private var shoppingLists: [ShoppingList]
     private var currentList: ShoppingList? { shoppingLists.first }
@@ -72,12 +73,22 @@ struct ShoppingListView: View {
     
     private var header: some View {
         HStack(alignment: .firstTextBaseline) {
-            Text("Liste de courses")
+            Text("Mes courses")
                 .font(.system(size: 22))
                 .fontWeight(.bold)
                 .padding(.horizontal)
                 .padding(.vertical, 12)
             Spacer()
+            
+            Button {
+                shoppingPanelController.show(weekToDisplay: startOfWeek)
+            } label: {
+                Image(systemName: "arrow.down.backward.and.arrow.up.forward.rectangle")
+                    .font(.system(size: 18))
+                    .padding(.trailing, 7)
+            }
+            .buttonStyle(.plain)
+
             
             //MARK: Empty list button
             Button {
@@ -85,7 +96,7 @@ struct ShoppingListView: View {
             } label: {
                 Image(systemName: "trash")
                     .font(.system(size: 18))
-                    .padding(.trailing, 10)
+                    .padding(.trailing, 7)
             }
             .buttonStyle(.plain)
             
