@@ -95,9 +95,10 @@ struct OrganizerView: View {
         .padding(.horizontal, 30)
         .padding(.bottom, 30)
         .toolbar {
+            
+            //MARK: Impression du planning en cours
             ToolbarItemGroup(placement: .primaryAction) {
                 Button {
-                    //MARK: Impression du planning en cours
                     let exportView = PlanningPrintView(weekToDisplay: weekToDisplay)
                         .environment(\.modelContext, modelContext)
                     PDFExporter.print(view: exportView)
@@ -105,6 +106,12 @@ struct OrganizerView: View {
                     Label("Imprimer le planning", systemImage: "printer")
                         .labelStyle(.iconOnly)
                 }
+            }
+            
+            ToolbarSpacer(.fixed)
+            
+            //MARK: Retour à la date du jour
+            ToolbarItemGroup(placement: .primaryAction) {
                 Button {
                     weekToDisplay = Date()
                 } label: {
@@ -112,6 +119,8 @@ struct OrganizerView: View {
                         .labelStyle(.titleAndIcon)
                 }
             }
+            
+            //MARK: Réglages
             ToolbarItemGroup(placement: .navigation) {
                 Button {
                     //TODO: Settings

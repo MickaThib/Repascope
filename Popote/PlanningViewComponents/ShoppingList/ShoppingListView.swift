@@ -157,13 +157,14 @@ struct ShoppingListView: View {
     private func items(for category: ShoppingCategory) -> [ShoppingItem] {
         items
             .filter { $0.category == category }
-            .sorted {
-                if $0.isChecked != $1.isChecked {
-                    return !$0.isChecked
-                } else {
-                    return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
-                }
-            }
+//          Décommenter pour activer le tri par état coché/non coché
+//            .sorted {
+//                if $0.isChecked != $1.isChecked {
+//                    return !$0.isChecked
+//                } else {
+//                    return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+//                }
+//            }
     }
     
     private func delete(item: ShoppingItem) {

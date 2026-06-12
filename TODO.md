@@ -10,9 +10,6 @@
 
 
 ## PLANNING
-- [X] Pouvoir rechercher un plat dans la liste de plats
-- [X] Défaut de comportement : quand trop de convives, ça déborde !
-- [X] Champ de notes dans la vue imprimée (corriger le problème de largeur si bcp de convives + notes)
 - [ ] Prévoir un cas "pas de repas à prévoir" ou "absence" ?
 
 ### LISTE DE COURSE

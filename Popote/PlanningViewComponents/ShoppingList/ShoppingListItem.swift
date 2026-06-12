@@ -56,6 +56,7 @@ struct ShoppingListItem: View {
         .opacity(item.isChecked ? 0.5 : 1)
         .onTapGesture {
             item.isChecked.toggle()
+            item.shoppingList?.clearJustAddedFlags()
             do {
                 try modelContext.save()
             } catch {

@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		CAD9F5AA2FA22F8E00507B5B /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CAD9F5A92FA22F8E00507B5B /* .gitignore */; };
 		CAF218632FA257CE0066C02C /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = CAF218612FA257BE0066C02C /* TODO.md */; };
+		F7CB4E722FDC3E600027C008 /* PopoteIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = F7CB4E712FDC3E600027C008 /* PopoteIcon.icon */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CAB0FF892FA20D9600D76087 /* Popote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popote.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAD9F5A92FA22F8E00507B5B /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		CAF218612FA257BE0066C02C /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
+		F7CB4E712FDC3E600027C008 /* PopoteIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = PopoteIcon.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,6 +58,7 @@
 				CAF218612FA257BE0066C02C /* TODO.md */,
 				CAB0FF8A2FA20D9600D76087 /* Products */,
 				CAB0FF8B2FA20D9600D76087 /* Popote */,
+				F7CB4E712FDC3E600027C008 /* PopoteIcon.icon */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,6 +135,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7CB4E722FDC3E600027C008 /* PopoteIcon.icon in Resources */,
 				CAF218632FA257CE0066C02C /* TODO.md in Resources */,
 				CAD9F5AA2FA22F8E00507B5B /* .gitignore in Resources */,
 			);
@@ -279,8 +283,9 @@
 		CAB0FF972FA20D9800D76087 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = PopoteIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				AUTOMATION_APPLE_EVENTS = NO;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -330,8 +335,9 @@
 		CAB0FF982FA20D9800D76087 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = PopoteIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				AUTOMATION_APPLE_EVENTS = NO;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
